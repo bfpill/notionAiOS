@@ -1,0 +1,72 @@
+info:
+  title: NotionAiOS
+  description: A plugin for interacting with Notion
+  version: 'v1'
+servers:
+  - url: http://localhost:4000/notion_manager
+paths:
+  /:
+    post: 
+      operationId: getBlocks
+      summary: Get all the blocks on a page
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetBlocksRequest' 
+      responses: 
+        "200":
+          description: OK
+          content:
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/GetBlocksResponse' 
+  /codeBlock:
+    post:
+      operationId: codeBlock
+      summary: Update the contents of an existing code block.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCodeBlockRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCodeBlockResponse'
+components:
+  schemas:
+    GetBlocksRequest: 
+      type: object
+      properties: 
+        pageId:
+          type: string
+          description: the ID of the page
+    GetBlocksResponse: 
+      type: object
+      properties: 
+        messageResponse:
+          type: object
+          description: the response message  
+    UpdateCodeBlockRequest:
+      type: object
+      properties:
+        blockId:
+          type: string
+          description: The ID of the code block to be updated.
+        lineNumber:
+          type: number
+          description: The line number to insert the code on.
+        code:
+          type: string
+          description: The new code to insert 
+    UpdateCodeBlockResponse:
+      type: object
+      properties: 
+        messageResponse:
+          type: object  
+          description: The updated code
+
