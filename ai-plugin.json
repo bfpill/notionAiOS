@@ -1,0 +1,17 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "NotionAiOS",
+    "name_for_model": "NotionAiOS",
+    "description_for_human": "Allow Ai to read and write to your Notion",
+    "description_for_model": "Notion is an online text editor designed for note taking. You can read, write, and update the users notes for them",
+    "auth": {
+        "type": "none"
+    },
+    "api": {
+        "type": "openapi",
+        "url": "http://localhost:4000/openapi.yaml"
+    },
+    "logo_url": "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png?20200221181224",
+    "contact_email": "max@v3rv.com",
+    "legal_info_url": "http://www.example.com/legal"
+}
