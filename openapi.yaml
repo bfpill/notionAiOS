@@ -37,6 +37,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateCodeBlockResponse'
+  /pages:
+    post:
+      operationId: createPage
+      summary: create a page
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePageRequest'
+    get:
+      operationId: getPages
+      summary: Get all the pages
+
 components:
   schemas:
     GetBlocksRequest: 
@@ -59,13 +72,13 @@ components:
         language: 
           type: string
           description: the language of the code you are writing, IE javascript, rust, etc
-        
     GetBlocksResponse: 
       type: object
       properties: 
         messageResponse:
           type: string
           description: The results of the request
+
     UpdateCodeBlockRequest:
       type: object
       required:
@@ -90,6 +103,21 @@ components:
           type: number
           description: The end line number - always use, if you want to act on one line your start and end line should be the same. (inclusive)
     UpdateCodeBlockResponse:
+      type: object
+      properties: 
+        messageResponse:
+          type: string
+          description: The results of request
+
+    CreatePageRequest: 
+      type: object
+      required: 
+        - pageName
+      properties: 
+        pageName: 
+          type: string
+          description: The name of the page you want to create
+    CreatePageResponse: 
       type: object
       properties: 
         messageResponse:

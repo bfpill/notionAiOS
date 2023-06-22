@@ -10,5 +10,7 @@ router.delete("/", notionController.deleteBlock);
 
 router.post("/codeBlock", notionController.updateCodeBlock);
 
+router.post("/pages", notionController.createPage)
+router.get("/pages", notionController.getPages)
 // Export router
 export default router;
