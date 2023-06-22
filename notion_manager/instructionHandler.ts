@@ -1,62 +1,70 @@
-import  { getCodeBlock, getCodeBlockProperties, insertCodeByLine, extractCode, toArray, testLineValid }  from "./codeBlockFunctions"
-import { Block, CodeBlock, CodeProperties } from "./interfaces"
+import { insertCodeByLine, toArray, deleteLines } from "./codeBlockFunctions"
 
-function executeInstruction(oldCode: Array<string>, instruction: string){
+function executeInstruction(oldCode: Array<string>, instruction: string) : (boolean | string)[] | (boolean | string[])[] {
     const commands = toArray(instruction, " ")
-    if(commands.length < 3 || commands.length > 5){
+    if (commands.length < 3 || commands.length > 5) {
         return [false, "Command was not formatted correctly and likely contains syntax error or was incomplete"];
     }
 
     let commandHeader: string;
-    try{ 
+    try {
         commandHeader = commands[0];
-    } catch (e: any) { 
-        if(e instanceof TypeError){
+    } catch (e: any) {
+        if (e instanceof TypeError) {
             return ([false, "Command contained syntax error could not be parsed"]);
         }
-        return("Unknown error: " + e);
+        return ([false, "Unknown error: " + e]);
     }
 
-    if(commandHeader === "INSERT"){
-        try{ 
-            let lineNumber: number;
-            try{ 
-                lineNumber = parseInt(commands[1])  
-            } catch (e){ 
-                if(e instanceof TypeError){
-                    return ([false, "lineNumber was not an Integer"]);
-                }
-                return ([false, "Error: could not parse lineNumber. Receipt " + e]);
+    if (commandHeader === "INSERT") {
+        let lineNumber: number;
+        try {
+            lineNumber = parseInt(commands[1])
+        } catch (e) {
+            if (e instanceof TypeError) {
+                return ([false, "lineNumber was not an Integer"]);
             }
+            return ([false, "Error: could not parse lineNumber. Receipt " + e]);
+        }
+        try {
             let codeToInsert: string;
-            try{ 
+            try {
                 codeToInsert = commands[2]
-            } catch (e){ 
+            } catch (e) {
                 return ([false, "Error: could not parse codeToInsert. Receipt " + e]);
             }
-            
+
             // return the updatedCode
-            const inserted = insertCodeByLine(oldCode, codeToInsert, lineNumber)
-            if(inserted instanceof TypeError){
+            const updatedCode = insertCodeByLine(oldCode, codeToInsert, lineNumber)
+            if (updatedCode instanceof TypeError) {
                 return [false, "Could not insert" + codeToInsert + "at " + lineNumber]
             }
-            return [true, inserted];
-        } catch (e: any){
+            return [true, updatedCode];
+        } catch (e: any) {
             return ([false, "Could not complete insertion, unknown error: " + e]);
         }
     }
 
-    else if(commandHeader === "DELETE"){
-        try{ 
-            
-        } catch (e: any){
-    
-        }
-    } else{ 
-        return [false, "Command header likely contained syntax error"];
-    }
+    else if (commandHeader === "DELETE") {
+        let startNumber: number, endNumber: number
 
-    return [false, "To be changed"]
+        try {
+            startNumber = parseInt(commands[1])
+            endNumber = parseInt(commands[2])
+
+        } catch (e) {
+            if (e instanceof TypeError) {
+                return ([false, "Error: " + e]);
+            }
+            return ([false, "Error: could not parse lineNumber. Receipt " + e]);
+        }
+
+        const updatedCode = deleteLines(oldCode, startNumber, endNumber)
+        return updatedCode;
+
+    } else {
+        return ([false, "Command header likely contained syntax error"]);
+    }
 }
 
 export { executeInstruction }
