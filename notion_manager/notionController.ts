@@ -46,70 +46,6 @@ const getChildBlocks = async (req, res) => {
     res.status(201).send({ status: "OK", data: {messageResponse} });
 };
 
-const replaceCodeBlockLines = async (req, res) => {
-    const { body } = req
-    if (
-        !body.blockId ||
-        !body.codeToInsert ||
-        !body.startLine ||
-        !body.endLine
-    ) {
-        res
-            .status(400)
-            .send({
-                status: "FAILED",
-                data: {
-                    error:
-                       "Error becuase you prolly forgot a property"
-                },
-            });
-        return;
-    }
-    const { blockId, codeToInsert, startLine, endLine } = body;
-    const messageResponse =  await notionServices.replaceCodeBlockLines(blockId, codeToInsert, startLine, endLine);
-
-    if(messageResponse[0]){
-        res.status(201).send({ status: "OK", data: {messageResponse} });
-    }
-
-    else if (!messageResponse[0]){
-        res.status(201).send({ status: "Error", data: {messageResponse} });
-    }
-
-};
-
-const deleteCodeBlockLines = async (req, res) => { 
-    const { body } = req
-    if (
-        !body.blockId ||
-        !body.startLine ||
-        !body.endLine
-    ) {
-        res
-            .status(400)
-            .send({
-                status: "FAILED",
-                data: {
-                    error:
-                       "Error becuase you prolly forgot a property"
-                },
-            });
-        return;
-    }
-    const { blockId, startLine, endLine } = body;
-    const messageResponse =  await notionServices.deleteCodeBlockLines(blockId, startLine, endLine);
-
-    if(messageResponse[0]){
-        res.status(201).send({ status: "OK", data: {messageResponse} });
-    }
-
-    else if (!messageResponse[0]){
-        res.status(201).send({ status: "Error", data: {messageResponse} });
-    }
-
-
-}
-
 const updateCodeBlock = async (req, res) => { 
     const { body } = req
     if (
@@ -204,7 +140,5 @@ export default {
     getChildBlocks,
     getBlock,
     deleteBlock, 
-    deleteCodeBlockLines, 
-    replaceCodeBlockLines,
     updateCodeBlock
 };
