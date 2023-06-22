@@ -1,3 +1,4 @@
+import { response } from "express";
 import notionServices from "./notionServices";
 
 const updateProperty = async (req, res) => {
@@ -25,7 +26,6 @@ const updateProperty = async (req, res) => {
 };
 
 const getChildBlocks = async (req, res) => {
-    console.log("HITTsd")
     const { body } = req
     if (
         !body.pageId
@@ -51,7 +51,9 @@ const updateCodeBlock = async (req, res) => {
     const { body } = req
     if (
         !body.blockId || 
-        !body.instructions
+        !body.codeToInsert || 
+        !body.startLine || 
+        !body.endLine
     ) {
         res
             .status(400)
@@ -64,11 +66,17 @@ const updateCodeBlock = async (req, res) => {
             });
         return;
     }
-    const { blockId, instructions } = body;
-    console.log(blockId, instructions)
-    const messageResponse =  await notionServices.updateCodeBlockHandler(blockId, instructions);
+    const { blockId, codeToInsert, startLine, endLine } = body;
+    const messageResponse =  await notionServices.replaceCodeBlockLine(blockId, codeToInsert, startLine, endLine);
 
-    res.status(201).send({ status: "OK", data: {messageResponse} });
+    if(messageResponse[0]){
+        res.status(201).send({ status: "OK", data: {messageResponse} });
+    }
+    
+    else if (!messageResponse[0]){
+        res.status(201).send({ status: "Error", data: {messageResponse} }); 
+    }
+    
 };
 
 const deleteBlock = async (req, res) => {

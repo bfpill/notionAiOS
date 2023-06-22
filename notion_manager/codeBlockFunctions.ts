@@ -16,7 +16,6 @@ async function getCodeBlock(block) : Promise<CodeBlock | string> {
 function getCodeBlockProperties (block): CodeProperties {
     const parentId: string = block["parent"].page_id
     const language: string = block["code"].language
-    console.log(parentId, language)
     return  {parentId: parentId, fileType: language};
 }
 
@@ -25,17 +24,18 @@ function extractCode(block: Block) : string{
     return code;
 }
 
-function deleteLines(previousCode: Array<string>, startLine: number, endLine: number): Array<string> {
+function deleteLines(previousCode: Array<string>, startLine: number, endLine: number): [worked: boolean, res: string[]] {
     const codeLength: number = previousCode.length;
 
-    testLineValid(startLine, previousCode.length)
-    testLineValid(endLine, previousCode.length) 
+    if(testLineValid(startLine, previousCode.length) && testLineValid(endLine, previousCode.length)){
+        const before: Array<string> = previousCode.slice(0, startLine - 1)
+        const after: Array<string> = previousCode.slice(endLine - 1, codeLength)
+    
+        const updatedCode = before.concat(after)
+        return [true, updatedCode];
+    } 
 
-    const before: Array<string> = previousCode.slice(0, startLine - 1)
-    const after: Array<string> = previousCode.slice(endLine - 1, codeLength)
-
-    const updatedCode = before.concat(after)
-    return updatedCode;
+    return [false, previousCode];
 }
 
 function toArray(code: string, delimiter: string): Array<string> { 
@@ -47,7 +47,7 @@ function insertCodeByLine(previousCode: Array<string>, newCode: string, lineNumb
     const codeLength: number = previousCode.length;
     if(testLineValid(lineNumber, previousCode.length)){
         const before: Array<string> = previousCode.slice(0, lineNumber - 1)
-        const after: Array<string> = previousCode.slice(lineNumber - 1, codeLength)
+        const after: Array<string> = previousCode.slice(lineNumber, codeLength)
     
         const updatedCode = before.concat(newCode, after)
         return updatedCode;
@@ -58,12 +58,11 @@ function insertCodeByLine(previousCode: Array<string>, newCode: string, lineNumb
 }
 
 function testLineValid(lineNumber, length) {
-    console.log(length)
     if (lineNumber < 1 || lineNumber > length) {
-        console.log("Line Number is Invalid");
+        console.log("Line Number " + lineNumber + " is Invalid")
         return false;
     }
     return true;
 }
 
-export {getCodeBlock, getCodeBlockProperties, extractCode, insertCodeByLine, toArray, testLineValid}
+export {getCodeBlock, getCodeBlockProperties, extractCode, insertCodeByLine, toArray, testLineValid, deleteLines}

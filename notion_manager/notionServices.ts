@@ -1,7 +1,7 @@
 import { Client } from "@notionhq/client"
 import * as dotenv from 'dotenv';
 import { executeInstruction } from "./instructionHandler";
-import { getCodeBlock, getCodeBlockProperties, extractCode, toArray } from "./codeBlockFunctions"
+import { getCodeBlock, getCodeBlockProperties, extractCode, toArray, deleteLines, insertCodeByLine } from "./codeBlockFunctions"
 import { Block, CodeBlock, CodeProperties } from "./interfaces"
 // Get environment variables
 dotenv.config()
@@ -12,7 +12,6 @@ const databaseId = process.env.NOTION_DATABASE_ID
 
 async function updateProperty(pageId: string, propertyName: string, content: string) {
     try {
-        console.log("yeet")
         const response = await notion.pages.update({
             page_id: pageId,
             properties: {
@@ -101,39 +100,68 @@ async function deleteBlock(blockId: string): Promise<string> {
     return "Block " + blockId + " deleted";
 }
 
-async function updateCodeBlockHandler(blockId: string, instructions: string): Promise<CodeBlock> {
+async function updateCodeViaInstructions(blockId: string, instructions: string): Promise<(boolean | string[])[]> {
     const block: Block = await getBlock(blockId)
 
     // Get the old code out of the block and splice in the new code
     const oldCode: string = extractCode(block)
-
     let codeHolder = toArray(oldCode, "\n");
+
     // Turn the instructions string into an array of single commands
     const instructionsArray = toArray(instructions, ";")
-    instructionsArray.forEach((instruction) => {
-        const back = executeInstruction(codeHolder, instruction);
-        if (!back[0]) {
-            console.log(back[1])
-        }
-        else{ 
-            //update codeHolder
-            console.log("Updated codeHolder" + back[1])
-            codeHolder = back[1] as string[];
-        }
-    })
 
-    // Turn back to a string
-    const newCode = codeHolder.join("\n")
-    // Update the block in notion
+    for(let i = 0; i < instructionsArray.length; i++){
+        const res: any = executeInstruction(codeHolder, instructionsArray[i]);
+        if (!res[0]) {
+            console.log(res[0])
+            return ([false, res[1]])
+        }
+        else if(res[0]) {
+            //update codeHolder
+            codeHolder = res[1];
+        }
+    }
+
+    let newCode;
+    try {
+        // Turn back to a string
+        newCode = codeHolder.join("\n")
+    } catch (e: any){
+        newCode = " ";
+    }
+
+      // Update the block in notion
     updateCodeBlock(blockId, newCode)
 
-    const properties = getCodeBlockProperties(block)
-    const codeBlock: CodeBlock = { code: newCode, properties: properties }
 
-    return codeBlock;
+
+   return [true, newCode]
+}
+
+async function replaceCodeBlockLine (blockId: string, codeToInsert: string, startLine: number, endLine: number) { 
+    const block = await getBlock(blockId)
+
+    let oldCode = toArray(extractCode(block), "\n")
+
+    let result = deleteLines(oldCode, startLine, endLine)
+    if(result[0]){
+        // oOOOooOoH scary be careful with this guy 
+        // surely there is a better way to do this... although it should be fine... 
+        const newCode = insertCodeByLine(result[1], codeToInsert, startLine) as string[]
+        if(newCode.includes("\n")){
+            updateCodeBlock(blockId, newCode.join("\n"))
+        }
+        else{
+            updateCodeBlock(blockId, newCode.join("\n"))
+        }
+        return [true, newCode]
+    }
+    console.log(result)
+    return [false, "Could not replace lines " + startLine + " -> " + endLine]
+   
 }
 
 export default {
     updateProperty, getChildBlocks, updateCodeBlock,
-    getBlock, updateCodeBlockHandler, deleteBlock
+    getBlock, replaceCodeBlockLine, deleteBlock
 }
