@@ -1,9 +1,7 @@
 import { Client } from "@notionhq/client"
 import * as dotenv from 'dotenv';
-import { executeInstruction } from "./instructionHandler";
 import { getCodeBlock, getCodeBlockProperties, extractCode, toArray, deleteLines, insertCodeByLine } from "./codeBlockFunctions"
 import { Block, CodeBlock, CodeProperties } from "./interfaces"
-import { start } from "repl";
 // Get environment variables
 dotenv.config()
 
@@ -101,45 +99,6 @@ async function deleteBlock(blockId: string): Promise<string> {
     return "Block " + blockId + " deleted";
 }
 
-async function updateCodeViaInstructions(blockId: string, instructions: string): Promise<(boolean | string[])[]> {
-    const block: Block = await getBlock(blockId)
-
-    // Get the old code out of the block and splice in the new code
-    const oldCode: string = extractCode(block)
-    let codeHolder = toArray(oldCode, "\n");
-
-    // Turn the instructions string into an array of single commands
-    const instructionsArray = toArray(instructions, ";")
-1
-    for(const element of instructionsArray){
-        const res: any = executeInstruction(codeHolder, element);
-        if (!res[0]) {
-            console.log(res[0])
-            return ([false, res[1]])
-        }
-        else if(res[0]) {
-            //update codeHolder
-            codeHolder = res[1];
-        }
-    }
-
-    let newCode;
-    try {
-        // Turn back to a string
-        newCode = codeHolder.join("\n")
-    } catch (e: any){
-        console.log(e)
-        newCode = " ";
-    }
-
-      // Update the block in notion
-    updateCodeBlock(blockId, newCode)
-
-
-
-   return [true, newCode]
-}
-
 async function replaceCodeBlockLines (blockId: string, codeToInsert: string, startLine: number, endLine: number) : Promise<any>{
     const oldCode = await getBlockAsArray(blockId)
     let result = deleteLines(oldCode, startLine, endLine)
@@ -182,5 +141,5 @@ async function deleteCodeBlockLines(blockId: string, startLine: number, endLine:
 
 export default {
     updateProperty, getChildBlocks, updateCodeBlock,
-    getBlock, replaceCodeBlockLines, deleteBlock, deleteCodeBlockLines
+    getBlock, getBlockAsArray, replaceCodeBlockLines, deleteBlock, deleteCodeBlockLines
 }

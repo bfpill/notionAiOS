@@ -66,18 +66,21 @@ const updateCodeBlock = async (req, res) => {
 
     let messageResponse: any;
 
-    if(body.command === "DELETE LINE") { 
+    if(body.command === "DELETE LINES") { 
         const { _, blockId, startLine, endLine } = body
         messageResponse =  await notionServices.deleteCodeBlockLines(blockId, startLine, endLine);
     }
   
     else if (body.command === "REPLACE LINES") { 
-        const { _, blockId, codeToInsert, startLine, endLine } = body
+        const blockId = body.blockId
+        const codeToInsert = body.code
+        const startLine = body.startLine
+        const endLine = body.endLine
         messageResponse =  await notionServices.replaceCodeBlockLines(blockId, codeToInsert, startLine, endLine);
     }
 
     else { 
-        messageResponse =  [false, "Could not parse command"]
+        messageResponse =  {completed: false, result: "Could not parse command"}
     }
 
     if(messageResponse[0]){
@@ -113,7 +116,7 @@ const deleteBlock = async (req, res) => {
     res.status(201).send({ status: "OK", data: {messageResponse} });
 };
 
-const getBlock = async (req, res) => {
+const getBlockCode = async (req, res) => {
     const { body } = req
     if (
         !body.blockId
@@ -130,7 +133,7 @@ const getBlock = async (req, res) => {
         return;
     }
     const { blockId} = body;
-    const messageResponse =  await notionServices.getBlock(blockId);
+    const messageResponse =  await notionServices.getBlockAsArray(blockId);
 
     res.status(201).send({ status: "OK", data: {messageResponse} });
 };
@@ -138,7 +141,7 @@ const getBlock = async (req, res) => {
 export default {
     updateProperty,
     getChildBlocks,
-    getBlock,
+    getBlockCode,
     deleteBlock, 
     updateCodeBlock
 };
