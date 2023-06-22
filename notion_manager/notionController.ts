@@ -1,4 +1,30 @@
-import notionServices from "./notionServices";
+import notionBlockServices from "./blockServices";
+import notionPageServices from "./pageServices";
+
+import { getNotion, getDatabaseId } from "./notion";
+
+//get from local instance
+const notion = getNotion()
+
+const createPage = async (req, res) => {
+    const { body } = req
+    if (
+        !body.pageName
+    ) {
+        return fourHunnid(res)
+    }
+    const { pageName } = body;
+    const messageResponse =  await notionPageServices.createPage(notion, pageName, getDatabaseId());
+
+    res.status(201).send({ status: "OK", data: {messageResponse} });
+}
+
+const getPages = async (req, res) => {
+
+    const messageResponse =  await notionPageServices.getPages(notion, getDatabaseId());
+    console.log(messageResponse)
+    res.status(201).send({ status: "OK", data: {messageResponse} });
+}
 
 const updateProperty = async (req, res) => {
     const { body } = req
@@ -7,19 +33,10 @@ const updateProperty = async (req, res) => {
         !body.propertyName ||
         !body.content
     ) {
-        res
-            .status(400)
-            .send({
-                status: "FAILED",
-                data: {
-                    error:
-                        "Error occurred because you failed to provide a clone key or a message"
-                },
-            });
-        return;
+        return fourHunnid(res)
     }
     const { pageId, propertyName, content} = body;
-    const messageResponse =  await notionServices.updateProperty(pageId, propertyName, content);
+    const messageResponse =  await notionBlockServices.updateProperty(pageId, propertyName, content);
 
     res.status(201).send({ status: "OK", data: {messageResponse} });
 };
@@ -29,20 +46,11 @@ const getChildBlocks = async (req, res) => {
     if (
         !body.pageId
     ) {
-        res
-            .status(400)
-            .send({
-                status: "FAILED",
-                data: {
-                    error:
-                       "Error becuase you prolly forgot a property"
-                },
-            });
-        return;
+        return fourHunnid(res);
     }
     const { pageId } = body;
     console.log("I am actually being used!!")
-    const messageResponse =  await notionServices.getChildBlocks(pageId);
+    const messageResponse =  await notionBlockServices.getChildBlocks(pageId);
 
     res.status(201).send({ status: "OK", data: {messageResponse} });
 };
@@ -53,23 +61,14 @@ const updateCodeBlock = async (req, res) => {
         !body.command || 
         !body.blockId
     ) {
-        res
-            .status(400)
-            .send({
-                status: "FAILED",
-                data: {
-                    error:
-                       "Error becuase you prolly forgot a property"
-                },
-            });
-        return;
+        return fourHunnid(res);
     }
 
     let messageResponse: any;
 
     if(body.command === "DELETE LINES") { 
         const { _, blockId, startLine, endLine } = body
-        messageResponse =  await notionServices.deleteCodeBlockLines(blockId, startLine, endLine);
+        messageResponse =  await notionBlockServices.deleteCodeBlockLines(blockId, startLine, endLine);
     }
   
     else if (body.command === "REPLACE LINES") { 
@@ -77,7 +76,7 @@ const updateCodeBlock = async (req, res) => {
         const codeToInsert = body.code
         const startLine = body.startLine
         const endLine = body.endLine
-        messageResponse =  await notionServices.replaceCodeBlockLines(blockId, codeToInsert, startLine, endLine);
+        messageResponse =  await notionBlockServices.replaceCodeBlockLines(blockId, codeToInsert, startLine, endLine);
     }
 
     else { 
@@ -101,23 +100,14 @@ const pageActions = async (req, res) => {
         !body.command ||
         !((body.pageId && body.content && body.language) || (body.blockId))
     ) {
-        res
-            .status(400)
-            .send({
-                status: "FAILED",
-                data: {
-                    error:
-                       "Error becuase you prolly forgot a property"
-                },
-            });
-        return;
+        return fourHunnid(res);
     }
 
     let messageResponse: any;
 
     if(body.command === "DELETE BLOCK") { 
         const blockId = body.blockId
-        messageResponse =  await notionServices.deleteBlock(blockId);
+        messageResponse =  await notionBlockServices.deleteBlock(blockId);
     }
   
     else if (body.command === "ADD BLOCK") { 
@@ -125,7 +115,7 @@ const pageActions = async (req, res) => {
         const content = body.content
         const language = body.language
         console.log(pageId, content)
-        messageResponse =  await notionServices.addBlock(pageId, content, language);
+        messageResponse =  await notionBlockServices.addBlock(pageId, content, language);
     }
 
     else { 
@@ -159,7 +149,7 @@ const deleteBlock = async (req, res) => {
     }
     const { blockId, lineNumber, code } = body;
     console.log(blockId, lineNumber, code )
-    const messageResponse =  await notionServices.deleteBlock(blockId);
+    const messageResponse =  await notionBlockServices.deleteBlock(blockId);
 
     res.status(201).send({ status: "OK", data: {messageResponse} });
 };
@@ -169,7 +159,16 @@ const getBlockCode = async (req, res) => {
     if (
         !body.blockId
     ) {
-        res
+        return fourHunnid(res);
+    }
+    const { blockId} = body;
+    const messageResponse =  await notionBlockServices.getBlockAsArray(blockId);
+
+    res.status(201).send({ status: "OK", data: {messageResponse} });
+};
+
+const fourHunnid = (res: any) => { 
+    res
             .status(400)
             .send({
                 status: "FAILED",
@@ -179,14 +178,14 @@ const getBlockCode = async (req, res) => {
                 },
             });
         return;
-    }
-    const { blockId} = body;
-    const messageResponse =  await notionServices.getBlockAsArray(blockId);
+}
 
-    res.status(201).send({ status: "OK", data: {messageResponse} });
-};
+export default {    
+    //page functions
+    createPage,
+    getPages,
 
-export default {
+    //block functions
     updateProperty,
     getChildBlocks,
     getBlockCode,

@@ -1,13 +1,10 @@
-import { Client } from "@notionhq/client"
-import * as dotenv from 'dotenv';
-import { getCodeBlock, getCodeBlockProperties, extractCode, toArray, deleteLines, insertCodeByLine } from "./codeBlockFunctions"
-import { Block, CodeBlock, CodeProperties } from "./interfaces"
-// Get environment variables
-dotenv.config()
+import { extractCode, toArray, deleteLines, insertCodeByLine } from "./codeBlockFunctions"
+import { Block } from "./interfaces"
 
-const notion = new Client({ auth: process.env.NOTION_TOKEN })
+import { getNotion, getDatabaseId } from "./notion";
 
-const databaseId = process.env.NOTION_DATABASE_ID
+//get from local instance
+const notion = getNotion()
 
 async function updateProperty(pageId: string, propertyName: string, content: string) {
     try {
@@ -174,5 +171,5 @@ async function deleteCodeBlockLines(blockId: string, startLine: number, endLine:
 export default {
     updateProperty, getChildBlocks, updateCodeBlock,
     getBlock, getBlockAsArray, replaceCodeBlockLines,
-    deleteBlock, deleteCodeBlockLines, addBlock
+    deleteBlock, deleteCodeBlockLines, addBlock, 
 }
