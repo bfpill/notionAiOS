@@ -110,6 +110,50 @@ const deleteCodeBlockLines = async (req, res) => {
 
 }
 
+const updateCodeBlock = async (req, res) => { 
+    const { body } = req
+    if (
+        !body.command || 
+        !body.blockId
+    ) {
+        res
+            .status(400)
+            .send({
+                status: "FAILED",
+                data: {
+                    error:
+                       "Error becuase you prolly forgot a property"
+                },
+            });
+        return;
+    }
+
+    let messageResponse: any;
+
+    if(body.command === "DELETE LINE") { 
+        const { _, blockId, startLine, endLine } = body
+        messageResponse =  await notionServices.deleteCodeBlockLines(blockId, startLine, endLine);
+    }
+  
+    else if (body.command === "REPLACE LINES") { 
+        const { _, blockId, codeToInsert, startLine, endLine } = body
+        messageResponse =  await notionServices.replaceCodeBlockLines(blockId, codeToInsert, startLine, endLine);
+    }
+
+    else { 
+        messageResponse =  [false, "Could not parse command"]
+    }
+
+    if(messageResponse[0]){
+        res.status(201).send({ status: "OK", data: {messageResponse} });
+    }
+
+    else if (!messageResponse[0]){
+        res.status(201).send({ status: "Error", data: {messageResponse} });
+    }
+
+}
+
 const deleteBlock = async (req, res) => {
     const { body } = req
     if (
@@ -161,5 +205,6 @@ export default {
     getBlock,
     deleteBlock, 
     deleteCodeBlockLines, 
-    replaceCodeBlockLines
+    replaceCodeBlockLines,
+    updateCodeBlock
 };

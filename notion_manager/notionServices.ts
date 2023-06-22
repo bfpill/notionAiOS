@@ -140,27 +140,36 @@ async function updateCodeViaInstructions(blockId: string, instructions: string):
    return [true, newCode]
 }
 
-async function replaceCodeBlockLines (blockId: string, codeToInsert: string, startLine: number, endLine: number) {
-    const result = deleteCodeBlockLines(blockId, startLine, endLine)
+async function replaceCodeBlockLines (blockId: string, codeToInsert: string, startLine: number, endLine: number) : Promise<any>{
+    const oldCode = await getBlockAsArray(blockId)
+    let result = deleteLines(oldCode, startLine, endLine)
     if(result[0]){
         // oOOOooOoH scary be careful with this guy
         // surely there is a better way to do this... although it should be fine...
         const newCode = insertCodeByLine(result[1], codeToInsert, startLine) as string[]
-        console.log(newCode)
 
         //Tell notion to update the block
         updateCodeBlock(blockId, newCode.join("\n"))
 
         console.log(newCode)
-        return [true, newCode]
+        return [true, newCode];
     }
     return result;
 
 }
 
-async function deleteCodeBlockLines(blockId: string, startLine: number, endLine: number) { 
-    const block = await getBlock(blockId);
-    let oldCode = toArray(extractCode(block), "\n")
+async function insertCode(blockId: string, codeToInsert: string, line: number) { 
+    const oldCode = await getBlockAsArray(blockId)
+    insertCodeByLine(oldCode, codeToInsert, line)
+}
+
+async function getBlockAsArray (blockId: string): Promise<Array<string>> { 
+    //get the block from notion, suck the code out, then make it an array
+    return toArray(extractCode(await getBlock(blockId)), "\n")
+}
+
+async function deleteCodeBlockLines(blockId: string, startLine: number, endLine: number) : Promise<any> { 
+    const oldCode = await getBlockAsArray(blockId);
     let result = deleteLines(oldCode, startLine, endLine) 
     
     if(result[0]){
