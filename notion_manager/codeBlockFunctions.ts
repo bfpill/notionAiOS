@@ -1,11 +1,10 @@
-import { start } from "repl";
 import { Block, CodeBlock, CodeProperties } from "./interfaces"
 
 async function getCodeBlock(block) : Promise<CodeBlock | string> {
     if (block['type'] !== "code") {
         return "Not a code block";
     }
-    
+
     const code: string = extractCode(block)
     const properties: CodeProperties = getCodeBlockProperties(block)
 
@@ -25,31 +24,35 @@ function extractCode(block: Block) : string{
 }
 
 function deleteLines(previousCode: Array<string>, startLine: number, endLine: number): [worked: boolean, res: string[]] {
-    const codeLength: number = previousCode.length;
+    const previousCodeLength: number = previousCode.length;
 
-    if(testLineValid(startLine, previousCode.length) && testLineValid(endLine, previousCode.length)){
+    console.log(previousCode, startLine, endLine)
+    if(testLineExists(startLine, previousCodeLength ) && testLineExists(endLine, previousCodeLength)){
         const before: Array<string> = previousCode.slice(0, startLine - 1)
-        const after: Array<string> = previousCode.slice(endLine - 1, codeLength)
-    
+        console.log("Before: " + before)
+        const after: Array<string> = previousCode.slice(endLine)
+        console.log("After: " + after)
         const updatedCode = before.concat(after)
         return [true, updatedCode];
-    } 
+    }
 
     return [false, previousCode];
 }
 
-function toArray(code: string, delimiter: string): Array<string> { 
+function toArray(code: string, delimiter: string): Array<string> {
     const lines: Array<string> = code.split(delimiter)
     return lines;
 }
 
 function insertCodeByLine(previousCode: Array<string>, newCode: string, lineNumber: number): Array<string> | TypeError {
     const codeLength: number = previousCode.length;
-    if(testLineValid(lineNumber, previousCode.length)){
+    console.log(lineNumber, codeLength)
+    if(!(lineNumber < 1 || lineNumber > codeLength + 1 )){
         const before: Array<string> = previousCode.slice(0, lineNumber - 1)
-        const after: Array<string> = previousCode.slice(lineNumber, codeLength)
-    
+        const after: Array<string> = previousCode.slice(lineNumber - 1, codeLength)
+
         const updatedCode = before.concat(newCode, after)
+        console.log(updatedCode)
         return updatedCode;
     }
     else{
@@ -57,7 +60,7 @@ function insertCodeByLine(previousCode: Array<string>, newCode: string, lineNumb
     }
 }
 
-function testLineValid(lineNumber, length) {
+function testLineExists(lineNumber : number, length: number) {
     if (lineNumber < 1 || lineNumber > length) {
         console.log("Line Number " + lineNumber + " is Invalid")
         return false;
@@ -65,4 +68,4 @@ function testLineValid(lineNumber, length) {
     return true;
 }
 
-export {getCodeBlock, getCodeBlockProperties, extractCode, insertCodeByLine, toArray, testLineValid, deleteLines}
+export {getCodeBlock, getCodeBlockProperties, extractCode, insertCodeByLine, toArray, testLineExists as testLineValid, deleteLines}
