@@ -5,10 +5,10 @@ info:
 servers:
   - url: http://localhost:4000/notion_manager
 paths:
-  /:
+  /pageActions:
     post: 
-      operationId: getBlocks
-      summary: Get all the blocks on a page
+      operationId: pageActions
+      summary: Use to add or delete blocks from a page
       requestBody: 
         content:
           application/json:
@@ -42,17 +42,27 @@ components:
     GetBlocksRequest: 
       type: object
       required:
-        - pageId
+        - command
       properties: 
+        command: 
+          type: string
+          description: Should be either "DELETE BLOCK" or "ADD BLOCK"
         pageId:
           type: string
-          description: the ID of the page
+          description: the ID of the page, required for adding a block
+        blockId: 
+          type: string
+          description: the ID of the block, required for deleting a block
+        content:
+          type: string
+          description: the content you wish to add to your block ( required for adding a block )
+        
     GetBlocksResponse: 
       type: object
       properties: 
         messageResponse:
           type: string
-          description: the response message  
+          description: The results of the request
     UpdateCodeBlockRequest:
       type: object
       required:
