@@ -3,6 +3,7 @@ import * as dotenv from 'dotenv';
 import { executeInstruction } from "./instructionHandler";
 import { getCodeBlock, getCodeBlockProperties, extractCode, toArray, deleteLines, insertCodeByLine } from "./codeBlockFunctions"
 import { Block, CodeBlock, CodeProperties } from "./interfaces"
+import { start } from "repl";
 // Get environment variables
 dotenv.config()
 
@@ -109,9 +110,9 @@ async function updateCodeViaInstructions(blockId: string, instructions: string):
 
     // Turn the instructions string into an array of single commands
     const instructionsArray = toArray(instructions, ";")
-
-    for(let i = 0; i < instructionsArray.length; i++){
-        const res: any = executeInstruction(codeHolder, instructionsArray[i]);
+1
+    for(const element of instructionsArray){
+        const res: any = executeInstruction(codeHolder, element);
         if (!res[0]) {
             console.log(res[0])
             return ([false, res[1]])
@@ -127,6 +128,7 @@ async function updateCodeViaInstructions(blockId: string, instructions: string):
         // Turn back to a string
         newCode = codeHolder.join("\n")
     } catch (e: any){
+        console.log(e)
         newCode = " ";
     }
 
@@ -138,30 +140,38 @@ async function updateCodeViaInstructions(blockId: string, instructions: string):
    return [true, newCode]
 }
 
-async function replaceCodeBlockLine (blockId: string, codeToInsert: string, startLine: number, endLine: number) { 
-    const block = await getBlock(blockId)
-
-    let oldCode = toArray(extractCode(block), "\n")
-
-    let result = deleteLines(oldCode, startLine, endLine)
+async function replaceCodeBlockLines (blockId: string, codeToInsert: string, startLine: number, endLine: number) {
+    const result = deleteCodeBlockLines(blockId, startLine, endLine)
     if(result[0]){
-        // oOOOooOoH scary be careful with this guy 
-        // surely there is a better way to do this... although it should be fine... 
+        // oOOOooOoH scary be careful with this guy
+        // surely there is a better way to do this... although it should be fine...
         const newCode = insertCodeByLine(result[1], codeToInsert, startLine) as string[]
-        if(newCode.includes("\n")){
-            updateCodeBlock(blockId, newCode.join("\n"))
-        }
-        else{
-            updateCodeBlock(blockId, newCode.join("\n"))
-        }
+        console.log(newCode)
+
+        //Tell notion to update the block
+        updateCodeBlock(blockId, newCode.join("\n"))
+
+        console.log(newCode)
         return [true, newCode]
     }
-    console.log(result)
-    return [false, "Could not replace lines " + startLine + " -> " + endLine]
-   
+    return result;
+
+}
+
+async function deleteCodeBlockLines(blockId: string, startLine: number, endLine: number) { 
+    const block = await getBlock(blockId);
+    let oldCode = toArray(extractCode(block), "\n")
+    let result = deleteLines(oldCode, startLine, endLine) 
+    
+    if(result[0]){
+        const updatedCode = result[1].join("\n")
+        updateCodeBlock(blockId, updatedCode )
+        return result;
+    }
+    return ([false, "Could not replace lines " + startLine + " -> " + endLine]);
 }
 
 export default {
     updateProperty, getChildBlocks, updateCodeBlock,
-    getBlock, replaceCodeBlockLine, deleteBlock
+    getBlock, replaceCodeBlockLines, deleteBlock, deleteCodeBlockLines
 }

@@ -1,11 +1,10 @@
-import { response } from "express";
 import notionServices from "./notionServices";
 
 const updateProperty = async (req, res) => {
     const { body } = req
     if (
-        !body.pageId || 
-        !body.propertyName || 
+        !body.pageId ||
+        !body.propertyName ||
         !body.content
     ) {
         res
@@ -47,12 +46,12 @@ const getChildBlocks = async (req, res) => {
     res.status(201).send({ status: "OK", data: {messageResponse} });
 };
 
-const updateCodeBlock = async (req, res) => {
+const replaceCodeBlockLines = async (req, res) => {
     const { body } = req
     if (
-        !body.blockId || 
-        !body.codeToInsert || 
-        !body.startLine || 
+        !body.blockId ||
+        !body.codeToInsert ||
+        !body.startLine ||
         !body.endLine
     ) {
         res
@@ -67,17 +66,49 @@ const updateCodeBlock = async (req, res) => {
         return;
     }
     const { blockId, codeToInsert, startLine, endLine } = body;
-    const messageResponse =  await notionServices.replaceCodeBlockLine(blockId, codeToInsert, startLine, endLine);
+    const messageResponse =  await notionServices.replaceCodeBlockLines(blockId, codeToInsert, startLine, endLine);
 
     if(messageResponse[0]){
         res.status(201).send({ status: "OK", data: {messageResponse} });
     }
-    
+
     else if (!messageResponse[0]){
-        res.status(201).send({ status: "Error", data: {messageResponse} }); 
+        res.status(201).send({ status: "Error", data: {messageResponse} });
     }
-    
+
 };
+
+const deleteCodeBlockLines = async (req, res) => { 
+    const { body } = req
+    if (
+        !body.blockId ||
+        !body.startLine ||
+        !body.endLine
+    ) {
+        res
+            .status(400)
+            .send({
+                status: "FAILED",
+                data: {
+                    error:
+                       "Error becuase you prolly forgot a property"
+                },
+            });
+        return;
+    }
+    const { blockId, startLine, endLine } = body;
+    const messageResponse =  await notionServices.deleteCodeBlockLines(blockId, startLine, endLine);
+
+    if(messageResponse[0]){
+        res.status(201).send({ status: "OK", data: {messageResponse} });
+    }
+
+    else if (!messageResponse[0]){
+        res.status(201).send({ status: "Error", data: {messageResponse} });
+    }
+
+
+}
 
 const deleteBlock = async (req, res) => {
     const { body } = req
@@ -127,7 +158,8 @@ const getBlock = async (req, res) => {
 export default {
     updateProperty,
     getChildBlocks,
-    updateCodeBlock, 
-    getBlock, 
-    deleteBlock
+    getBlock,
+    deleteBlock, 
+    deleteCodeBlockLines, 
+    replaceCodeBlockLines
 };

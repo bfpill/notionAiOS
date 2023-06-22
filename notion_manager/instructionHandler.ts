@@ -51,8 +51,7 @@ function executeInstruction(oldCode: Array<string>, instruction: string) : (bool
         try {
             startNumber = parseInt(commands[1])
             endNumber = parseInt(commands[2])
-
-        } catch (e) {
+} catch (e) {
             if (e instanceof TypeError) {
                 return ([false, "Error: " + e]);
             }
