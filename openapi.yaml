@@ -41,6 +41,8 @@ components:
   schemas:
     GetBlocksRequest: 
       type: object
+      required:
+        - pageId
       properties: 
         pageId:
           type: string
@@ -49,24 +51,34 @@ components:
       type: object
       properties: 
         messageResponse:
-          type: object
+          type: string
           description: the response message  
     UpdateCodeBlockRequest:
       type: object
+      required:
+        - command
+        - blockId
+        - startLine
+        - endLine
       properties:
+        command:  
+          type: string
+          description: Should be either "DELETE LINES" or "REPLACE LINES"
         blockId:
           type: string
           description: The ID of the code block to be updated.
-        lineNumber:
-          type: number
-          description: The line number to insert the code on.
         code:
           type: string
-          description: The new code to insert 
+          description: The new code to replace the current lines - only use if you are using the "REPLACE LINES" command
+        startLine:
+          type: number
+          description: The first line number
+        endLine:
+          type: number
+          description: The end line number - always use, if you want to act on one line your start and end line should be the same. (inclusive)
     UpdateCodeBlockResponse:
       type: object
       properties: 
         messageResponse:
-          type: object  
-          description: The updated code
-
+          type: string
+          description: The results of request
