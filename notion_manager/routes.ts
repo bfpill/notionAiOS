@@ -10,9 +10,7 @@ router.get("/codeBlock", notionController.getBlock);
 router.get("/", notionController.getChildBlocks);
 router.delete("/", notionController.deleteBlock);
 
-
-router.patch("/codeBlock", notionController.replaceCodeBlockLines);
-router.delete("/codeBlock", notionController.deleteCodeBlockLines);
+router.patch("/codeBlock", notionController.updateCodeBlock);
 
 // Export router
 export default router;
