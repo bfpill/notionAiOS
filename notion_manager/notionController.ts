@@ -98,7 +98,8 @@ const pageActions = async (req, res) => {
     console.log("page actions")
     const { body } = req
     if (
-        !body.command
+        !body.command ||
+        !((body.pageId && body.content && body.language) || (body.blockId))
     ) {
         res
             .status(400)
@@ -122,8 +123,9 @@ const pageActions = async (req, res) => {
     else if (body.command === "ADD BLOCK") { 
         const pageId = body.pageId
         const content = body.content
+        const language = body.language
         console.log(pageId, content)
-        messageResponse =  await notionServices.addBlock(pageId, content);
+        messageResponse =  await notionServices.addBlock(pageId, content, language);
     }
 
     else { 

@@ -91,30 +91,36 @@ async function getBlock(blockId: string): Promise<Block> {
     })
 }
 
-async function addBlock(pageId: string, code: string) {
-    const messageResponse =  await notion.blocks.children.append({
-        block_id: pageId,
-        children: [
-            {
-                //...other keys excluded
-                type: "code",
-                //...other keys excluded
-                code: {
-                    "caption": [],
-                    "rich_text": [{
-                        "type": "text",
-                        "text": {
-                            "content": code
-                        }
-                    }],
-                    language: "javascript"
+async function addBlock(pageId: string, code: string, language: any) {
+    try { 
+        const messageResponse =  await notion.blocks.children.append({
+            block_id: pageId,
+            children: [
+                {
+                    //...other keys excluded
+                    type: "code",
+                    //...other keys excluded
+                    code: {
+                        "caption": [],
+                        "rich_text": [{
+                            "type": "text",
+                            "text": {
+                                "content": code
+                            }
+                        }],
+                        language: language.toLowerCase()
+                    }
                 }
-            }
-        ],
-    })
+            ],
+        })
+        console.log({ id: messageResponse.results[0].id, content: messageResponse.results[0]["code"].rich_text[0].text.content})
+        return { blockId : messageResponse.results[0].id, content: messageResponse.results[0]["code"] }
+    } catch (e: any){
+        return {"Error" : e}
+    }
+    
 
-    console.log({ id: messageResponse.results[0].id, content: messageResponse.results[0]["code"].rich_text[0].text.content})
-    return { blockId : messageResponse.results[0].id, content: messageResponse.results[0]["code"] }
+   
 }
 
 async function deleteBlock(blockId: string): Promise<string> {
