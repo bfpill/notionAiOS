@@ -40,8 +40,9 @@ const getChildBlocks = async (req, res) => {
             });
         return;
     }
-    const { pageId, propertyName} = body;
-    const messageResponse =  await notionServices.getChildBlocks(pageId, propertyName);
+    const { pageId } = body;
+    console.log("I am actually being used!!")
+    const messageResponse =  await notionServices.getChildBlocks(pageId);
 
     res.status(201).send({ status: "OK", data: {messageResponse} });
 };
@@ -91,6 +92,51 @@ const updateCodeBlock = async (req, res) => {
         res.status(201).send({ status: "Error", data: {messageResponse} });
     }
 
+}
+
+const pageActions = async (req, res) => {
+    console.log("page actions")
+    const { body } = req
+    if (
+        !body.command
+    ) {
+        res
+            .status(400)
+            .send({
+                status: "FAILED",
+                data: {
+                    error:
+                       "Error becuase you prolly forgot a property"
+                },
+            });
+        return;
+    }
+
+    let messageResponse: any;
+
+    if(body.command === "DELETE BLOCK") { 
+        const blockId = body.blockId
+        messageResponse =  await notionServices.deleteBlock(blockId);
+    }
+  
+    else if (body.command === "ADD BLOCK") { 
+        const pageId = body.pageId
+        const content = body.content
+        console.log(pageId, content)
+        messageResponse =  await notionServices.addBlock(pageId, content);
+    }
+
+    else { 
+        messageResponse =  {completed: false, result: "Could not parse command"}
+    }
+
+    if(messageResponse[0]){
+        res.status(201).send({ status: "OK", data: {messageResponse} });
+    }
+
+    else if (!messageResponse[0]){
+        res.status(201).send({ status: "Error", data: {messageResponse} });
+    }
 }
 
 const deleteBlock = async (req, res) => {
@@ -143,5 +189,6 @@ export default {
     getChildBlocks,
     getBlockCode,
     deleteBlock, 
-    updateCodeBlock
+    updateCodeBlock, 
+    pageActions
 };
