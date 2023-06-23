@@ -1,31 +1,38 @@
 import notionBlockServices from "./blockServices";
 import notionPageServices from "./pageServices";
-
+import PageMap from "./pageMap";
 import { getNotion, getDatabaseId } from "./notion";
 
 //get from local instance
 const notion = getNotion()
+const pages = new PageMap(getDatabaseId())
 
 const createPage = async (req, res) => {
     const { body } = req
     if (
+        !body.parentId || 
         !body.pageName ||
         !body.type
     ) {
         return fourHunnid(res)
     }
-    const { pageName, type} = body;
-    const messageResponse =  await notionPageServices.createPage(notion, getDatabaseId(), pageName, type);
+    const { parentId, pageName, type} = body;
+    const messageResponse =  await notionPageServices.createPage(notion, pages, parentId, pageName, type);
 
     res.status(201).send({ status: "OK", data: {messageResponse} });
 }
 
 const getPages = async (req, res) => {
-    const messageResponse =  await notionPageServices.getPages(notion, getDatabaseId());
-    console.log(messageResponse)
+    const { body } = req
+    if (
+        !body.pageId
+    ) {
+        return fourHunnid(res)
+    }
+    const { pageId } = body
+    const messageResponse =  await notionPageServices.getPagesTree(notion, pages, pageId);
     res.status(201).send({ status: "OK", data: {messageResponse} });
 }
-
 
 const getPageProperties = async (req, res) => {
     const { body } = req
@@ -35,7 +42,7 @@ const getPageProperties = async (req, res) => {
         return fourHunnid(res)
     }
     const { pageId } = body;
-    const messageResponse =  await notionPageServices.getPageType(notion, pageId);
+    const messageResponse =  await notionPageServices.getPageInfo(notion, pageId);
 
     res.status(201).send({ status: "OK", data: {messageResponse} });
 };
