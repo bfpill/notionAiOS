@@ -1,7 +1,13 @@
 import { Client } from "@notionhq/client";
 
 async function createPage(notion: Client, pageName: string, databaseId: string) {
-    await notion.pages.create({
+    const response = await notion.pages.create({
+        "icon": { 
+            "type":  "external",
+            "external": { 
+                "url" : "https://static.thenounproject.com/png/3218908-200.png"
+            }
+        },
         "parent": {
             "type": "database_id",
             "database_id": databaseId
@@ -20,6 +26,8 @@ async function createPage(notion: Client, pageName: string, databaseId: string) 
         "children": [
         ]
     })
+
+    return { "pageId" : response.id };
 }
 
 async function getPages(notion: Client, databaseId){ 
