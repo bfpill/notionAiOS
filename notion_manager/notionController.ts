@@ -9,22 +9,36 @@ const notion = getNotion()
 const createPage = async (req, res) => {
     const { body } = req
     if (
-        !body.pageName
+        !body.pageName ||
+        !body.type
     ) {
         return fourHunnid(res)
     }
-    const { pageName } = body;
-    const messageResponse =  await notionPageServices.createPage(notion, pageName, getDatabaseId());
+    const { pageName, type} = body;
+    const messageResponse =  await notionPageServices.createPage(notion, getDatabaseId(), pageName, type);
 
     res.status(201).send({ status: "OK", data: {messageResponse} });
 }
 
 const getPages = async (req, res) => {
-
     const messageResponse =  await notionPageServices.getPages(notion, getDatabaseId());
     console.log(messageResponse)
     res.status(201).send({ status: "OK", data: {messageResponse} });
 }
+
+
+const getPageProperties = async (req, res) => {
+    const { body } = req
+    if (
+        !body.pageId
+    ) {
+        return fourHunnid(res)
+    }
+    const { pageId } = body;
+    const messageResponse =  await notionPageServices.getPageType(notion, pageId);
+
+    res.status(201).send({ status: "OK", data: {messageResponse} });
+};
 
 const updateProperty = async (req, res) => {
     const { body } = req
@@ -177,15 +191,15 @@ const fourHunnid = (res: any) => {
                        "Error becuase you prolly forgot a property"
                 },
             });
-        return;
 }
 
 export default {    
     //page functions
     createPage,
     getPages,
+    getPageProperties,
 
-    //block functions
+    //block function
     updateProperty,
     getChildBlocks,
     getBlockCode,

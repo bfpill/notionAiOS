@@ -1,6 +1,6 @@
 import { Client } from "@notionhq/client";
 
-async function createPage(notion: Client, pageName: string, databaseId: string) {
+async function createPage(notion: Client, databaseId: string, pageName: string, type: string) {
     const response = await notion.pages.create({
         "icon": { 
             "type":  "external",
@@ -21,13 +21,31 @@ async function createPage(notion: Client, pageName: string, databaseId: string) 
                         }
                     }
                 ]
+            }, 
+            "Type": {
+                "rich_text": [
+                    {
+                        "text": {
+                            "content": type
+                        }
+                    }
+                ]
             }
-        },
+        },  
         "children": [
         ]
     })
 
     return { "pageId" : response.id };
+}
+
+async function getPageType(notion: Client, pageId: string){ 
+    const response = await notion.pages.retrieve({ 
+        page_id: pageId
+    })
+
+    const type = response["properties"].Type.rich_text[0].plain_text
+    return { type: type }
 }
 
 async function getPages(notion: Client, databaseId){ 
@@ -45,4 +63,4 @@ async function getPages(notion: Client, databaseId){
     return pages;
 }
 
-export default { createPage, getPages }
+export default { createPage, getPages, getPageType }
