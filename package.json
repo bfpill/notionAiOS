@@ -6,7 +6,7 @@
   "bin": "dist/index.cjs",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.ts",
+    "dev": "nodemon index.ts -i '**/data/**'",
     "build": "rimraf dist && esbuild notion_manager/index.ts --bundle --platform=node --outfile=dist/index.cjs",
     "ts.check": "tsc --project tsconfig.json"
   },
