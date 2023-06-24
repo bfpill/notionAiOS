@@ -8,6 +8,14 @@ async function createPage(notion: Client, pages: PageMap, parentId: string, page
     const icon = type.toLowerCase() === "folder" ? "https://static.thenounproject.com/png/3218908-200.png" : "https://cdn-icons-png.flaticon.com/512/6528/6528597.png"
     let response;
 
+    if(pages.get(pageName) !== "Name does not exist."){ 
+        return { Error: "Page name already exists, no duplicates please" };
+    }
+
+    if(pages.get(parentId) !== "Name does not exist." ){
+        parentId = pages.get(parentId)
+    }
+
     //Quality of life, may be something to tell the AI about, maybe not
     parentId = parentId.toLowerCase() === "root" ? DATABASEID : parentId;
     if (parentId === DATABASEID) {
