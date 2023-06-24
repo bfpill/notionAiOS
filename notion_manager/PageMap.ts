@@ -13,14 +13,15 @@ const jsonData = fs.readFileSync(fullPath, 'utf8');
 
 const jsonMap = JSON.parse(jsonData)
 
-interface Pair { 
+interface page { 
     name: string, 
-    id: string
+    id: string,
+    type?: string
 }
 
 class PageMap { 
-    map: Map<string, string>
-    archive: Map<string, string>
+    map: Map<string, {id: string, type: string}>
+    archive: Map<string, {id: string, type: string}>
 
     constructor(databaseId: string){
         console.log("Initalized and ready to roll")
@@ -28,20 +29,22 @@ class PageMap {
         this.archive = this.map;
     }
 
-    add(pair: Pair){ 
+    add(page: page){ 
+        page.type = page.type ? page.type : "Unknown"
         console.log("added pair")
-        this.map.set(pair.name, pair.id)
+        this.map.set(page.name, {id: page.id, type: page.type})
         this.updateJSON(this.map)
     }
 
-    delete(pair: Pair){ 
-        this.archive.set(pair.name, pair.id)
-        this.map.delete(pair.name)
+    delete(page: page){ 
+        page.type = page.type ? page.type : "Unknown"
+        this.archive.set(page.name, {id: page.id, type: page.type})
+        this.map.delete(page.name)
         this.updateJSON(this.map)
     }
 
     //haha cool 
-    get(name: Pair["name"]){
+    get(name: page["name"]){
         const id = this.map.get(name)
         if(id === undefined){ 
             const checkArchive = this.archive.get(name)
@@ -54,7 +57,7 @@ class PageMap {
         return id;
     }
 
-    updateJSON(map: Map<string, string>){
+    updateJSON(map: Map<string, {id: string, type: string}>){
         const updatedJSONMap = Object.fromEntries(this.map)
         const updatedJSONData = JSON.stringify(updatedJSONMap)
 
