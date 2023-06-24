@@ -174,6 +174,10 @@ async function getPagesFromPage(notion: Client, pages: PageMap, id: string): Pro
     return childPageNames;
 }
 
+function getPageName(page) { 
+    return page["properties"].Name.title[0].text.content
+}
+
 async function getPagesTree(notion: Client, pages: PageMap, rootId: string) //: Promise<string[]> 
 {       
     rootId = rootId.toLowerCase() === "root" ? DATABASEID : rootId
@@ -190,7 +194,8 @@ async function getPagesTree(notion: Client, pages: PageMap, rootId: string) //: 
         let all: any[] = [];
 
         for(const page of childPages.results) { 
-            all.push(page.id)
+            const pageName = getPageName(page)
+            all.push(pageName)
             if(getPageType(page) === 'folder'){
                 console.log("folder")
                 all.push(await getPagesFromPage(notion, pages, page.id))
