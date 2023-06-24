@@ -34,19 +34,6 @@ const getPages = async (req, res) => {
     res.status(201).send({ status: "OK", data: {messageResponse} });
 }
 
-const getPageProperties = async (req, res) => {
-    const { body } = req
-    if (
-        !body.pageId
-    ) {
-        return fourHunnid(res)
-    }
-    const { pageId } = body;
-    const messageResponse =  await notionPageServices.getPageInfo(notion, pageId);
-
-    res.status(201).send({ status: "OK", data: {messageResponse} });
-};
-
 const updateProperty = async (req, res) => {
     const { body } = req
     if (
@@ -204,7 +191,6 @@ export default {
     //page functions
     createPage,
     getPages,
-    getPageProperties,
 
     //block function
     updateProperty,

@@ -13,7 +13,5 @@ router.post("/codeBlock", notionController.updateCodeBlock);
 router.post("/pages", notionController.createPage)
 router.get("/pages", notionController.getPages)
 
-router.get("/page", notionController.getPageProperties)
-
 // Export router
 export default router;
