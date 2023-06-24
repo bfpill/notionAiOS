@@ -151,7 +151,7 @@ async function getPagesFromPage(notion: Client, pages: PageMap, id: string, dept
 
         for (const childPage of childPages) {
             const pageName = childPage.child_page.title;
-            childPageNames += "\n" + leftPad(depth, pageName)
+            childPageNames += "\n" + leftPad(depth, pageName + getExtension(type))
 
             const childPageId = pages.get(pageName)["id"];
             if (childPageId) {
@@ -162,6 +162,16 @@ async function getPagesFromPage(notion: Client, pages: PageMap, id: string, dept
     }
 
     return childPageNames;
+}
+
+function getExtension(type: string): string { 
+    if(type === 'folder'){
+        return ".dir";
+    }
+    else if(type === "rust"){
+        return ".rs"
+    }
+    else return type
 }
 
 function getPageName(page) {
@@ -197,8 +207,10 @@ async function getPagesTree(notion: Client, pages: PageMap, rootId: string): Pro
 
         for (const page of childPages.results) {
             const pageName = getPageName(page)
-            all += pageName
-            if (getPageType(pages, pageName) === 'folder') {
+            const pageType = getPageType(pages, pageName)
+
+            all += pageName + getExtension(pageType)
+            if (pageType === 'folder') {
                 all += (await getPagesFromPage(notion, pages, page.id, 1)) + "\n"
             }
         }
