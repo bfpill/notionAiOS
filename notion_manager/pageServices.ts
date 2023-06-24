@@ -2,10 +2,12 @@ import { Client } from "@notionhq/client";
 import PageMap from "./pageMap";
 
 const DATABASEID = "244fbd23-36dc-46d5-a261-2c7dc9609f67"
+const folderIconURL = "https://www.simpleimageresizer.com/_uploads/photos/5aea8c02/file_folder_icon_218858_10.png"
+const fileIconUrl = "https://www.simpleimageresizer.com/_uploads/photos/5aea8c02/6528597_10.png"
 
 async function createPage(notion: Client, pages: PageMap, parentId: string, pageName: string, type: string) {
 
-    const icon = type.toLowerCase() === "folder" ? "https://static.thenounproject.com/png/3218908-200.png" : "https://cdn-icons-png.flaticon.com/512/6528/6528597.png"
+    const icon = type.toLowerCase() === "folder" ? folderIconURL : fileIconUrl
     let response;
 
     if(pages.get(pageName) !== "Name does not exist."){ 
@@ -124,7 +126,7 @@ async function getPageInfo(notion: Client, pageId: string) {
 
 function getPageType(page): string {
     const icon = page["icon"].external.url
-    return icon === "https://static.thenounproject.com/png/3218908-200.png" ? "folder" : "code"
+    return icon === folderIconURL ? "folder" : "code"
 }
 
 async function getPagesFlat(notion: Client, databaseId) {
@@ -148,6 +150,7 @@ async function getPagesFromPage(notion: Client, pages: PageMap, id: string): Pro
     });
     const type = getPageType(page);
 
+    const childPageNames: string[] = [];
     if (type.toLowerCase() === 'folder') {
         const children = await notion.blocks.children.list({
             block_id: id
@@ -155,7 +158,7 @@ async function getPagesFromPage(notion: Client, pages: PageMap, id: string): Pro
 
         const childPages: any[] = children.results.filter((child) => child["type"] === 'child_page');
 
-        const childPageNames: string[] = [];
+
         for (const childPage of childPages) {
             const pageName = childPage.child_page.title;
             childPageNames.push(pageName);
@@ -166,32 +169,42 @@ async function getPagesFromPage(notion: Client, pages: PageMap, id: string): Pro
                 childPageNames.push(...subPages);
             }
         }
-
-        return childPageNames;
     }
 
-    return [];
+    return childPageNames;
 }
 
-async function getPagesTree(notion: Client, pages: PageMap, rootId: string): Promise<string[]> {
+async function getPagesTree(notion: Client, pages: PageMap, rootId: string) //: Promise<string[]> 
+{       
     rootId = rootId.toLowerCase() === "root" ? DATABASEID : rootId
+    if(pages.get(rootId) !== "Name does not exist." ){
+        rootId = pages.get(rootId)
+    }
+
     if (rootId === DATABASEID) {
         console.log('was database');
-        const res = await notion.databases.query({
+        const childPages = await notion.databases.query({
             database_id: rootId
         });
 
-        const childFolders: any[] = res.results.filter((child) => getPageType(child) === 'folder');
         let all: any[] = [];
-        for(const folder of childFolders) { 
-            console.log(folder)
-            all.push(await getPagesFromPage(notion, pages, folder.id))
+
+        for(const page of childPages.results) { 
+            all.push(page.id)
+            if(getPageType(page) === 'folder'){
+                console.log("folder")
+                all.push(await getPagesFromPage(notion, pages, page.id))
+            }
         }
         return all;
     } else {
-        const pagesTree = await getPagesFromPage(notion, pages, rootId);
-        console.log(pagesTree);
-        return pagesTree;
+        const page = await notion.pages.retrieve({
+            page_id: rootId
+        });
+
+        console.log(page.id)
+
+        console.log(getPagesFromPage(notion, pages, rootId))
     }
 }
 
