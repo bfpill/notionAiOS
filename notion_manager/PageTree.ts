@@ -11,7 +11,14 @@ const dataFolderPath = path.join(parentDirPath, 'data');
 const fullPath = path.join(dataFolderPath, filename);
 const jsonData = fs.readFileSync(fullPath, 'utf8');
 
-const jsonTree = JSON.parse(jsonData);
+let jsonTree;
+
+try{    
+    jsonTree = JSON.parse(jsonData);
+}
+catch(e: any){
+    jsonTree = JSON.parse("[]")
+}
 
 interface Page {
     name: string;
@@ -30,20 +37,20 @@ class PageTree {
 
         // Check if the tree is empty and add a root node if necessary
         if (this.tree.length === 0) {
-          const root: Page = {
-            name: 'Root',
-            id: 'root-node'
-          };
-          this.tree.push(root);
-          this.updateJSON();
+            const root: Page = {
+                name: 'root',
+                id: 'root-node'
+            };
+            this.tree.push(root);
+            this.updateJSON();
         }
-    
+
         this.archive = [];
     }
 
     add(page: Page, parentName?: string) {
         page.type = page.type ? page.type : 'Unknown';
-        
+
         console.log("parent: " + parentName)
         if (parentName) {
             console.log("Found parent node")
@@ -54,7 +61,9 @@ class PageTree {
             }
             console.log('Added page:', page);
         } else {
-            this.tree.push(page);
+            const rootNode = this.findNodeByName(this.tree, "root") as Page;
+            rootNode.children = rootNode.children || [];
+            rootNode.children.push(page);
         }
         this.updateJSON();
     }
@@ -80,21 +89,21 @@ class PageTree {
 
     getNodeById(id: string, nodes: Page[] = this.tree): Page | undefined {
         for (const node of nodes) {
-          if (node.id === id) {
-            return node;
-          }
-          if (node.children) {
-            const foundNode = this.getNodeById(id, node.children);
-            if (foundNode) {
-              return foundNode;
+            if (node.id === id) {
+                return node;
             }
-          }
+            if (node.children) {
+                const foundNode = this.getNodeById(id, node.children);
+                if (foundNode) {
+                    return foundNode;
+                }
+            }
         }
         return undefined;
-      }
+    }
 
     findNodeByName(nodes: Page[], name: string): Page | "Name does not exist." {
-        if(nodes.length > 0){
+        if (nodes.length > 0) {
             for (const node of nodes) {
                 if (node.name === name) {
                     return node;
@@ -131,16 +140,24 @@ class PageTree {
         fs.writeFileSync(fullPath, updatedJSONData, 'utf8');
     }
 
-    printTree(nodes: Page[] = this.tree, level = 0) {
-        const sortedNodes = [...nodes].sort((a, b) => a.name.localeCompare(b.name));
+    printTree(nodes: any = this.tree, level = 0) {
+        if (nodes instanceof Array) {
+            const sortedNodes = [...nodes].sort((a, b) => a.name.localeCompare(b.name));
 
-        for (const node of sortedNodes) {
-            const indentation = this.leftpad(level); // Adjust the indentation level as desired
-            console.log(`${indentation}${node.name}`);
-            if (node.children) {
-                this.printTree(node.children, level + 1);
+            for (const node of sortedNodes) {
+                const indentation = this.leftpad(level);
+                console.log(`${indentation}${node.name}${this.getExtension(node)}`);
+                if (node.children) {
+                    this.printTree(node.children, level + 1);
+                }
             }
         }
+        else {
+            if (nodes.children) {
+                this.printTree(nodes.children, level + 1);
+            }
+        }
+
     }
 
     leftpad(indents: number) {
@@ -149,6 +166,18 @@ class PageTree {
             padding += "    "
         ]
         return padding
+    }
+
+    getExtension(page: Page): string {
+        const type = page.type
+        if (type === 'folder') {
+            return ".dir";
+        }
+        else if (type === "rust") {
+            return ".rs";
+        }
+
+        else return type ? "." + type : "";
     }
 }
 
