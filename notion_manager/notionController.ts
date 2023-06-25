@@ -1,11 +1,11 @@
 import notionBlockServices from "./blockServices";
 import notionPageServices from "./pageServices";
-import PageMap from "./pageMap";
-import { getNotion, getDatabaseId } from "./notion";
+import PageTree from "./PageTree";
+import { getNotion } from "./notion";
 
 //get from local instance
 const notion = getNotion()
-const pages = new PageMap(getDatabaseId())
+const pages = new PageTree()
 
 const createPage = async (req, res) => {
     const { body } = req
@@ -30,7 +30,7 @@ const getPages = async (req, res) => {
         return fourHunnid(res)
     }
     const { pageId } = body
-    const messageResponse =  await notionPageServices.getPagesTree(notion, pages, pageId);
+    const messageResponse =  await notionPageServices.getPagesTree(pages);
     res.status(201).send({ status: "OK", data: {messageResponse} });
 }
 
@@ -42,7 +42,7 @@ const updateProperty = async (req, res) => {
         !body.content
     ) {
         return fourHunnid(res)
-    }
+     }
     const { pageId, propertyName, content} = body;
     const messageResponse =  await notionBlockServices.updateProperty(pageId, propertyName, content);
 

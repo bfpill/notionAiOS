@@ -1,1 +1,27 @@
-{"folder1":"f9e2f0c2-8130-4be7-99b3-29fb4638a4a5","folder2":"6300f8fc-2ada-48eb-b866-d804b8b8a2fb","seond":"74faf7a8-7d77-4be5-9306-3dac03258c54","third":"f73297b4-4d57-4b11-9998-1c2845659a94"}
+[
+  { "name": "Root", "id": "root-node" },
+  {
+    "name": "folder1",
+    "id": "3288b8c5-2b67-46a3-877b-3266677c5749",
+    "type": "file"
+  },
+  {
+    "name": "folder2",
+    "id": "02b0bf33-f9b1-4d7a-a208-87bfe7726085",
+    "type": "folder",
+    "children": [
+      {
+        "name": "folder3",
+        "id": "0f5da4a5-6061-4006-b013-b1843ae0e83a",
+        "type": "folder",
+        "children": [
+          {
+            "name": "folder4",
+            "id": "73bd250e-03b6-43be-8913-5cdd7c3970ce",
+            "type": "folder"
+          }
+        ]
+      }
+    ]
+  }
+]
