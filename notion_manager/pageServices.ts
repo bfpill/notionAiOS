@@ -10,7 +10,6 @@ async function createPage(notion: Client, pages: PageTree, parentId: string, pag
     type = type.toLowerCase();
     const icon = type === "folder" ? folderIconURL : fileIconUrl
 
-    console.log(icon)
     let response;
 
     if (pages.getNodeByName(pageName) !== "Name does not exist.") {
@@ -114,90 +113,6 @@ async function getPage(notion: Client, pageId: string): Promise<any> {
     return page
 }
 
-/*
-
-async function getPagesFromPage(notion: Client, pages: PageMap, id: string, depth: number): Promise<string> {
-    const page = await getPage(notion, id)
-    const pageName = getPageName(page)
-
-    const type = getPageType(pages, pageName);
-
-    let childPageNames: string = ""
-
-    childPageNames += leftPad(depth, pageName + getExtension(type)) + "\n"
-    if (type.toLowerCase() === 'folder') {
-        const children = await notion.blocks.children.list({
-            block_id: id
-        });
-
-        const childPages: any[] = children.results.filter((child) => child["type"] === 'child_page');
-
-
-        for (const childPage of childPages) {
-            const pageName = childPage.child_page.title;
-
-            const childPageId = pages.get(pageName)["id"];
-            if (childPageId) {
-                const subPages = await getPagesFromPage(notion, pages, childPageId, (depth + 1));
-                childPageNames += subPages
-            }
-        }
-    }
-
-    return childPageNames;
-}
-
-function getExtension(type: string): string { 
-    if(type === 'folder'){
-        return ".dir";
-    }
-    else if(type === "rust"){
-        return ".rs";
-    }
-    else return type;
-}
-
-async function getPagesTree(notion: Client, pages: PageMap, rootId: string): Promise<string> {
-
-    if (IDisRoot(rootId)) {
-        const childPages = await notion.databases.query({
-            database_id: DATABASEID
-        });
-
-        let all: string = ""
-
-        for (const page of childPages.results) {
-            const pageName = getPageName(page)
-            const pageType = getPageType(pages, pageName)
-
-            if (pageType === 'folder') {
-                all += (await getPagesFromPage(notion, pages, page.id, 1))
-            }
-
-            else { 
-                all += pageName + getExtension(pageType)
-            }
-        }
-        console.log(all)
-        return all;
-    }
-
-    else if (pages.get(rootId) !== "Name does not exist.") {
-        rootId = pages.get(rootId)["id"]
-    }
-
-    const page = getPage(notion, rootId)
-
-    const pageName = getPageName(page)
-    let all: string = pageName + "\n"
-    all += await getPagesFromPage(notion, pages, rootId, 1)
-
-    console.log(all)
-    return all;
-
-}*/
-
-
 function getPageName(page: any) {
     try {
         return page["properties"].Name.title[0].text.content;
@@ -214,14 +129,21 @@ function getPageName(page: any) {
 }
 
 function IDisRoot(id: string): boolean {
-    if (id.toLowerCase() === "root") {
+    if (id.toLowerCase() === "root-node") {
+        console.log("id" + id)
         return true;
     }
     return false;
 }
 
-function getPagesTree (pages: PageTree) { 
-    pages.printTree()
+function getPagesTree (pages: PageTree, rootPageName: string) { 
+    if(rootPageName.toLowerCase() === 'root'){
+        pages.printTree()
+    }
+    else{ 
+        const page = pages.getNodeByName(rootPageName)
+        pages.printTree(page)
+    }
 }
 
 export default { createPage, getPagesTree}

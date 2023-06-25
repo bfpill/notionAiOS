@@ -30,7 +30,7 @@ const getPages = async (req, res) => {
         return fourHunnid(res)
     }
     const { pageId } = body
-    const messageResponse =  await notionPageServices.getPagesTree(pages);
+    const messageResponse =  await notionPageServices.getPagesTree(pages, pageId);
     res.status(201).send({ status: "OK", data: {messageResponse} });
 }
 
