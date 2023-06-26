@@ -37,35 +37,39 @@ exports.generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(a
     // Listen for the 'error' event
     archive.on('error', (err: any) => {
         console.error(`Archiver error: ${err}`);
+    }); 
+
+    archive.on('close', function() {
+        console.log('Archive closed');
     });
 
-    archive.directory(tmpdir, false);
+    await archive.directory(tmpdir, false);
 
-    // Wait for the 'end' event before calling archive.finalize()
-    archive.on('end', async () => {
-        console.log('Archiver finished appending files');
-        await archive.finalize();
-        console.log('Archiver finalized');
-    })
+    const archivePromise = new Promise<void>((resolve, reject) => {
+        archive.on('end', async () => {
+            console.log('Archiver finished appending files');
+            console.log('Archiver finalized');
+            archive.finalize();
+            resolve();
+        });
 
-    console.log("archiver finalized")
+        archive.on('error', reject);
+    });
+
+    // Wait for the Promise to resolve
+    await archivePromise;
+
     const bucket = admin.storage().bucket();
-    await bucket.upload(zipPath, {
+    const [file] = await bucket.upload(zipPath, {
         destination: `user_files/files.zip`,
     });
 
-
     console.log("Bucket created")
-    // Generate download URL
-    const file = bucket.file(`user_files/files.zip`);
-    const [url] = await file.getSignedUrl({
-        action: 'read',
-        expires: Date.now() + 1000 * 60 * 60, // 1 hour expiration
-    });
+    const url = file.metadata.mediaLink;
 
     console.log("Url made: " + url)
 
-    return { url };
+    return { url }; 
 });
 
 interface PageNode {
