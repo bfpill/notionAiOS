@@ -41,7 +41,8 @@ class PageTree {
         if (this.tree.length === 0) {
             const root: Page = {
                 name: 'root',
-                id: 'root-node'
+                id: 'root-node',
+                type: 'folder'
             };
             this.tree.push(root);
             this.updateJSON();

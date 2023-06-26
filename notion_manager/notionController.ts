@@ -33,8 +33,8 @@ const getDownloadLink = async (req, res) => {
 
     // Call your Cloud Function
     const generateFiles = httpsCallable(functions, "generateFiles");
-
-    generateFiles({ data: pages.tree })
+    console.log(pages.tree)
+    generateFiles({ json: pages.tree })
         .then((result) => {
             const data = result.data;
             console.log(data)
