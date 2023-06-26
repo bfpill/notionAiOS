@@ -21,7 +21,7 @@ paths:
             application/json: 
               schema: 
                 $ref: '#/components/schemas/GetBlocksResponse' 
-  /codeBlock:
+  /blockActions:
     post:
       operationId: codeBlock
       summary: Update the contents of an existing code block.
@@ -40,15 +40,21 @@ paths:
   /pages:
     post:
       operationId: createPage
-      summary: create a page
+      summary: Create a new page
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CreatePageRequest'
-    get:
+  /filetree: 
+    post:
       operationId: getPages
-      summary: Get all the pages
+      summary: Get the filetree of the project 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetPagesRequest'
 
 components:
   schemas:
@@ -60,7 +66,7 @@ components:
         command: 
           type: string
           description: Should be either "DELETE BLOCK" or "ADD BLOCK"
-        pageId:
+        pageName:
           type: string
           description: the ID of the page, required for adding a block
         blockId: 
@@ -109,14 +115,37 @@ components:
           type: string
           description: The results of request
 
-    CreatePageRequest: 
+    GetPagesRequest: 
       type: object
       required: 
         - pageName
       properties: 
         pageName: 
           type: string
-          description: The name of the page you want to create
+          summary: the root page of the returned file tree
+    GetPagesResponse: 
+      type: object
+      properties: 
+        messageResponse:
+          type: string
+          description: The results of request
+ 
+    CreatePageRequest: 
+      type: object
+      required: 
+        - parentName
+        - pageName
+        - type
+      properties: 
+        parentName: 
+          type: string
+          description: The name of the new page's parent folder
+        pageName: 
+          type: string
+          description: The name of the new page
+        type: 
+          type: string
+          description: The filetype of the new page (ex. folder, rust, javascript... etc)
     CreatePageResponse: 
       type: object
       properties: 
