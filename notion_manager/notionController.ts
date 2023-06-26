@@ -10,14 +10,14 @@ const pages = new PageTree()
 const createPage = async (req, res) => {
     const { body } = req
     if (
-        !body.parentId || 
+        !body.parentName || 
         !body.pageName ||
         !body.type
     ) {
         return fourHunnid(res)
     }
-    const { parentId, pageName, type} = body;
-    const messageResponse =  await notionPageServices.createPage(notion, pages, parentId, pageName, type);
+    const { parentName, pageName, type} = body;
+    const messageResponse =  await notionPageServices.createPage(notion, pages, parentName, pageName, type);
 
     res.status(201).send({ status: "OK", data: {messageResponse} });
 }
@@ -25,12 +25,12 @@ const createPage = async (req, res) => {
 const getPages = async (req, res) => {
     const { body } = req
     if (
-        !body.pageId
+        !body.pageName
     ) {
         return fourHunnid(res)
     }
-    const { pageId } = body
-    const messageResponse =  notionPageServices.getPagesTree(pages, pageId);
+    const { pageName } = body
+    const messageResponse =  notionPageServices.getPagesTree(pages, pageName);
     res.status(201).send({ status: "OK", data: {messageResponse} });
 }
 
@@ -63,7 +63,7 @@ const getChildBlocks = async (req, res) => {
     res.status(201).send({ status: "OK", data: {messageResponse} });
 };
 
-const updateCodeBlock = async (req, res) => { 
+const blockActions = async (req, res) => { 
     const { body } = req
     if (
         !body.command || 
@@ -106,7 +106,7 @@ const pageActions = async (req, res) => {
     const { body } = req
     if (
         !body.command ||
-        !((body.pageId && body.content) || (body.blockId))
+        !((body.pageName && body.content) || (body.blockId))
     ) {
         return fourHunnid(res);
     }
@@ -119,10 +119,10 @@ const pageActions = async (req, res) => {
     }
   
     else if (body.command === "ADD BLOCK") { 
-        const pageId = body.pageId
+        const pageName = body.pageName
         const content = body.content
-        console.log(pageId, content)
-        messageResponse =  await notionBlockServices.addBlock(pages, pageId, content);
+        console.log(pageName, content)
+        messageResponse =  await notionBlockServices.addBlock(pages, pageName, content);
         console.log(messageResponse)
     }
 
@@ -197,6 +197,6 @@ export default {
     getChildBlocks,
     getBlockCode,
     deleteBlock, 
-    updateCodeBlock, 
+    blockActions, 
     pageActions
 };

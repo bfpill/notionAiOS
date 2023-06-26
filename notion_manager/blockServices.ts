@@ -87,17 +87,17 @@ async function getBlock(blockId: string): Promise<Block> {
     })
 }
 
-async function addBlock(pages: PageTree, pageName: string, code: string): Promise<{worked: boolean, message: any}>{
+async function addBlock(pages: PageTree, pageName: string, code: string): Promise<{ worked: boolean, message: any }> {
     const page: Page | undefined = pages.getNodeByName(pageName)
-    if(!page){
-        return { worked: false, message: { error: ("No page with name: " + pageName) }}
+    if (!page) {
+        return { worked: false, message: { error: ("No page with name: " + pageName) } }
     }
 
     const id = page.id
     const language: any = page.type
 
-    try { 
-        const messageResponse =  await notion.blocks.children.append({
+    try {
+        const messageResponse = await notion.blocks.children.append({
             block_id: id,
             children: [
                 {
@@ -117,23 +117,23 @@ async function addBlock(pages: PageTree, pageName: string, code: string): Promis
                 }
             ],
         })
-        return { worked: true, message: { blockId : messageResponse.results[0].id, content: messageResponse.results[0]["code"].rich_text[0].text.content }};
-    } catch (e: any){
-        return { worked: false, message: { error: e }};
+        return { worked: true, message: { blockId: messageResponse.results[0].id, content: messageResponse.results[0]["code"].rich_text[0].text.content } };
+    } catch (e: any) {
+        return { worked: false, message: { error: e } };
     }
 }
 
-async function deleteBlock(blockId: string): Promise<{worked: boolean, message: any}> {
-    try { 
+async function deleteBlock(blockId: string): Promise<{ worked: boolean, message: any }> {
+    try {
         await notion.blocks.delete({
             block_id: blockId
         })
-    } catch (e: any){
-        return { worked: false, message: e};
+    } catch (e: any) {
+        return { worked: false, message: e };
     }
 
     return { worked: true, message: ("Block " + blockId + " deleted") };
-}      
+}
 
 async function replaceCodeBlockLines(blockId: string, codeToInsert: string, startLine: number, endLine: number): Promise<any> {
     const oldCode = await getBlockAsArray(blockId)
@@ -176,7 +176,13 @@ async function deleteCodeBlockLines(blockId: string, startLine: number, endLine:
 }
 
 export default {
-    updateProperty, getChildBlocks, updateCodeBlock,
-    getBlock, getBlockAsArray, replaceCodeBlockLines,
-    deleteBlock, deleteCodeBlockLines, addBlock, 
+    updateProperty,
+    getChildBlocks,
+    updateCodeBlock,
+    getBlock,
+    getBlockAsArray,
+    replaceCodeBlockLines,
+    deleteBlock,
+    deleteCodeBlockLines,
+    addBlock,
 }
