@@ -1,0 +1,73 @@
+[debug] [2023-06-26T04:30:57.147Z] ----------------------------------------------------------------------
+[debug] [2023-06-26T04:30:57.150Z] Command:       /Users/maxadam/.nvm/versions/node/v18.0.0/bin/node /usr/local/bin/firebase init
+[debug] [2023-06-26T04:30:57.151Z] CLI Version:   12.4.0
+[debug] [2023-06-26T04:30:57.151Z] Platform:      darwin
+[debug] [2023-06-26T04:30:57.151Z] Node Version:  v18.0.0
+[debug] [2023-06-26T04:30:57.153Z] Time:          Mon Jun 26 2023 14:30:57 GMT+1000 (Australian Eastern Standard Time)
+[debug] [2023-06-26T04:30:57.153Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-06-26T04:30:57.163Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-06-26T04:30:57.164Z] > authorizing via signed-in user (max@v3rv.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/maxadam/Desktop/Code/notionOS
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2023-06-26T04:31:20.177Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2023-06-26T04:31:21.281Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2023-06-26T04:31:21.281Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project v3rv-notionaios (NotionAiOS) 
+[info] 
+=== Functions Setup
+[debug] [2023-06-26T04:31:23.186Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-06-26T04:31:23.186Z] > authorizing via signed-in user (max@v3rv.com)
+[debug] [2023-06-26T04:31:23.187Z] [iam] checking project v3rv-notionaios for permissions ["firebase.projects.get"]
+[debug] [2023-06-26T04:31:23.188Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/v3rv-notionaios:testIamPermissions [none]
+[debug] [2023-06-26T04:31:23.188Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/v3rv-notionaios:testIamPermissions x-goog-quota-user=projects/v3rv-notionaios
+[debug] [2023-06-26T04:31:23.188Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/v3rv-notionaios:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-06-26T04:31:24.445Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/v3rv-notionaios:testIamPermissions 200
+[debug] [2023-06-26T04:31:24.445Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/v3rv-notionaios:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-06-26T04:31:24.446Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com [none]
+[debug] [2023-06-26T04:31:24.447Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/v3rv-notionaios
+[debug] [2023-06-26T04:31:24.449Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/runtimeconfig.googleapis.com [none]
+[debug] [2023-06-26T04:31:24.449Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/v3rv-notionaios
+[debug] [2023-06-26T04:31:26.087Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/runtimeconfig.googleapis.com 200
+[debug] [2023-06-26T04:31:26.088Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2023-06-26T04:31:26.089Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com 200
+[debug] [2023-06-26T04:31:26.089Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com [omitted]
+[debug] [2023-06-26T04:31:26.089Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com:enable [none]
+[debug] [2023-06-26T04:31:26.089Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com:enable x-goog-quota-user=projects/v3rv-notionaios
+[debug] [2023-06-26T04:31:27.882Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com:enable 200
+[debug] [2023-06-26T04:31:27.882Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com:enable [omitted]
+[debug] [2023-06-26T04:31:37.883Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com [none]
+[debug] [2023-06-26T04:31:37.884Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/v3rv-notionaios
+[debug] [2023-06-26T04:31:38.535Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com 200
+[debug] [2023-06-26T04:31:38.535Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com [omitted]
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[info] ✔  Wrote functions/package.json 
+[info] ✔  Wrote functions/.eslintrc.js 
+[info] ✔  Wrote functions/tsconfig.json 
+[info] ✔  Wrote functions/tsconfig.dev.json 
+[info] ✔  Wrote functions/src/index.ts 
+[info] ✔  Wrote functions/.gitignore 
