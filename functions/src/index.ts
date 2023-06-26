@@ -22,8 +22,6 @@ exports.generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(a
 
     createDownloadable(json, tmpdir);
 
-    console.log("Downloadable created")
-
     const zip = new JSZip();
     const zipPath = path.join(tmpdir, 'files.zip');
 
@@ -38,10 +36,7 @@ exports.generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(a
         destination: `user_files/files.zip`,
     });
 
-    console.log("Bucket created")
     const url = file.metadata.mediaLink;
-
-    console.log("Url made: " + url)
 
     return { url }; 
 });
@@ -72,8 +67,6 @@ interface PageNode {
 const createFilesAndFolders = (node: PageNode, currentPath: string = '.') => {
 
     if (node !== undefined) {
-        console.log("Node Name: " + node.name)
-        console.log("Current Path: " + currentPath)
         const newPath = path.join(currentPath, node.name);
 
         if (node.type === 'folder') {
@@ -93,8 +86,6 @@ const createFilesAndFolders = (node: PageNode, currentPath: string = '.') => {
 };
 
 function createDownloadable(jsonTree: any, currentPath: string) {
-    console.log("TREE: ")
-    console.log(jsonTree)
     createFilesAndFolders(jsonTree, currentPath)
 }
 
