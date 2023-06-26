@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 const os = require('os');
 const path = require('path');
 const fs = require('fs');
-const archiver = require('archiver');
+const JSZip = require('jszip');
 const { Storage: GCloudStorage } = require('@google-cloud/storage');
 
 admin.initializeApp();
@@ -24,49 +24,42 @@ exports.generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(a
 
     console.log("Downloadable created")
 
+    const zip = new JSZip();
     const zipPath = path.join(tmpdir, 'files.zip');
-    const output = fs.createWriteStream(zipPath);
-    const archive = archiver('zip');
-    archive.pipe(output);
 
-    // Listen for the 'entry' event
-    archive.on('entry', (entry: any) => {
-        console.log(`Appended file: ${entry.name}`);
-    });
+    await addDirToZip(tmpdir, zip);
 
-    // Listen for the 'error' event
-    archive.on('error', (err: any) => {
-        console.error(`Archiver error: ${err}`);
-    });
+    const content = await zip.generateAsync({type:"nodebuffer"});
 
-    archive.directory(tmpdir, false);
+    fs.writeFileSync(zipPath, content);
 
-    // Wait for the 'end' event before calling archive.finalize()
-    archive.on('end', async () => {
-        console.log('Archiver finished appending files');
-        await archive.finalize();
-        console.log('Archiver finalized');
-    })
-
-    console.log("archiver finalized")
     const bucket = admin.storage().bucket();
-    await bucket.upload(zipPath, {
+    const [file] = await bucket.upload(zipPath, {
         destination: `user_files/files.zip`,
     });
 
-
     console.log("Bucket created")
-    // Generate download URL
-    const file = bucket.file(`user_files/files.zip`);
-    const [url] = await file.getSignedUrl({
-        action: 'read',
-        expires: Date.now() + 1000 * 60 * 60, // 1 hour expiration
-    });
+    const url = file.metadata.mediaLink;
 
     console.log("Url made: " + url)
 
-    return { url };
+    return { url }; 
 });
+
+async function addDirToZip(dir: any, zip: any) {
+    const files = fs.readdirSync(dir);
+    for (const file of files) {
+        const fullPath = path.join(dir, file);
+        const stat = fs.statSync(fullPath);
+        if (stat.isFile()) {
+            const data = fs.readFileSync(fullPath);
+            zip.file(file, data);
+        } else if (stat.isDirectory()) {
+            const subdir = zip.folder(file);
+            await addDirToZip(fullPath, subdir);
+        }
+    }
+}
 
 interface PageNode {
     name: string;
@@ -104,3 +97,4 @@ function createDownloadable(jsonTree: any, currentPath: string) {
     console.log(jsonTree)
     createFilesAndFolders(jsonTree, currentPath)
 }
+
