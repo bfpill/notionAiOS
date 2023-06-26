@@ -13,6 +13,6 @@ router.post("/pages", notionController.createPage)
 
 router.post("/filetree", notionController.getPages)
 
-router.get("/downloadLink", notionController.getDownloadLink)
+router.post("/downloadLink", notionController.getDownloadLink)
 // Export router
 export default router;

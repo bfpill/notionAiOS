@@ -55,9 +55,26 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/GetPagesRequest'
+  /downloadLink: 
+    post:
+      operationId: downloadProject
+      summary: Get a download link for a zip of the current project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetDownloadLinkRequest'
 
 components:
   schemas:
+    GetDownloadLinkRequest: 
+      type: object
+      required: 
+        - name
+      properties: 
+        name:
+          type: string, 
+          description: What you want the zip file to be called
     GetBlocksRequest: 
       type: object
       required:

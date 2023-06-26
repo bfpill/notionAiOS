@@ -15,10 +15,13 @@ exports.generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(a
 
     const tmpdir = path.join(os.tmpdir(), 'notion-ai-os'); // Create a new directory within the system's temporary directory
 
-    // Create the directory if it doesn't exist
-    if (!fs.existsSync(tmpdir)) {
-        fs.mkdirSync(tmpdir);
+    if (fs.existsSync(tmpdir)) {
+        fs.rmdirSync(tmpdir, {
+            recursive: true,
+        })
     }
+    
+    fs.mkdirSync(tmpdir);
 
     createDownloadable(json, tmpdir);
 
@@ -38,9 +41,19 @@ exports.generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(a
     });
 
     const url = file.metadata.mediaLink;
-
+    
     return { url }; 
 });
+
+async function cleanUpTempDir(tmpdir: string){
+    try{ 
+        fs.rmdirSync(tmpdir, {
+            recursive: true,
+        })
+    } catch (e: any){
+        console.log("fuck shit fuck bad error: " + e)
+    }
+}
 
 async function addDirToZip(dir: any, zip: any) {
     const files = fs.readdirSync(dir);

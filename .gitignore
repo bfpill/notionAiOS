@@ -1,3 +1,5 @@
 node_modules
 data/pageTree.json
 .env
+data/pageTree.json
+firebase-debug.log
