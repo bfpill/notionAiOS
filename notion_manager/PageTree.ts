@@ -55,7 +55,7 @@ class PageTree {
         if (parentName) {
             console.log("Found parent node")
             const parentNode = this.findNodeByName(this.tree, parentName);
-            if (parentNode !== "Name does not exist.") {
+            if (parentNode) {
                 parentNode.children = parentNode.children || [];
                 parentNode.children.push(page);
             }
@@ -83,7 +83,7 @@ class PageTree {
         this.updateJSON();
     }
 
-    getNodeByName(name: string): Page | "Name does not exist." {
+    getNodeByName(name: string): Page | undefined {
         return this.findNodeByName(this.tree, name);
     }
 
@@ -102,7 +102,7 @@ class PageTree {
         return undefined;
     }
 
-    findNodeByName(nodes: Page[], name: string): Page | "Name does not exist." {
+    findNodeByName(nodes: Page[], name: string): Page | undefined {
         if (nodes.length > 0) {
             for (const node of nodes) {
                 if (node.name === name) {
@@ -117,7 +117,7 @@ class PageTree {
             }
         }
         console.log("No nodes!!")
-        return "Name does not exist."
+        return undefined; 
     }
 
     findParentNode(nodes: Page[], targetNode: Page): Page | undefined {
@@ -153,7 +153,10 @@ class PageTree {
             }
         }
         else {
+            //we hit this else when we are passing in a page as the root node
             if (nodes.children) {
+                const indentation = this.leftpad(level);
+                console.log(`${indentation}${nodes.name}${this.getExtension(nodes)}`);
                 this.printTree(nodes.children, level + 1);
             }
         }
@@ -181,4 +184,4 @@ class PageTree {
     }
 }
 
-export default PageTree;
+export { PageTree, Page }

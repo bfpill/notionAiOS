@@ -1,5 +1,5 @@
 import { Client } from "@notionhq/client";
-import PageTree from "./PageTree";
+import { PageTree, Page }from "./PageTree";
 
 const DATABASEID = "244fbd23-36dc-46d5-a261-2c7dc9609f67"
 const folderIconURL = "https://icon-library.com/images/black-and-white-folder-icon/black-and-white-folder-icon-5.jpg"
@@ -12,16 +12,16 @@ async function createPage(notion: Client, pages: PageTree, parentId: string, pag
 
     let response;
 
-    if (pages.getNodeByName(pageName) !== "Name does not exist.") {
+    if (pages.getNodeByName(pageName)) {
         return { Error: "Page name already exists, no duplicates please" };
     }
 
-    if (pages.getNodeByName(parentId) !== "Name does not exist.") {
-        parentId = pages.getNodeByName(parentId)["id"]
+    if (pages.getNodeByName(parentId)) {
+        parentId = (pages.getNodeByName(parentId) as Page).id
     }
 
     let parentName = pages.getNodeById(parentId)?.name
-    //Quality of life, may be something to tell the AI about, maybe not
+    
     if (IDisRoot(parentId)) {
         console.log("adding to root")
         response = await notion.pages.create({

@@ -1,7 +1,7 @@
 import { extractCode, toArray, deleteLines, insertCodeByLine } from "./codeBlockFunctions"
 import { Block } from "./interfaces"
-
-import { getNotion, getDatabaseId } from "./notion";
+import { getNotion } from "./notion";
+import { PageTree, Page } from "./PageTree";
 
 //get from local instance
 const notion = getNotion()
@@ -72,7 +72,6 @@ async function updateCodeBlock(blockId: string, code: string) {
                         },
                     }
                 ],
-                "language": "javascript"
             }
         })
         return response;
@@ -88,10 +87,18 @@ async function getBlock(blockId: string): Promise<Block> {
     })
 }
 
-async function addBlock(pageId: string, code: string, language: any) {
+async function addBlock(pages: PageTree, pageName: string, code: string): Promise<{worked: boolean, message: any}>{
+    const page: Page | undefined = pages.getNodeByName(pageName)
+    if(!page){
+        return { worked: false, message: { error: ("No page with name: " + pageName) }}
+    }
+
+    const id = page.id
+    const language: any = page.type
+
     try { 
         const messageResponse =  await notion.blocks.children.append({
-            block_id: pageId,
+            block_id: id,
             children: [
                 {
                     //...other keys excluded
@@ -105,28 +112,28 @@ async function addBlock(pageId: string, code: string, language: any) {
                                 "content": code
                             }
                         }],
-                        language: language.toLowerCase()
+                        language: language
                     }
                 }
             ],
         })
-        console.log({ id: messageResponse.results[0].id, content: messageResponse.results[0]["code"].rich_text[0].text.content})
-        return { blockId : messageResponse.results[0].id, content: messageResponse.results[0]["code"] }
+        return { worked: true, message: { blockId : messageResponse.results[0].id, content: messageResponse.results[0]["code"].rich_text[0].text.content }};
     } catch (e: any){
-        return {"Error" : e}
+        return { worked: false, message: { error: e }};
     }
-    
-
-   
 }
 
-async function deleteBlock(blockId: string): Promise<string> {
-    await notion.blocks.delete({
-        block_id: blockId
-    })
+async function deleteBlock(blockId: string): Promise<{worked: boolean, message: any}> {
+    try { 
+        await notion.blocks.delete({
+            block_id: blockId
+        })
+    } catch (e: any){
+        return { worked: false, message: e};
+    }
 
-    return "Block " + blockId + " deleted";
-}
+    return { worked: true, message: ("Block " + blockId + " deleted") };
+}      
 
 async function replaceCodeBlockLines(blockId: string, codeToInsert: string, startLine: number, endLine: number): Promise<any> {
     const oldCode = await getBlockAsArray(blockId)
