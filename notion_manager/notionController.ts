@@ -1,6 +1,6 @@
 import notionBlockServices from "./blockServices";
 import notionPageServices from "./pageServices";
-import PageTree from "./PageTree";
+import { PageTree } from "./PageTree";
 import { getNotion } from "./notion";
 
 //get from local instance
@@ -30,7 +30,7 @@ const getPages = async (req, res) => {
         return fourHunnid(res)
     }
     const { pageId } = body
-    const messageResponse =  await notionPageServices.getPagesTree(pages, pageId);
+    const messageResponse =  notionPageServices.getPagesTree(pages, pageId);
     res.status(201).send({ status: "OK", data: {messageResponse} });
 }
 
@@ -106,12 +106,12 @@ const pageActions = async (req, res) => {
     const { body } = req
     if (
         !body.command ||
-        !((body.pageId && body.content && body.language) || (body.blockId))
+        !((body.pageId && body.content) || (body.blockId))
     ) {
         return fourHunnid(res);
     }
 
-    let messageResponse: any;
+    let messageResponse: {worked: boolean, message: {}};
 
     if(body.command === "DELETE BLOCK") { 
         const blockId = body.blockId
@@ -121,20 +121,20 @@ const pageActions = async (req, res) => {
     else if (body.command === "ADD BLOCK") { 
         const pageId = body.pageId
         const content = body.content
-        const language = body.language
         console.log(pageId, content)
-        messageResponse =  await notionBlockServices.addBlock(pageId, content, language);
+        messageResponse =  await notionBlockServices.addBlock(pages, pageId, content);
+        console.log(messageResponse)
     }
 
     else { 
-        messageResponse =  {completed: false, result: "Could not parse command"}
+        messageResponse = { worked: false, message: { error: "Could not parse command" }}
     }
 
-    if(messageResponse[0]){
+    if(messageResponse.worked){
         res.status(201).send({ status: "OK", data: {messageResponse} });
     }
 
-    else if (!messageResponse[0]){
+    else{
         res.status(201).send({ status: "Error", data: {messageResponse} });
     }
 }
