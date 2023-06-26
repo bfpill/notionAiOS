@@ -2,29 +2,32 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
-const filename = 'pageTree.json';
 
-const currentModuleUrl = import.meta.url;
-const currentModulePath = fileURLToPath(currentModuleUrl);
-const parentDirPath = path.dirname(path.dirname(currentModulePath));
-const dataFolderPath = path.join(parentDirPath, 'data');
-const fullPath = path.join(dataFolderPath, filename);
-const jsonData = fs.readFileSync(fullPath, 'utf8');
+let fullPath: string;
+function parseFromTree(filename: string = 'pageTree.json'): any {
+    const currentModuleUrl = import.meta.url;
+    const currentModulePath = fileURLToPath(currentModuleUrl);
+    const parentDirPath = path.dirname(path.dirname(currentModulePath));
+    const dataFolderPath = path.join(parentDirPath, 'data');
+    fullPath = path.join(dataFolderPath, filename);
+    const jsonData = fs.readFileSync(fullPath, 'utf8');
 
-let jsonTree;
-
-try{    
-    jsonTree = JSON.parse(jsonData);
+    try {
+        return JSON.parse(jsonData);
+    }
+    catch (e: any) {
+        return JSON.parse("[]")
+    }
 }
-catch(e: any){
-    jsonTree = JSON.parse("[]")
-}
+
+const jsonTree = parseFromTree()
 
 interface Page {
     name: string;
     id: string;
     type?: string;
     children?: Page[];
+    content?: any
 }
 
 class PageTree {
@@ -117,7 +120,7 @@ class PageTree {
             }
         }
         console.log("No nodes!!")
-        return undefined; 
+        return undefined;
     }
 
     findParentNode(nodes: Page[], targetNode: Page): Page | undefined {
@@ -138,6 +141,11 @@ class PageTree {
     updateJSON() {
         const updatedJSONData = JSON.stringify(this.tree);
         fs.writeFileSync(fullPath, updatedJSONData, 'utf8');
+    }
+
+    updatePage(page: Page, content: string) {
+        page.content = content;
+        this.updateJSON();
     }
 
     printTree(nodes: any = this.tree, level = 0) {
@@ -186,4 +194,4 @@ class PageTree {
     }
 }
 
-export { PageTree, Page }
+export { parseFromTree, PageTree, Page }

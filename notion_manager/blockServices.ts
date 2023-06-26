@@ -88,7 +88,7 @@ async function getBlock(blockId: string): Promise<Block> {
 }
 
 async function addBlock(pages: PageTree, pageName: string, code: string): Promise<{ worked: boolean, message: any }> {
-    const page: Page | undefined = pages.getNodeByName(pageName)
+    let page: Page | undefined = pages.getNodeByName(pageName)
     if (!page) {
         return { worked: false, message: { error: ("No page with name: " + pageName) } }
     }
@@ -117,6 +117,10 @@ async function addBlock(pages: PageTree, pageName: string, code: string): Promis
                 }
             ],
         })
+
+        pages.updatePage(page, code)
+
+        console.log(page)
         return { worked: true, message: { blockId: messageResponse.results[0].id, content: messageResponse.results[0]["code"].rich_text[0].text.content } };
     } catch (e: any) {
         return { worked: false, message: { error: e } };
@@ -151,11 +155,6 @@ async function replaceCodeBlockLines(blockId: string, codeToInsert: string, star
     }
     return result;
 
-}
-
-async function insertCode(blockId: string, codeToInsert: string, line: number) {
-    const oldCode = await getBlockAsArray(blockId)
-    insertCodeByLine(oldCode, codeToInsert, line)
 }
 
 async function getBlockAsArray(blockId: string): Promise<Array<string>> {
