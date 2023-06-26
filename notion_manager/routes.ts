@@ -4,14 +4,14 @@ import notionController from "./notionController"
 
 const router = express.Router();
 
-router.get("/codeBlock", notionController.getBlockCode);
 router.post("/pageActions", notionController.pageActions);
-router.delete("/", notionController.deleteBlock);
 
-router.post("/codeBlock", notionController.updateCodeBlock);
+router.post("/blockActions", notionController.blockActions);
+router.get("/blockActions", notionController.getBlockCode);
 
 router.post("/pages", notionController.createPage)
-router.get("/pages", notionController.getPages)
+
+router.post("/filetree", notionController.getPages)
 
 // Export router
 export default router;
