@@ -1,73 +1,139 @@
-[debug] [2023-06-26T04:30:57.147Z] ----------------------------------------------------------------------
-[debug] [2023-06-26T04:30:57.150Z] Command:       /Users/maxadam/.nvm/versions/node/v18.0.0/bin/node /usr/local/bin/firebase init
-[debug] [2023-06-26T04:30:57.151Z] CLI Version:   12.4.0
-[debug] [2023-06-26T04:30:57.151Z] Platform:      darwin
-[debug] [2023-06-26T04:30:57.151Z] Node Version:  v18.0.0
-[debug] [2023-06-26T04:30:57.153Z] Time:          Mon Jun 26 2023 14:30:57 GMT+1000 (Australian Eastern Standard Time)
-[debug] [2023-06-26T04:30:57.153Z] ----------------------------------------------------------------------
+[debug] [2023-06-26T06:05:19.884Z] ----------------------------------------------------------------------
+[debug] [2023-06-26T06:05:19.886Z] Command:       /Users/maxadam/.nvm/versions/node/v18.0.0/bin/node /usr/local/bin/firebase emulators:start
+[debug] [2023-06-26T06:05:19.886Z] CLI Version:   12.4.0
+[debug] [2023-06-26T06:05:19.887Z] Platform:      darwin
+[debug] [2023-06-26T06:05:19.887Z] Node Version:  v18.0.0
+[debug] [2023-06-26T06:05:19.888Z] Time:          Mon Jun 26 2023 16:05:19 GMT+1000 (Australian Eastern Standard Time)
+[debug] [2023-06-26T06:05:19.888Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2023-06-26T04:30:57.163Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2023-06-26T04:30:57.164Z] > authorizing via signed-in user (max@v3rv.com)
+[debug] [2023-06-26T06:05:20.076Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-06-26T06:05:20.076Z] > authorizing via signed-in user (max@v3rv.com)
+[debug] [2023-06-26T06:05:20.318Z] openjdk version "11.0.17" 2022-10-18
+
+[debug] [2023-06-26T06:05:20.319Z] OpenJDK Runtime Environment Temurin-11.0.17+8 (build 11.0.17+8)
+OpenJDK 64-Bit Server VM Temurin-11.0.17+8 (build 11.0.17+8, mixed mode)
+
+[debug] [2023-06-26T06:05:20.325Z] Parsed Java major version: 11
+[info] i  emulators: Starting emulators: functions, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions, storage"}}
+[debug] [2023-06-26T06:05:21.849Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-06-26T06:05:21.850Z] [storage] Storage Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[warn] ⚠  ui: Emulator UI unable to start on port 4000, starting on 4001 instead. {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI unable to start on port 4000, starting on 4001 instead."}}
+[debug] [2023-06-26T06:05:21.850Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4001},{"address":"::1","family":"IPv6","port":4001}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2023-06-26T06:05:21.878Z] [hub] writing locator at /var/folders/q_/sys0lmm9567_nr7sq_0m31jh0000gp/T/hub-v3rv-notionaios.json
+[debug] [2023-06-26T06:05:22.537Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-06-26T06:05:22.537Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-06-26T06:05:22.537Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4001},{"address":"::1","family":"IPv6","port":4001}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: auth, firestore, database, hosting, pubsub {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mauth, firestore, database, hosting, pubsub\u001b[22m"}}
+[debug] [2023-06-26T06:05:22.554Z] defaultcredentials: writing to file /Users/maxadam/.config/firebase/max_v3rv_com_application_default_credentials.json
+[debug] [2023-06-26T06:05:22.557Z] Setting GAC to /Users/maxadam/.config/firebase/max_v3rv_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/maxadam/.config/firebase/max_v3rv_com_application_default_credentials.json"}}
+[debug] [2023-06-26T06:05:22.560Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/v3rv-notionaios/adminSdkConfig [none]
+[debug] [2023-06-26T06:05:23.562Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/v3rv-notionaios/adminSdkConfig 200
+[debug] [2023-06-26T06:05:23.562Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/v3rv-notionaios/adminSdkConfig {"projectId":"v3rv-notionaios","storageBucket":"v3rv-notionaios.appspot.com","locationId":"us-central"}
+[debug] [2023-06-26T06:05:23.623Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2023-06-26T06:05:25.017Z] Temp file directory for storage emulator: /var/folders/q_/sys0lmm9567_nr7sq_0m31jh0000gp/T/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: /var/folders/q_/sys0lmm9567_nr7sq_0m31jh0000gp/T/firebase/storage/blobs"}}
+[debug] [2023-06-26T06:05:25.053Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-06-26T06:05:25.053Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2023-06-26T06:05:25.053Z] Starting Emulator UI with command {"binary":"node","args":["/Users/maxadam/.cache/firebase/emulators/ui-v1.11.6/server/server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"/Users/maxadam/.cache/firebase/emulators/ui-v1.11.6/server/server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
+[debug] [2023-06-26T06:05:25.217Z] Web / API server started at 127.0.0.1:4001
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 127.0.0.1:4001\n"}}
+[debug] [2023-06-26T06:05:25.217Z] Web / API server started at ::1:4001
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at ::1:4001\n"}}
+[info] i  functions: Watching "/Users/maxadam/Desktop/Code/notionOS/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/Users/maxadam/Desktop/Code/notionOS/functions\" for Cloud Functions..."}}
+[debug] [2023-06-26T06:05:25.321Z] Validating nodejs source
+[debug] [2023-06-26T06:05:26.259Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-26T06:05:26.260Z] Building nodejs source
+[debug] [2023-06-26T06:05:26.260Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-26T06:05:26.264Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-26T06:05:26.275Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-26T06:05:26.572Z] Serving at port 8488
+
+[debug] [2023-06-26T06:05:27.109Z] Got response from /__/functions.yaml {"endpoints":{"generateFiles":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"generateFiles"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-06-26T06:05:27.117Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: generateFiles. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: generateFiles."}}
+[info] ✔  functions[us-central1-generateFiles]: http function initialized (http://127.0.0.1:5001/v3rv-notionaios/us-central1/generateFiles). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/v3rv-notionaios/us-central1/generateFiles)."}}
 [info] 
-     ######## #### ########  ######## ########     ###     ######  ########
-     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
-     ######    ##  ########  ######   ########  #########  ######  ######
-     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
-     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4001/               │
+└─────────────────────────────────────────────────────────────┘
 
-You're about to initialize a Firebase project in this directory:
+┌───────────┬────────────────┬─────────────────────────────────┐
+│ Emulator  │ Host:Port      │ View in Emulator UI             │
+├───────────┼────────────────┼─────────────────────────────────┤
+│ Functions │ 127.0.0.1:5001 │ http://127.0.0.1:4001/functions │
+├───────────┼────────────────┼─────────────────────────────────┤
+│ Storage   │ 127.0.0.1:9199 │ http://127.0.0.1:4001/storage   │
+└───────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500
 
-  /Users/maxadam/Desktop/Code/notionOS
-
-[info] 
-=== Project Setup
-[info] 
-[info] First, let's associate this project directory with a Firebase project.
-[info] You can create multiple project aliases by running firebase use --add, 
-[info] but for now we'll just set up a default project.
-[info] 
-[debug] [2023-06-26T04:31:20.177Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
-[debug] [2023-06-26T04:31:21.281Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
-[debug] [2023-06-26T04:31:21.281Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
-[info] i  Using project v3rv-notionaios (NotionAiOS) 
-[info] 
-=== Functions Setup
-[debug] [2023-06-26T04:31:23.186Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2023-06-26T04:31:23.186Z] > authorizing via signed-in user (max@v3rv.com)
-[debug] [2023-06-26T04:31:23.187Z] [iam] checking project v3rv-notionaios for permissions ["firebase.projects.get"]
-[debug] [2023-06-26T04:31:23.188Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/v3rv-notionaios:testIamPermissions [none]
-[debug] [2023-06-26T04:31:23.188Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/v3rv-notionaios:testIamPermissions x-goog-quota-user=projects/v3rv-notionaios
-[debug] [2023-06-26T04:31:23.188Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/v3rv-notionaios:testIamPermissions {"permissions":["firebase.projects.get"]}
-[debug] [2023-06-26T04:31:24.445Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/v3rv-notionaios:testIamPermissions 200
-[debug] [2023-06-26T04:31:24.445Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/v3rv-notionaios:testIamPermissions {"permissions":["firebase.projects.get"]}
-[debug] [2023-06-26T04:31:24.446Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com [none]
-[debug] [2023-06-26T04:31:24.447Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/v3rv-notionaios
-[debug] [2023-06-26T04:31:24.449Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/runtimeconfig.googleapis.com [none]
-[debug] [2023-06-26T04:31:24.449Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/v3rv-notionaios
-[debug] [2023-06-26T04:31:26.087Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/runtimeconfig.googleapis.com 200
-[debug] [2023-06-26T04:31:26.088Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/runtimeconfig.googleapis.com [omitted]
-[debug] [2023-06-26T04:31:26.089Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com 200
-[debug] [2023-06-26T04:31:26.089Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com [omitted]
-[debug] [2023-06-26T04:31:26.089Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com:enable [none]
-[debug] [2023-06-26T04:31:26.089Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com:enable x-goog-quota-user=projects/v3rv-notionaios
-[debug] [2023-06-26T04:31:27.882Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com:enable 200
-[debug] [2023-06-26T04:31:27.882Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com:enable [omitted]
-[debug] [2023-06-26T04:31:37.883Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com [none]
-[debug] [2023-06-26T04:31:37.884Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/v3rv-notionaios
-[debug] [2023-06-26T04:31:38.535Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com 200
-[debug] [2023-06-26T04:31:38.535Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/v3rv-notionaios/services/cloudfunctions.googleapis.com [omitted]
-[info] Let's create a new codebase for your functions.
-[info] A directory corresponding to the codebase will be created in your project
-[info] with sample code pre-configured.
-
-[info] See https://firebase.google.com/docs/functions/organize-functions for
-[info] more information on organizing your functions using codebases.
-
-[info] Functions can be deployed with firebase deploy.
-
-[info] ✔  Wrote functions/package.json 
-[info] ✔  Wrote functions/.eslintrc.js 
-[info] ✔  Wrote functions/tsconfig.json 
-[info] ✔  Wrote functions/tsconfig.dev.json 
-[info] ✔  Wrote functions/src/index.ts 
-[info] ✔  Wrote functions/.gitignore 
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2023-06-26T06:05:57.568Z] [work-queue] {"queuedWork":["/v3rv-notionaios/us-central1/generateFiles-2023-06-26T06:05:57.568Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2023-06-26T06:05:57.568Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/v3rv-notionaios/us-central1/generateFiles-2023-06-26T06:05:57.568Z"],"workRunningCount":1}
+[debug] [2023-06-26T06:05:57.569Z] Accepted request POST /v3rv-notionaios/us-central1/generateFiles --> us-central1-generateFiles
+[debug] [2023-06-26T06:05:57.584Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2023-06-26T06:05:57.585Z] [functions] Got req.url=/v3rv-notionaios/us-central1/generateFiles, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/v3rv-notionaios/us-central1/generateFiles, mapping to path=/"}}
+[debug] [2023-06-26T06:05:57.595Z] [worker-pool] addWorker(us-central1-generateFiles) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-generateFiles)"}}
+[debug] [2023-06-26T06:05:57.596Z] [worker-pool] Adding worker with key us-central1-generateFiles, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-generateFiles, total=1"}}
+[debug] [2023-06-26T06:05:59.153Z] [runtime-status] [1229] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.9.0","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"11.9.0\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2023-06-26T06:05:59.153Z] [runtime-status] [1229] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2023-06-26T06:05:59.154Z] [runtime-status] [1229] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2023-06-26T06:05:59.155Z] [runtime-status] [1229] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2023-06-26T06:05:59.510Z] [runtime-status] [1229] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] Checked functions.config() {\"config\":{}}"}}
+[debug] [2023-06-26T06:05:59.511Z] [runtime-status] [1229] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js\"}}"}}
+[debug] [2023-06-26T06:05:59.511Z] [runtime-status] [1229] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2023-06-26T06:05:59.512Z] [runtime-status] [1229] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.9.0","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"11.9.0\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2023-06-26T06:05:59.515Z] [runtime-status] [1229] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2023-06-26T06:05:59.516Z] [runtime-status] [1229] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"11.9.0","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-admin/lib/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"11.9.0\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-admin/lib/index.js\"}}"}}
+[debug] [2023-06-26T06:05:59.627Z] [runtime-status] [1229] initializeApp(DEFAULT) {"storageBucket":"v3rv-notionaios.appspot.com","projectId":"v3rv-notionaios"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] initializeApp(DEFAULT) {\"storageBucket\":\"v3rv-notionaios.appspot.com\",\"projectId\":\"v3rv-notionaios\"}"}}
+[debug] [2023-06-26T06:05:59.647Z] [runtime-status] [1229] Functions runtime initialized. {"cwd":"/Users/maxadam/Desktop/Code/notionOS/functions","node_version":"18.0.0"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] Functions runtime initialized. {\"cwd\":\"/Users/maxadam/Desktop/Code/notionOS/functions\",\"node_version\":\"18.0.0\"}"}}
+[debug] [2023-06-26T06:05:59.648Z] [runtime-status] [1229] Listening to port: /var/folders/q_/sys0lmm9567_nr7sq_0m31jh0000gp/T/fire_emu_eb047b9a15d704cb.sock {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] Listening to port: /var/folders/q_/sys0lmm9567_nr7sq_0m31jh0000gp/T/fire_emu_eb047b9a15d704cb.sock"}}
+[debug] [2023-06-26T06:05:59.731Z] [worker-us-central1-generateFiles-62a84fc0-1b4b-4467-8fd2-353105cfbf83]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[worker-us-central1-generateFiles-62a84fc0-1b4b-4467-8fd2-353105cfbf83]: IDLE"}}
+[debug] [2023-06-26T06:05:59.731Z] [worker-pool] submitRequest(triggerId=us-central1-generateFiles) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-generateFiles)"}}
+[info] i  functions: Beginning execution of "us-central1-generateFiles" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"Beginning execution of \"us-central1-generateFiles\""}}
+[debug] [2023-06-26T06:05:59.732Z] [worker-us-central1-generateFiles-62a84fc0-1b4b-4467-8fd2-353105cfbf83]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[worker-us-central1-generateFiles-62a84fc0-1b4b-4467-8fd2-353105cfbf83]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2023-06-26T06:05:59.753Z] [runtime-status] [1229] No callable functions auth found {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[runtime-status] [1229] No callable functions auth found"}}
+[debug] [2023-06-26T06:05:59.757Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-generateFiles" in 25.715077ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"Finished \"us-central1-generateFiles\" in 25.715077ms"}}
+[debug] [2023-06-26T06:05:59.758Z] [worker-us-central1-generateFiles-62a84fc0-1b4b-4467-8fd2-353105cfbf83]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"[worker-us-central1-generateFiles-62a84fc0-1b4b-4467-8fd2-353105cfbf83]: IDLE"}}
+[debug] [2023-06-26T06:05:59.758Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2023-06-26T06:05:59.758Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateFiles"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2023-06-26T06:05:59.758Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}

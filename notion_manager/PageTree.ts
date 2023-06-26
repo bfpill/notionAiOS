@@ -2,7 +2,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
-
 let fullPath: string;
 function parseFromTree(filename: string = 'pageTree.json'): any {
     const currentModuleUrl = import.meta.url;
