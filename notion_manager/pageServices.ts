@@ -105,29 +105,6 @@ async function createPage(notion: Client, pages: PageTree, parentId: string, pag
     return { "pageId": response.id, "pageParent": response.parent };
 }
 
-async function getPage(notion: Client, pageId: string): Promise<any> {
-    const page = await notion.pages.retrieve({
-        page_id: pageId
-    })
-
-    return page
-}
-
-function getPageName(page: any) {
-    try {
-        return page["properties"].Name.title[0].text.content;
-    } catch (e: any) {
-        if (e instanceof TypeError) {
-            try {
-                return page["properties"].title.title[0].text.content;
-            } catch (e: any) {
-                return "Could not get Page name";
-            }
-        }
-    }
-
-}
-
 function IDisRoot(id: string): boolean {
     if (id.toLowerCase() === "root-node") {
         console.log("id" + id)

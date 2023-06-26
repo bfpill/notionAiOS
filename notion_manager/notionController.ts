@@ -30,17 +30,24 @@ const functions = getFunctions(getApp())
 connectFunctionsEmulator(functions, "127.0.0.1", 5001);
 
 const getDownloadLink = async (req, res) => {
-
+    const { body } = req
+    if (
+        !body.name
+    ) {
+        return fourHunnid(res)
+    }
+    const name: string = body.name;
     // Call your Cloud Function
     const generateFiles = httpsCallable(functions, "generateFiles");
-    console.log(pages.tree)
-    generateFiles({ json: pages.tree })
+    try{ 
+        generateFiles({ json: pages.tree, name: name })
         .then((result) => {
             const data = result.data;
-            console.log(data)
+            res.status(201).send({ status: "OK", data: { data } });
         })
-
-    res.status(201).send({ status: "OK", data: { cheese: "cheese" } });
+    } catch (e: any){
+        res.status(201).send({ status: "ERROR", error: { e } });
+    }
 };
 
 const createPage = async (req, res) => {

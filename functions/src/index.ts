@@ -8,10 +8,10 @@ const { Storage: GCloudStorage } = require('@google-cloud/storage');
 
 admin.initializeApp();
 
-exports.generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(async (data: any) => {
+exports.generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(async (props: {json: any, name: string}) => {
 
     // Generate files from JSON data structure
-    const json = data.json[0]
+    const json = props.json[0]
 
     const tmpdir = path.join(os.tmpdir(), 'notion-ai-os'); // Create a new directory within the system's temporary directory
 
@@ -22,8 +22,9 @@ exports.generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(a
 
     createDownloadable(json, tmpdir);
 
+    const zippedName = props.name + '.zip'
     const zip = new JSZip();
-    const zipPath = path.join(tmpdir, 'files.zip');
+    const zipPath = path.join(tmpdir, zippedName );
 
     await addDirToZip(tmpdir, zip);
 
@@ -33,7 +34,7 @@ exports.generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(a
 
     const bucket = admin.storage().bucket();
     const [file] = await bucket.upload(zipPath, {
-        destination: `user_files/files.zip`,
+        destination: `user_files/` + zippedName,
     });
 
     const url = file.metadata.mediaLink;
