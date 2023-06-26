@@ -141,26 +141,28 @@ class PageTree {
     }
 
     printTree(nodes: any = this.tree, level = 0) {
+        let tree = ""
         if (nodes instanceof Array) {
             const sortedNodes = [...nodes].sort((a, b) => a.name.localeCompare(b.name));
 
             for (const node of sortedNodes) {
                 const indentation = this.leftpad(level);
-                console.log(`${indentation}${node.name}${this.getExtension(node)}`);
+                tree += (`${indentation}${node.name}`) + "\n"
                 if (node.children) {
-                    this.printTree(node.children, level + 1);
+                    tree += this.printTree(node.children, level + 1);
                 }
             }
         }
         else {
             //we hit this else when we are passing in a page as the root node
             if (nodes.children) {
-                const indentation = this.leftpad(level);
-                console.log(`${indentation}${nodes.name}${this.getExtension(nodes)}`);
-                this.printTree(nodes.children, level + 1);
+                const indentation = this.leftpad(level)
+                tree += (`${indentation}${nodes.name}`) + "\n"
+                tree += this.printTree(nodes.children, level + 1);
             }
         }
 
+        return tree;
     }
 
     leftpad(indents: number) {

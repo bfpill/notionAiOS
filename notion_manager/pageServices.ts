@@ -138,11 +138,12 @@ function IDisRoot(id: string): boolean {
 
 function getPagesTree (pages: PageTree, rootPageName: string) { 
     if(rootPageName.toLowerCase() === 'root'){
-        pages.printTree()
+        console.log(pages.printTree())
+        return pages.printTree()
     }
     else{ 
         const page = pages.getNodeByName(rootPageName)
-        pages.printTree(page)
+        return pages.printTree(page)
     }
 }
 
