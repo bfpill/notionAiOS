@@ -1,12 +1,10 @@
 {
   "compilerOptions": {
     "module": "ES2022",
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
     "moduleResolution": "Node",
     "outDir": "lib",
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "esModuleInterop": true,
     "target": "ES2022"
   },

@@ -4,9 +4,12 @@ import { fileURLToPath } from 'url';
 
 let fullPath: string;
 function parseFromTree(filename: string = 'pageTree.json'): any {
+
     const currentModuleUrl = import.meta.url;
     const currentModulePath = fileURLToPath(currentModuleUrl);
     const parentDirPath = path.dirname(path.dirname(currentModulePath));
+
+    console.log("parent : " + parentDirPath)
     const dataFolderPath = path.join(parentDirPath, 'data');
     fullPath = path.join(dataFolderPath, filename);
     const jsonData = fs.readFileSync(fullPath, 'utf8');

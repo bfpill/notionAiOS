@@ -1,3 +1,4 @@
 import { generateFiles } from "./generateFiles.js"
+import { api } from "./api.js"
 
-export { generateFiles }
+export { generateFiles, api }
