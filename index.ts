@@ -6,7 +6,6 @@ import * as dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 
-
 // Get environment variables
 dotenv.config() 
 
@@ -15,7 +14,7 @@ import routes from "./notion_manager/routes"
 
 // Create Express app
 const app = express();
-const PORT = process.env.PORT || 4000; 
+const PORT = process.env.PORT || 5023; 
 
 // Set up middleware
 const corsOptions = {

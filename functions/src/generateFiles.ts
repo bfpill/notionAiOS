@@ -12,7 +12,7 @@ export const generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onC
 
     // Generate files from JSON data structure
     const json = props.json[0]
-
+    
     const tmpdir = path.join(os.tmpdir(), 'notion-ai-os'); // Create a new directory within the system's temporary directory
 
     if (fs.existsSync(tmpdir)) {
@@ -72,10 +72,11 @@ const createFilesAndFolders = (node: PageNode, currentPath: string = '.') => {
 
     if (node !== undefined) {
         const newPath = path.join(currentPath, node.name);
-
+        console.log("found: " + node.name)
         if (node.type === 'folder') {
             if (!fs.existsSync(newPath)) {
                 fs.mkdirSync(newPath);
+                console.log("added dir at: " + newPath)
             }
 
             if (node.children) {
@@ -83,13 +84,14 @@ const createFilesAndFolders = (node: PageNode, currentPath: string = '.') => {
                     createFilesAndFolders(child, newPath);
                 }
             }
-        } else if (node.type === 'javascript') {
+        } else if (node.type !== 'folder') {
             fs.writeFileSync(newPath, node.content || '');
+            console.log("added file at: " + newPath)
         }
     }
 };
 
 function createDownloadable(jsonTree: any, currentPath: string) {
+    console.log(jsonTree)
     createFilesAndFolders(jsonTree, currentPath)
 }
-
