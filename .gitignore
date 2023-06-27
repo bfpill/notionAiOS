@@ -3,3 +3,5 @@ data/pageTree.json
 .env
 data/pageTree.json
 firebase-debug.log
+ui-debug.log
+firebase-debug.log

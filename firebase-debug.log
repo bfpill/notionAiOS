@@ -7598,3 +7598,1451 @@ Require stack:
 [debug] [2023-06-26T08:02:48.496Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/v3rv-notionaios/trigger_multicast {"specversion":"1.0","id":"9e6efe62-a9f9-42f5-91e4-cfd115f1b5e1","type":"google.cloud.storage.object.v1.finalized","source":"//storage.googleapis.com/projects/_/buckets/v3rv-notionaios.appspot.com/objects/user_files/files.zip","time":"2023-06-26T08:02:48.480Z","data":{"kind":"storage#object","name":"user_files/files.zip","bucket":"v3rv-notionaios.appspot.com","generation":"1687766568480","metageneration":"1","contentType":"application/zip","timeCreated":"2023-06-26T08:02:48.480Z","updated":"2023-06-26T08:02:48.480Z","storageClass":"STANDARD","size":"5409","md5Hash":"H+oCqC90qtxCcqwrudjicg==","etag":"RU/Hft2Mfb/qZEJ4TVbfpoAvj/c","crc32c":"YAFujg==","timeStorageClassUpdated":"2023-06-26T08:02:48.480Z","id":"v3rv-notionaios.appspot.com/user_files/files.zip/1687766568480","selfLink":"http://127.0.0.1:9199/storage/v1/b/v3rv-notionaios.appspot.com/o/user_files%2Ffiles.zip","mediaLink":"http://127.0.0.1:9199/download/storage/v1/b/v3rv-notionaios.appspot.com/o/user_files%2Ffiles.zip?generation=1687766568480&alt=media"}}
 [debug] [2023-06-26T08:02:48.498Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/v3rv-notionaios/trigger_multicast 200
 [debug] [2023-06-26T08:02:48.498Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/v3rv-notionaios/trigger_multicast {"status":"multicast_acknowledged"}
+[debug] [2023-06-27T00:21:42.845Z] ----------------------------------------------------------------------
+[debug] [2023-06-27T00:21:42.847Z] Command:       /Users/maxadam/.nvm/versions/node/v18.0.0/bin/node /usr/local/bin/firebase emulators:start
+[debug] [2023-06-27T00:21:42.848Z] CLI Version:   12.4.0
+[debug] [2023-06-27T00:21:42.848Z] Platform:      darwin
+[debug] [2023-06-27T00:21:42.848Z] Node Version:  v18.0.0
+[debug] [2023-06-27T00:21:42.863Z] Time:          Tue Jun 27 2023 10:21:42 GMT+1000 (Australian Eastern Standard Time)
+[debug] [2023-06-27T00:21:42.863Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-06-27T00:21:43.086Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-06-27T00:21:43.087Z] > authorizing via signed-in user (max@v3rv.com)
+[debug] [2023-06-27T00:21:43.422Z] openjdk version "11.0.17" 2022-10-18
+
+[debug] [2023-06-27T00:21:43.423Z] OpenJDK Runtime Environment Temurin-11.0.17+8 (build 11.0.17+8)
+OpenJDK 64-Bit Server VM Temurin-11.0.17+8 (build 11.0.17+8, mixed mode)
+
+[debug] [2023-06-27T00:21:43.428Z] Parsed Java major version: 11
+[info] i  emulators: Starting emulators: functions, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions, storage"}}
+[debug] [2023-06-27T00:21:44.809Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-06-27T00:21:44.809Z] [storage] Storage Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-06-27T00:21:44.810Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2023-06-27T00:21:44.850Z] [hub] writing locator at /var/folders/q_/sys0lmm9567_nr7sq_0m31jh0000gp/T/hub-v3rv-notionaios.json
+[debug] [2023-06-27T00:21:45.545Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-06-27T00:21:45.546Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-06-27T00:21:45.546Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: auth, firestore, database, hosting, pubsub {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mauth, firestore, database, hosting, pubsub\u001b[22m"}}
+[debug] [2023-06-27T00:21:45.562Z] defaultcredentials: writing to file /Users/maxadam/.config/firebase/max_v3rv_com_application_default_credentials.json
+[debug] [2023-06-27T00:21:45.567Z] Setting GAC to /Users/maxadam/.config/firebase/max_v3rv_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/maxadam/.config/firebase/max_v3rv_com_application_default_credentials.json"}}
+[debug] [2023-06-27T00:21:45.569Z] > refreshing access token with scopes: []
+[debug] [2023-06-27T00:21:45.571Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-06-27T00:21:45.571Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-06-27T00:21:45.865Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-06-27T00:21:45.865Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-06-27T00:21:45.916Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/v3rv-notionaios/adminSdkConfig [none]
+[debug] [2023-06-27T00:21:46.417Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/v3rv-notionaios/adminSdkConfig 200
+[debug] [2023-06-27T00:21:46.417Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/v3rv-notionaios/adminSdkConfig {"projectId":"v3rv-notionaios","storageBucket":"v3rv-notionaios.appspot.com","locationId":"us-central"}
+[debug] [2023-06-27T00:21:46.479Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2023-06-27T00:21:47.901Z] Temp file directory for storage emulator: /var/folders/q_/sys0lmm9567_nr7sq_0m31jh0000gp/T/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: /var/folders/q_/sys0lmm9567_nr7sq_0m31jh0000gp/T/firebase/storage/blobs"}}
+[debug] [2023-06-27T00:21:47.937Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-06-27T00:21:47.937Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2023-06-27T00:21:47.937Z] Starting Emulator UI with command {"binary":"node","args":["/Users/maxadam/.cache/firebase/emulators/ui-v1.11.6/server/server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"/Users/maxadam/.cache/firebase/emulators/ui-v1.11.6/server/server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
+[debug] [2023-06-27T00:21:48.114Z] Web / API server started at 127.0.0.1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 127.0.0.1:4000\n"}}
+[debug] [2023-06-27T00:21:48.114Z] Web / API server started at ::1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at ::1:4000\n"}}
+[info] i  functions: Watching "/Users/maxadam/Desktop/Code/notionOS/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/Users/maxadam/Desktop/Code/notionOS/functions\" for Cloud Functions..."}}
+[debug] [2023-06-27T00:21:48.204Z] Validating nodejs source
+[debug] [2023-06-27T00:21:49.171Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:21:49.172Z] Building nodejs source
+[debug] [2023-06-27T00:21:49.172Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:21:49.176Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:21:49.186Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:21:49.497Z] Serving at port 8965
+
+[debug] [2023-06-27T00:21:49.514Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:21:49.518Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:21:49.522Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌───────────┬────────────────┬─────────────────────────────────┐
+│ Emulator  │ Host:Port      │ View in Emulator UI             │
+├───────────┼────────────────┼─────────────────────────────────┤
+│ Functions │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions │
+├───────────┼────────────────┼─────────────────────────────────┤
+│ Storage   │ 127.0.0.1:9199 │ http://127.0.0.1:4000/storage   │
+└───────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2023-06-27T00:22:47.943Z] File /Users/maxadam/Desktop/Code/notionOS/functions/tsconfig.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/tsconfig.json changed, reloading triggers"}}
+[debug] [2023-06-27T00:22:48.945Z] Validating nodejs source
+[debug] [2023-06-27T00:22:49.833Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:22:49.834Z] Building nodejs source
+[debug] [2023-06-27T00:22:49.834Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:22:49.836Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:22:49.837Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:22:50.129Z] Serving at port 8013
+
+[debug] [2023-06-27T00:22:50.145Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:22:50.145Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:22:50.149Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2023-06-27T00:23:07.873Z] File /Users/maxadam/Desktop/Code/notionOS/functions/tsconfig.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/tsconfig.json changed, reloading triggers"}}
+[debug] [2023-06-27T00:23:08.874Z] Validating nodejs source
+[debug] [2023-06-27T00:23:09.599Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:23:09.599Z] Building nodejs source
+[debug] [2023-06-27T00:23:09.599Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:23:09.601Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:23:09.602Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:23:09.845Z] Serving at port 8078
+
+[debug] [2023-06-27T00:23:09.860Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:23:09.860Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:23:09.863Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2023-06-27T00:24:43.751Z] File /Users/maxadam/Desktop/Code/notionOS/functions/yarn.lock changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/yarn.lock changed, reloading triggers"}}
+[debug] [2023-06-27T00:24:43.751Z] File /Users/maxadam/Desktop/Code/notionOS/functions/package.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/package.json changed, reloading triggers"}}
+[debug] [2023-06-27T00:24:44.752Z] Validating nodejs source
+[debug] [2023-06-27T00:24:45.741Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:24:45.741Z] Building nodejs source
+[debug] [2023-06-27T00:24:45.742Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:24:45.743Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:24:45.745Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:24:46.093Z] Serving at port 8227
+
+[debug] [2023-06-27T00:24:46.124Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:24:46.124Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:24:46.127Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2023-06-27T00:24:50.614Z] File /Users/maxadam/Desktop/Code/notionOS/functions/yarn.lock changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/yarn.lock changed, reloading triggers"}}
+[debug] [2023-06-27T00:24:50.614Z] File /Users/maxadam/Desktop/Code/notionOS/functions/package.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/package.json changed, reloading triggers"}}
+[debug] [2023-06-27T00:24:51.616Z] Validating nodejs source
+[debug] [2023-06-27T00:24:52.658Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:24:52.658Z] Building nodejs source
+[debug] [2023-06-27T00:24:52.659Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:24:52.660Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:24:52.662Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:24:52.905Z] Serving at port 8965
+
+[debug] [2023-06-27T00:24:52.920Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:24:52.920Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:24:52.923Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2023-06-27T00:25:16.833Z] File /Users/maxadam/Desktop/Code/notionOS/functions/tsconfig.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/tsconfig.json changed, reloading triggers"}}
+[debug] [2023-06-27T00:25:17.835Z] Validating nodejs source
+[debug] [2023-06-27T00:25:19.563Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:25:19.563Z] Building nodejs source
+[debug] [2023-06-27T00:25:19.564Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:25:19.565Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:25:19.566Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:25:19.805Z] Serving at port 8933
+
+[debug] [2023-06-27T00:25:19.820Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:25:19.820Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:25:19.823Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2023-06-27T00:25:26.138Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js.map changed, reloading triggers"}}
+[debug] [2023-06-27T00:25:26.139Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js changed, reloading triggers"}}
+[debug] [2023-06-27T00:25:26.139Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js.map changed, reloading triggers"}}
+[debug] [2023-06-27T00:25:26.139Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers"}}
+[debug] [2023-06-27T00:25:27.141Z] Validating nodejs source
+[debug] [2023-06-27T00:25:27.866Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:25:27.867Z] Building nodejs source
+[debug] [2023-06-27T00:25:27.869Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:25:27.870Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:25:27.871Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:25:28.142Z] Serving at port 8466
+
+[debug] [2023-06-27T00:25:28.156Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:25:28.157Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:25:28.160Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2023-06-27T00:28:40.042Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/generateFiles.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/generateFiles.ts changed, reloading triggers"}}
+[debug] [2023-06-27T00:28:41.044Z] Validating nodejs source
+[debug] [2023-06-27T00:28:41.955Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:28:41.956Z] Building nodejs source
+[debug] [2023-06-27T00:28:41.956Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:28:41.958Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:28:41.960Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:28:42.294Z] Serving at port 8435
+
+[debug] [2023-06-27T00:28:42.312Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:28:42.313Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:28:42.325Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2023-06-27T00:28:43.521Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/generateFiles.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/generateFiles.ts changed, reloading triggers"}}
+[debug] [2023-06-27T00:28:44.522Z] Validating nodejs source
+[debug] [2023-06-27T00:28:45.253Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:28:45.254Z] Building nodejs source
+[debug] [2023-06-27T00:28:45.254Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:28:45.256Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:28:45.257Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:28:45.475Z] Serving at port 8010
+
+[debug] [2023-06-27T00:28:45.490Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:28:45.490Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:28:45.493Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2023-06-27T00:31:41.330Z] File /Users/maxadam/Desktop/Code/notionOS/functions/tsconfig.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/tsconfig.json changed, reloading triggers"}}
+[debug] [2023-06-27T00:31:42.332Z] Validating nodejs source
+[debug] [2023-06-27T00:31:43.294Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:31:43.295Z] Building nodejs source
+[debug] [2023-06-27T00:31:43.295Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:31:43.296Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:31:43.297Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:31:43.650Z] Serving at port 8005
+
+[debug] [2023-06-27T00:31:43.674Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:31:43.675Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:31:43.680Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2023-06-27T00:31:51.834Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js.map changed, reloading triggers"}}
+[debug] [2023-06-27T00:31:51.834Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js changed, reloading triggers"}}
+[debug] [2023-06-27T00:31:51.835Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js.map changed, reloading triggers"}}
+[debug] [2023-06-27T00:31:51.835Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers"}}
+[debug] [2023-06-27T00:31:52.836Z] Validating nodejs source
+[debug] [2023-06-27T00:31:53.773Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:31:53.774Z] Building nodejs source
+[debug] [2023-06-27T00:31:53.774Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:31:53.778Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:31:53.779Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:31:54.071Z] Serving at port 8381
+
+[debug] [2023-06-27T00:31:54.086Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:31:54.087Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:31:54.090Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2023-06-27T00:33:13.091Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/generateFiles.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/generateFiles.ts changed, reloading triggers"}}
+[debug] [2023-06-27T00:33:14.093Z] Validating nodejs source
+[debug] [2023-06-27T00:33:14.966Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:33:14.966Z] Building nodejs source
+[debug] [2023-06-27T00:33:14.966Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:33:14.968Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:33:14.969Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:33:15.210Z] Serving at port 8420
+
+[debug] [2023-06-27T00:33:15.225Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:33:15.225Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:33:15.228Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2023-06-27T00:33:25.056Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers"}}
+[debug] [2023-06-27T00:33:26.058Z] Validating nodejs source
+[debug] [2023-06-27T00:33:26.849Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:33:26.850Z] Building nodejs source
+[debug] [2023-06-27T00:33:26.850Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:33:26.851Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:33:26.852Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:33:27.103Z] Serving at port 8147
+
+[debug] [2023-06-27T00:33:27.117Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:33:27.118Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:33:27.121Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2023-06-27T00:33:32.888Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js.map changed, reloading triggers"}}
+[debug] [2023-06-27T00:33:32.888Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js changed, reloading triggers"}}
+[debug] [2023-06-27T00:33:32.888Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js.map changed, reloading triggers"}}
+[debug] [2023-06-27T00:33:32.889Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers"}}
+[debug] [2023-06-27T00:33:33.889Z] Validating nodejs source
+[debug] [2023-06-27T00:33:34.615Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:33:34.615Z] Building nodejs source
+[debug] [2023-06-27T00:33:34.615Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:33:34.617Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:33:34.618Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:33:34.851Z] Serving at port 8375
+
+[debug] [2023-06-27T00:33:34.870Z] Got response from /__/functions.yaml Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module
+[debug] [2023-06-27T00:33:34.871Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:
+     ... rom function source: SyntaxError: Cannot use import statement ou ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module\n\u0000","position":61,"line":0,"column":61},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 62:\n     ... rom function source: SyntaxError: Cannot use import statement ou ... \n                                         ^"}
+[debug] [2023-06-27T00:33:34.874Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: SyntaxError: Cannot use import statement outside a module"}}
+[debug] [2023-06-27T00:34:33.062Z] File /Users/maxadam/Desktop/Code/notionOS/functions/package.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/package.json changed, reloading triggers"}}
+[debug] [2023-06-27T00:34:34.064Z] Validating nodejs source
+[debug] [2023-06-27T00:34:34.840Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:34:34.841Z] Building nodejs source
+[debug] [2023-06-27T00:34:34.841Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:34:34.842Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:34:34.843Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:34:35.094Z] Serving at port 8283
+
+[debug] [2023-06-27T00:34:35.134Z] Got response from /__/functions.yaml Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js
+[debug] [2023-06-27T00:34:35.134Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 79:
+     ... ce: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/max ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js\n\u0000","position":78,"line":0,"column":78},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 79:\n     ... ce: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/max ... \n                                         ^"}
+[debug] [2023-06-27T00:34:35.139Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js"}}
+[debug] [2023-06-27T00:34:43.485Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js.map changed, reloading triggers"}}
+[debug] [2023-06-27T00:34:43.485Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js changed, reloading triggers"}}
+[debug] [2023-06-27T00:34:43.486Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js.map changed, reloading triggers"}}
+[debug] [2023-06-27T00:34:43.486Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers"}}
+[debug] [2023-06-27T00:34:44.487Z] Validating nodejs source
+[debug] [2023-06-27T00:34:45.263Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:34:45.264Z] Building nodejs source
+[debug] [2023-06-27T00:34:45.264Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:34:45.267Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:34:45.268Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:34:45.501Z] Serving at port 8387
+
+[debug] [2023-06-27T00:34:45.534Z] Got response from /__/functions.yaml Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js
+[debug] [2023-06-27T00:34:45.535Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 79:
+     ... ce: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/max ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js\n\u0000","position":78,"line":0,"column":78},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 79:\n     ... ce: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/max ... \n                                         ^"}
+[debug] [2023-06-27T00:34:45.538Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js"}}
+[debug] [2023-06-27T00:35:19.207Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers"}}
+[debug] [2023-06-27T00:35:20.209Z] Validating nodejs source
+[debug] [2023-06-27T00:35:20.965Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:35:20.966Z] Building nodejs source
+[debug] [2023-06-27T00:35:20.966Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:35:20.967Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:35:20.968Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:35:21.207Z] Serving at port 8243
+
+[debug] [2023-06-27T00:35:21.241Z] Got response from /__/functions.yaml Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js
+[debug] [2023-06-27T00:35:21.242Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 79:
+     ... ce: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/max ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js\n\u0000","position":78,"line":0,"column":78},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 79:\n     ... ce: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/max ... \n                                         ^"}
+[debug] [2023-06-27T00:35:21.245Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js"}}
+[debug] [2023-06-27T00:35:23.789Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers"}}
+[debug] [2023-06-27T00:35:24.790Z] Validating nodejs source
+[debug] [2023-06-27T00:35:25.536Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:35:25.536Z] Building nodejs source
+[debug] [2023-06-27T00:35:25.536Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:35:25.537Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:35:25.539Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:35:25.770Z] Serving at port 8714
+
+[debug] [2023-06-27T00:35:25.804Z] Got response from /__/functions.yaml Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js
+[debug] [2023-06-27T00:35:25.805Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 79:
+     ... ce: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/max ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js\n\u0000","position":78,"line":0,"column":78},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 79:\n     ... ce: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/max ... \n                                         ^"}
+[debug] [2023-06-27T00:35:25.808Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js"}}
+[debug] [2023-06-27T00:36:43.823Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers"}}
+[debug] [2023-06-27T00:36:44.823Z] Validating nodejs source
+[debug] [2023-06-27T00:36:45.601Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:36:45.601Z] Building nodejs source
+[debug] [2023-06-27T00:36:45.601Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:36:45.603Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:36:45.604Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:36:45.867Z] Serving at port 8079
+
+[debug] [2023-06-27T00:36:45.901Z] Got response from /__/functions.yaml Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js
+[debug] [2023-06-27T00:36:45.902Z] Failed to parse functions.yaml incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 79:
+     ... ce: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/max ... 
+                                         ^ {"name":"YAMLException","reason":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line","mark":{"name":null,"buffer":"Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js\n\u0000","position":78,"line":0,"column":78},"message":"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 1, column 79:\n     ... ce: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/max ... \n                                         ^"}
+[debug] [2023-06-27T00:36:45.905Z] shutdown requested via /__/quitquitquit
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Failed to load function definition from source: Failed to generate manifest from function source: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles' imported from /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js"}}
+[debug] [2023-06-27T00:37:06.127Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers"}}
+[debug] [2023-06-27T00:37:07.128Z] Validating nodejs source
+[debug] [2023-06-27T00:37:07.864Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:37:07.864Z] Building nodejs source
+[debug] [2023-06-27T00:37:07.865Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:37:07.866Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:37:07.867Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:37:08.097Z] Serving at port 8844
+
+[debug] [2023-06-27T00:37:08.132Z] Got response from /__/functions.yaml {"endpoints":{},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-06-27T00:37:08.137Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[debug] [2023-06-27T00:37:38.423Z] File /Users/maxadam/Desktop/Code/notionOS/functions/tsconfig.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/tsconfig.json changed, reloading triggers"}}
+[debug] [2023-06-27T00:37:39.424Z] Validating nodejs source
+[debug] [2023-06-27T00:37:40.215Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:37:40.216Z] Building nodejs source
+[debug] [2023-06-27T00:37:40.216Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:37:40.217Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:37:40.218Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:37:40.459Z] Serving at port 8454
+
+[debug] [2023-06-27T00:37:40.494Z] Got response from /__/functions.yaml {"endpoints":{},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-06-27T00:37:40.498Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[debug] [2023-06-27T00:37:59.676Z] File /Users/maxadam/Desktop/Code/notionOS/functions/tsconfig.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/tsconfig.json changed, reloading triggers"}}
+[debug] [2023-06-27T00:38:00.678Z] Validating nodejs source
+[debug] [2023-06-27T00:38:01.438Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:38:01.439Z] Building nodejs source
+[debug] [2023-06-27T00:38:01.439Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:38:01.440Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:38:01.442Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:38:01.686Z] Serving at port 8024
+
+[debug] [2023-06-27T00:38:01.718Z] Got response from /__/functions.yaml {"endpoints":{},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-06-27T00:38:01.723Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[debug] [2023-06-27T00:39:37.588Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers"}}
+[debug] [2023-06-27T00:39:38.589Z] Validating nodejs source
+[debug] [2023-06-27T00:39:39.508Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:39:39.508Z] Building nodejs source
+[debug] [2023-06-27T00:39:39.509Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:39:39.510Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:39:39.511Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:39:39.870Z] Serving at port 8853
+
+[debug] [2023-06-27T00:39:39.912Z] Got response from /__/functions.yaml {"endpoints":{},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-06-27T00:39:39.918Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[debug] [2023-06-27T00:40:34.249Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers"}}
+[debug] [2023-06-27T00:40:34.351Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers"}}
+[debug] [2023-06-27T00:40:35.352Z] Validating nodejs source
+[debug] [2023-06-27T00:40:36.306Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:40:36.307Z] Building nodejs source
+[debug] [2023-06-27T00:40:36.307Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:40:36.310Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:40:36.311Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:40:36.604Z] Serving at port 8351
+
+[debug] [2023-06-27T00:40:36.638Z] Got response from /__/functions.yaml {"endpoints":{},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-06-27T00:40:36.642Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[debug] [2023-06-27T00:40:55.324Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/index.ts changed, reloading triggers"}}
+[debug] [2023-06-27T00:40:56.326Z] Validating nodejs source
+[debug] [2023-06-27T00:40:57.087Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:40:57.088Z] Building nodejs source
+[debug] [2023-06-27T00:40:57.088Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:40:57.089Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:40:57.091Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:40:57.344Z] Serving at port 8404
+
+[debug] [2023-06-27T00:40:57.378Z] Got response from /__/functions.yaml {"endpoints":{},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-06-27T00:40:57.382Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[debug] [2023-06-27T00:41:04.995Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/generateFiles.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/generateFiles.ts changed, reloading triggers"}}
+[debug] [2023-06-27T00:41:05.997Z] Validating nodejs source
+[debug] [2023-06-27T00:41:06.739Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:41:06.740Z] Building nodejs source
+[debug] [2023-06-27T00:41:06.740Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:41:06.741Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:41:06.742Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:41:06.978Z] Serving at port 8153
+
+[debug] [2023-06-27T00:41:07.011Z] Got response from /__/functions.yaml {"endpoints":{},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-06-27T00:41:07.016Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[debug] [2023-06-27T00:41:19.000Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js.map changed, reloading triggers"}}
+[debug] [2023-06-27T00:41:19.000Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js changed, reloading triggers"}}
+[debug] [2023-06-27T00:41:19.000Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js.map changed, reloading triggers"}}
+[debug] [2023-06-27T00:41:19.000Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers"}}
+[debug] [2023-06-27T00:41:20.001Z] Validating nodejs source
+[debug] [2023-06-27T00:41:21.286Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-27T00:41:21.287Z] Building nodejs source
+[debug] [2023-06-27T00:41:21.287Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-27T00:41:21.288Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-27T00:41:21.289Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-27T00:41:21.571Z] Serving at port 8511
+
+[debug] [2023-06-27T00:41:22.061Z] Got response from /__/functions.yaml {"endpoints":{"generateFiles":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":20,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"generateFiles"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-06-27T00:41:22.067Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: generateFiles. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: generateFiles."}}
+[info] ✔  functions[us-central1-generateFiles]: http function initialized (http://127.0.0.1:5001/v3rv-notionaios/us-central1/generateFiles). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/v3rv-notionaios/us-central1/generateFiles)."}}
