@@ -4,15 +4,15 @@ import os from 'os'
 import path from 'path'
 import fs from 'fs'
 import JSZip from 'jszip'
-//import { Storage } from '@google-cloud/storage'
 
 admin.initializeApp();
 
 export const generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(async (props: {json: any, name: string}) => {
 
     // Generate files from JSON data structure
-    const json = props.json[0]
-    
+    const json = props.json
+
+    console.log("JSON: " + json)
     const tmpdir = path.join(os.tmpdir(), 'notion-ai-os'); // Create a new directory within the system's temporary directory
 
     if (fs.existsSync(tmpdir)) {
@@ -85,7 +85,7 @@ const createFilesAndFolders = (node: PageNode, currentPath: string = '.') => {
                 }
             }
         } else if (node.type !== 'folder') {
-            fs.writeFileSync(newPath, node.content || '');
+            fs.writeFileSync(newPath, node.content || 'This file is empty');
             console.log("added file at: " + newPath)
         }
     }

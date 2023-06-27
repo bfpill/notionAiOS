@@ -37,10 +37,12 @@ const getDownloadLink = async (req, res) => {
         return fourHunnid(res)
     }
     const name: string = body.name;
-    // Call your Cloud Function
+    let files = pages.getNodeByName(name) ?? pages.tree
+
+    console.log(files)
     const generateFiles = httpsCallable(functions, "generateFiles");
     try{ 
-        generateFiles({ json: pages.tree, name: name })
+        generateFiles({ json: files, name: name })
         .then((result) => {
             const data = result.data;
             res.status(201).send({ status: "OK", data: { data } });
