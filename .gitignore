@@ -11,3 +11,6 @@ node_modules/
 .runtimeconfig.json
 
 functions/lib/**/*.js
+functions/lib/projecthandler/PageTree.js.map
+*.js
+*.map
