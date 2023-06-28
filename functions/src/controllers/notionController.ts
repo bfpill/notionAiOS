@@ -1,6 +1,5 @@
 import notionBlockServices from "../services/blockServices.js";
 import notionPageServices from "../services/pageServices.js";
-import { PageTree } from "../projecthandler/PageTree.js";
 import { getNotion } from "../notionManager/notion.js";
 import { initializeApp } from "firebase/app"
 
@@ -32,9 +31,9 @@ connectFunctionsEmulator(functions, "127.0.0.1", 5001);
 //get from local instance
 const notion = getNotion()
 
-// @TODO replace with grabbing the tree from firebase and remove this stupid shit and properly store it
-const pages = new PageTree()
 
+//@todo change later as shit starts to work
+let pages;
 
 console.log("connector initialized")
 const getDownloadLink = async (req, res) => {
@@ -63,15 +62,17 @@ const getDownloadLink = async (req, res) => {
 const createPage = async (req, res) => {
     console.log("trying to create page")
     const { body } = req
-    if (
+    if ( 
+        !body.projectId ||
         !body.parentName ||
         !body.pageName ||
         !body.type
+
     ) {
         return fourHunnid(res)
     }
-    const { parentName, pageName, type } = body;
-    const messageResponse = await notionPageServices.testDB(db, notion, parentName, pageName, type);
+    const { projectId, parentName, pageName, type } = body;
+    const messageResponse = await notionPageServices.testDB(db, notion, projectId, parentName, pageName, type);
 
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }

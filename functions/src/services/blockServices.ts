@@ -1,7 +1,6 @@
 import { extractCode, toArray, deleteLines, insertCodeByLine } from "./codeBlockFunctions.js"
 import { Block } from "../projecthandler/interfaces.js"
 import { getNotion } from "../notionManager/notion.js";
-import { PageTree, Page } from "../projecthandler/PageTree.js";
 
 //get from local instance
 const notion = getNotion()
@@ -87,8 +86,8 @@ async function getBlock(blockId: string): Promise<Block> {
     })
 }
 
-async function addBlock(pages: PageTree, pageName: string, code: string): Promise<{ worked: boolean, message: any }> {
-    let page: Page | undefined = pages.getNodeByName(pageName)
+async function addBlock(pages: any, pageName: string, code: string): Promise<{ worked: boolean, message: any }> {
+    let page: any | undefined = pages.getNodeByName(pageName)
     if (!page) {
         return { worked: false, message: { error: ("No page with name: " + pageName) } }
     }
