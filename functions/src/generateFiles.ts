@@ -1,24 +1,25 @@
 import functions from 'firebase-functions'
 import admin from 'firebase-admin'
+
 import os from 'os'
 import path from 'path'
 import fs from 'fs'
 import JSZip from 'jszip'
 
-admin.initializeApp();
+console.log("Initializing file generator")
 
-export const generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(async (props: {json: any, name: string}) => {
+export const generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(async (props: {db: any, json: any, name: string}) => {
 
     // Generate files from JSON data structure
     const json = props.json
 
-    console.log("JSON: " + json)
     const tmpdir = path.join(os.tmpdir(), 'notion-ai-os'); // Create a new directory within the system's temporary directory
 
     if (fs.existsSync(tmpdir)) {
         fs.rmdirSync(tmpdir, {
             recursive: true,
         })
+        console.log("deleted old stache")
     }
     
     fs.mkdirSync(tmpdir);
@@ -27,7 +28,7 @@ export const generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onC
 
     const zippedName = props.name + '.zip'
     const zip = new JSZip();
-    const zipPath = path.join(tmpdir, zippedName );
+    const zipPath = path.join(tmpdir, zippedName);
 
     await addDirToZip(tmpdir, zip);
 
@@ -35,11 +36,13 @@ export const generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onC
 
     fs.writeFileSync(zipPath, content);
 
+
     const bucket = admin.storage().bucket();
     const [file] = await bucket.upload(zipPath, {
         destination: `user_files/` + zippedName,
     });
 
+    console.log('Used admin storage')
     const url = file.metadata.mediaLink;
     
     return { url }; 
@@ -68,30 +71,47 @@ interface PageNode {
     content?: string;
 }
 
+function checkIsArray(variable: any) { 
+    if(variable instanceof Array){
+        return true
+    }
+    return false
+}
+
 const createFilesAndFolders = (node: PageNode, currentPath: string = '.') => {
 
     if (node !== undefined) {
-        const newPath = path.join(currentPath, node.name);
-        console.log("found: " + node.name)
-        if (node.type === 'folder') {
-            if (!fs.existsSync(newPath)) {
-                fs.mkdirSync(newPath);
-                console.log("added dir at: " + newPath)
+        // we need this because currently front and backend are not lined up ksdbgpaksdghfldskg
+        if(node.name === undefined){
+            if(checkIsArray(node)){
+                createFilesAndFolders(node[0])
             }
-
-            if (node.children) {
-                for (const child of node.children) {
-                    createFilesAndFolders(child, newPath);
+        }
+        else { 
+            console.log("Adding node: " + node.name)
+            console.log("Path: " + currentPath)
+    
+            const newPath = path.join(currentPath, node.name);
+            console.log("found: " + node.name)
+            if (node.type === 'folder') {
+                if (!fs.existsSync(newPath)) {
+                    fs.mkdirSync(newPath);
+                    console.log("added dir at: " + newPath)
                 }
+    
+                if (node.children) {
+                    for (const child of node.children) {
+                        createFilesAndFolders(child, newPath);
+                    }
+                }
+            } else if (node.type !== 'folder') {
+                fs.writeFileSync(newPath, node.content || 'This file is empty');
+                console.log("added file at: " + newPath)
             }
-        } else if (node.type !== 'folder') {
-            fs.writeFileSync(newPath, node.content || 'This file is empty');
-            console.log("added file at: " + newPath)
         }
     }
 };
 
 function createDownloadable(jsonTree: any, currentPath: string) {
-    console.log(jsonTree)
     createFilesAndFolders(jsonTree, currentPath)
 }

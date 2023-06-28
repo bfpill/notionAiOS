@@ -9,6 +9,8 @@ import * as functions from 'firebase-functions';
 // Get environment variables
 dotenv.config() 
 
+console.log("here in the api")
+
 // Import routes
 import routes from "./routes/routes.js"
 

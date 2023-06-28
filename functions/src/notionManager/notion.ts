@@ -12,10 +12,6 @@ console.log('Database ID:', databaseId);
 
 const notion = new Client({ auth: notionKey })
 
-console.log('Notion token:', process.env.NOTION_TOKEN);
-console.log('Database ID:', process.env.NOTION_DATABASE_ID);
-
-
 export function getNotion () { 
     return notion;
 }

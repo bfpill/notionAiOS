@@ -2,18 +2,11 @@ import notionBlockServices from "../services/blockServices.js";
 import notionPageServices from "../services/pageServices.js";
 import { PageTree } from "../projecthandler/PageTree.js";
 import { getNotion } from "../notionManager/notion.js";
+import { initializeApp } from "firebase/app"
 
-import { getApp, initializeApp } from "firebase/app"
 import dotenv from "dotenv"
 import { getFunctions, connectFunctionsEmulator, httpsCallable } from "firebase/functions";
-
-//get from local instance
-const notion = getNotion()
-
-// @TODO replace with grabbing the tree from firebase and remove this stupid shit and properly store it
-const pages = new PageTree()
-
-dotenv.config()
+import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -26,12 +19,22 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig)
+const db = getFirestore()
 
-console.log("App initialized")
-const functions = getFunctions(getApp())
+dotenv.config()
+console.log("Setting up firebase config")
+
+const functions = getFunctions()
 
 // Point to the Functions emulator
 connectFunctionsEmulator(functions, "127.0.0.1", 5001);
+
+//get from local instance
+const notion = getNotion()
+
+// @TODO replace with grabbing the tree from firebase and remove this stupid shit and properly store it
+const pages = new PageTree()
+
 
 console.log("connector initialized")
 const getDownloadLink = async (req, res) => {
@@ -68,7 +71,7 @@ const createPage = async (req, res) => {
         return fourHunnid(res)
     }
     const { parentName, pageName, type } = body;
-    const messageResponse = await notionPageServices.createPage(notion, pages, parentName, pageName, type);
+    const messageResponse = await notionPageServices.addToFirebase(db, notion, parentName, pageName, type);
 
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }

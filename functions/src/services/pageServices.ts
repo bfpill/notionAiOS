@@ -1,5 +1,6 @@
 import { Client } from "@notionhq/client";
 import { PageTree, Page }from "../projecthandler/PageTree.js";
+import { doc, setDoc } from "firebase/firestore";
 
 const DATABASEID = "244fbd23-36dc-46d5-a261-2c7dc9609f67"
 const folderIconURL = "https://icon-library.com/images/black-and-white-folder-icon/black-and-white-folder-icon-5.jpg"
@@ -105,6 +106,68 @@ async function createPage(notion: Client, pages: PageTree, parentId: string, pag
     return { "pageId": response.id, "pageParent": response.parent };
 }
 
+async function addToFirebase(db: any, notion: Client, parentId: string, pageName: string, type: string) { 
+    type = type.toLowerCase();
+    const icon = type === "folder" ? folderIconURL : fileIconUrl;
+
+    let response;
+
+    // Check if page with the same name already exists
+    const pageSnapshot = await db.collection('pages').where('name', '==', pageName).get();
+    if (!pageSnapshot.empty) {
+        return { Error: "Page name already exists, no duplicates please" };
+    }
+
+    // Get parent page document
+    const parentDoc = db.collection('pages').doc(parentId);
+    const parent = await parentDoc.get();
+
+    if (!parent.exists) {
+        return { Error: "Parent page does not exist" };
+    }
+
+    const parentData = parent.data();
+
+    if (parentData?.type !== "folder") {
+        return { Error: "Could not add page, parent was not a folder or was outside the project scope" };
+    }
+
+    // Create page in Notion
+    response = await notion.pages.create({
+        "icon": {
+            "type": "external",
+            "external": {
+                "url": icon
+            }
+        },
+        "parent": {
+            "type": "page_id",
+            "page_id": parentId
+        },
+        "properties": {
+            "title": {
+                "title": [
+                    {
+                        "text": {
+                            "content": pageName
+                        }
+                    }
+                ]
+            }
+        },
+    });
+
+    // Add page to Firestore
+    await db.collection('pages').doc(response.id).set({
+        name: pageName,
+        id: response.id,
+        type: type,
+        parentId: parentId
+    });
+
+    return { "pageId": response.id, "pageParent": parentId };
+}
+
 function IDisRoot(id: string): boolean {
     if (id.toLowerCase() === "root-node") {
         console.log("id" + id)
@@ -124,4 +187,4 @@ function getPagesTree (pages: PageTree, rootPageName: string) {
     }
 }
 
-export default { createPage, getPagesTree}
+export default { createPage, getPagesTree, addToFirebase}
