@@ -198,7 +198,8 @@ async function testDB(db: any, notion: Client, parentId: string, pageName: strin
 
     const notionParentId = parentData.notionID
     
-    console.log("parentID: " + notionParentId)
+    console.log("notionParentID: " + notionParentId)
+
     // Create page in Notion
     response = await notion.pages.create({
         "icon": {
@@ -225,8 +226,9 @@ async function testDB(db: any, notion: Client, parentId: string, pageName: strin
     });
 
     console.log("made it all the way here")
+
     try { 
-        await setDoc(doc(db, "pages", "LA"), {
+        await setDoc(doc(db, "pages", pageName), {
             name: pageName,
             id: response.id,
             type: type,

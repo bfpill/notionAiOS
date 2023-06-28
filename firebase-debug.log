@@ -5245,3 +5245,365 @@ connector initialized
 [debug] [2023-06-28T06:20:52.702Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finishing up request with event=finish"}}
 [debug] [2023-06-28T06:20:52.702Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finishing up request with event=close"}}
 [debug] [2023-06-28T06:20:52.703Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2023-06-28T06:21:50.085Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/services/pageServices.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/services/pageServices.ts changed, reloading triggers"}}
+[debug] [2023-06-28T06:21:51.087Z] Validating nodejs source
+[debug] [2023-06-28T06:21:52.034Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@notionhq/client": "^2.2.5",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "firebase": "^9.23.0",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1",
+    "notion-client": "^6.16.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-28T06:21:52.034Z] Building nodejs source
+[debug] [2023-06-28T06:21:52.034Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-28T06:21:52.035Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-28T06:21:52.036Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-28T06:21:52.414Z] Serving at port 8920
+
+[debug] [2023-06-28T06:21:52.973Z] Notion token: secret_AbmXiGrw7QSeX3SsTGB8vAELrSFB1b4eIVtii7TTkMD
+
+[debug] [2023-06-28T06:21:52.973Z] Database ID: 244fbd2336dc46d5a2612c7dc9609f67
+
+[debug] [2023-06-28T06:21:53.106Z] parent : /Users/maxadam/Desktop/Code/notionOS/functions/lib
+
+[debug] [2023-06-28T06:21:53.112Z] Setting up firebase config
+
+[debug] [2023-06-28T06:21:53.113Z] Initialized and ready to roll
+connector initialized
+
+[debug] [2023-06-28T06:21:53.114Z] here in the api
+
+[debug] [2023-06-28T06:21:53.189Z] Initializing file generator
+
+[debug] [2023-06-28T06:21:53.196Z] Got response from /__/functions.yaml {"endpoints":{"api":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"api"},"generateFiles":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":20,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"generateFiles"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-06-28T06:21:53.201Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: api, generateFiles. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: api, generateFiles."}}
+[debug] [2023-06-28T06:21:53.213Z] [worker-pool] Shutting down IDLE worker (us-central1-api) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Shutting down IDLE worker (us-central1-api)"}}
+[debug] [2023-06-28T06:21:53.213Z] [worker-us-central1-api-3d2e5ff5-09b6-4979-99c8-d441f3dcda6b]: FINISHING {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-3d2e5ff5-09b6-4979-99c8-d441f3dcda6b]: FINISHING"}}
+[debug] [2023-06-28T06:21:53.225Z] [worker-us-central1-api-3d2e5ff5-09b6-4979-99c8-d441f3dcda6b]: exited {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-3d2e5ff5-09b6-4979-99c8-d441f3dcda6b]: exited"}}
+[debug] [2023-06-28T06:21:53.225Z] [worker-us-central1-api-3d2e5ff5-09b6-4979-99c8-d441f3dcda6b]: FINISHED {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-3d2e5ff5-09b6-4979-99c8-d441f3dcda6b]: FINISHED"}}
+[debug] [2023-06-28T06:22:20.997Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/services/pageServices.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/services/pageServices.ts changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:21.998Z] Validating nodejs source
+[debug] [2023-06-28T06:22:22.757Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@notionhq/client": "^2.2.5",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "firebase": "^9.23.0",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1",
+    "notion-client": "^6.16.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-28T06:22:22.758Z] Building nodejs source
+[debug] [2023-06-28T06:22:22.758Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-28T06:22:22.759Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-28T06:22:22.760Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-28T06:22:22.996Z] Serving at port 8253
+
+[debug] [2023-06-28T06:22:23.342Z] Notion token: secret_AbmXiGrw7QSeX3SsTGB8vAELrSFB1b4eIVtii7TTkMD
+
+[debug] [2023-06-28T06:22:23.342Z] Database ID: 244fbd2336dc46d5a2612c7dc9609f67
+
+[debug] [2023-06-28T06:22:23.407Z] parent : /Users/maxadam/Desktop/Code/notionOS/functions/lib
+
+[debug] [2023-06-28T06:22:23.412Z] Setting up firebase config
+
+[debug] [2023-06-28T06:22:23.413Z] Initialized and ready to roll
+
+[debug] [2023-06-28T06:22:23.413Z] connector initialized
+
+[debug] [2023-06-28T06:22:23.414Z] here in the api
+
+[debug] [2023-06-28T06:22:23.447Z] Initializing file generator
+
+[debug] [2023-06-28T06:22:23.453Z] Got response from /__/functions.yaml {"endpoints":{"api":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"api"},"generateFiles":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":20,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"generateFiles"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-06-28T06:22:23.458Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: api, generateFiles. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: api, generateFiles."}}
+[debug] [2023-06-28T06:22:44.311Z] File /Users/maxadam/Desktop/Code/notionOS/functions/src/services/pageServices.ts changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/src/services/pageServices.ts changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:45.311Z] Validating nodejs source
+[debug] [2023-06-28T06:22:46.167Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@notionhq/client": "^2.2.5",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "firebase": "^9.23.0",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1",
+    "notion-client": "^6.16.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-28T06:22:46.168Z] Building nodejs source
+[debug] [2023-06-28T06:22:46.168Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-28T06:22:46.169Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-28T06:22:46.170Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-28T06:22:46.563Z] Serving at port 8250
+
+[debug] [2023-06-28T06:22:47.035Z] Notion token: secret_AbmXiGrw7QSeX3SsTGB8vAELrSFB1b4eIVtii7TTkMD
+
+[debug] [2023-06-28T06:22:47.036Z] Database ID: 244fbd2336dc46d5a2612c7dc9609f67
+
+[debug] [2023-06-28T06:22:47.160Z] parent : /Users/maxadam/Desktop/Code/notionOS/functions/lib
+
+[debug] [2023-06-28T06:22:47.170Z] Setting up firebase config
+
+[debug] [2023-06-28T06:22:47.171Z] Initialized and ready to roll
+connector initialized
+
+[debug] [2023-06-28T06:22:47.173Z] here in the api
+
+[debug] [2023-06-28T06:22:47.215Z] Initializing file generator
+
+[debug] [2023-06-28T06:22:47.224Z] Got response from /__/functions.yaml {"endpoints":{"api":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"api"},"generateFiles":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":20,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"generateFiles"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-06-28T06:22:47.231Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: api, generateFiles. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: api, generateFiles."}}
+[debug] [2023-06-28T06:22:54.560Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/projecthandler/interfaces.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/projecthandler/interfaces.js.map changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.561Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/projecthandler/interfaces.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/projecthandler/interfaces.js changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.561Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/services/codeBlockFunctions.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/services/codeBlockFunctions.js.map changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.561Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/services/codeBlockFunctions.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/services/codeBlockFunctions.js changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.561Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/notionManager/notion.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/notionManager/notion.js.map changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.561Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/notionManager/notion.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/notionManager/notion.js changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.662Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/projecthandler/PageTree.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/projecthandler/PageTree.js.map changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.662Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/projecthandler/PageTree.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/projecthandler/PageTree.js changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.662Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/services/blockServices.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/services/blockServices.js.map changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.662Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/services/blockServices.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/services/blockServices.js changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.662Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/services/pageServices.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/services/pageServices.js.map changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.662Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/services/pageServices.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/services/pageServices.js changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.663Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/controllers/notionController.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/controllers/notionController.js.map changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.663Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/controllers/notionController.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/controllers/notionController.js changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.663Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/routes/routes.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/routes/routes.js.map changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.663Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/routes/routes.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/routes/routes.js changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.663Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/api.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/api.js.map changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.663Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/api.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/api.js changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.664Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js.map changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.664Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/generateFiles.js changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.664Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js.map changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js.map changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:54.664Z] File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/maxadam/Desktop/Code/notionOS/functions/lib/index.js changed, reloading triggers"}}
+[debug] [2023-06-28T06:22:55.666Z] Validating nodejs source
+[debug] [2023-06-28T06:22:56.441Z] > [functions] package.json contents: {
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
+    "@notionhq/client": "^2.2.5",
+    "@types/archiver": "^5.3.2",
+    "archiver": "^5.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "firebase": "^9.23.0",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.1",
+    "jszip": "^3.10.1",
+    "notion-client": "^6.16.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-06-28T06:22:56.441Z] Building nodejs source
+[debug] [2023-06-28T06:22:56.441Z] Failed to find version of module node: reached end of search path /Users/maxadam/Desktop/Code/notionOS/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-06-28T06:22:56.444Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-28T06:22:56.445Z] Found firebase-functions binary at '/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/.bin/firebase-functions'
+[debug] [2023-06-28T06:22:56.678Z] Serving at port 8762
+
+[debug] [2023-06-28T06:22:57.033Z] Notion token: secret_AbmXiGrw7QSeX3SsTGB8vAELrSFB1b4eIVtii7TTkMD
+
+[debug] [2023-06-28T06:22:57.033Z] Database ID: 244fbd2336dc46d5a2612c7dc9609f67
+
+[debug] [2023-06-28T06:22:57.101Z] parent : /Users/maxadam/Desktop/Code/notionOS/functions/lib
+
+[debug] [2023-06-28T06:22:57.106Z] Setting up firebase config
+
+[debug] [2023-06-28T06:22:57.107Z] Initialized and ready to roll
+connector initialized
+
+[debug] [2023-06-28T06:22:57.108Z] here in the api
+
+[debug] [2023-06-28T06:22:57.141Z] Initializing file generator
+
+[debug] [2023-06-28T06:22:57.147Z] Got response from /__/functions.yaml {"endpoints":{"api":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"api"},"generateFiles":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":20,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"generateFiles"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-06-28T06:22:57.152Z] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: api, generateFiles. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: api, generateFiles."}}
+[debug] [2023-06-28T06:23:06.638Z] [work-queue] {"queuedWork":["/v3rv-notionaios/us-central1/api/notion_manager/pages-2023-06-28T06:23:06.638Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2023-06-28T06:23:06.638Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/v3rv-notionaios/us-central1/api/notion_manager/pages-2023-06-28T06:23:06.638Z"],"workRunningCount":1}
+[debug] [2023-06-28T06:23:06.638Z] Accepted request POST /v3rv-notionaios/us-central1/api/notion_manager/pages --> us-central1-api
+[debug] [2023-06-28T06:23:06.654Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2023-06-28T06:23:06.654Z] [functions] Got req.url=/v3rv-notionaios/us-central1/api/notion_manager/pages, mapping to path=/notion_manager/pages {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/v3rv-notionaios/us-central1/api/notion_manager/pages, mapping to path=/notion_manager/pages"}}
+[debug] [2023-06-28T06:23:06.654Z] [worker-pool] Cleaned up workers for us-central1-api: 1 --> 0 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Cleaned up workers for us-central1-api: 1 --> 0"}}
+[debug] [2023-06-28T06:23:06.660Z] [worker-pool] addWorker(us-central1-api) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-api)"}}
+[debug] [2023-06-28T06:23:06.661Z] [worker-pool] Adding worker with key us-central1-api, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-api, total=1"}}
+[debug] [2023-06-28T06:23:08.298Z] [runtime-status] [12710] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.9.0","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [12710] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"11.9.0\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2023-06-28T06:23:08.299Z] [runtime-status] [12710] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [12710] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2023-06-28T06:23:08.299Z] [runtime-status] [12710] Found local functions config: /Users/maxadam/Desktop/Code/notionOS/functions/.runtimeconfig.json {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [12710] Found local functions config: /Users/maxadam/Desktop/Code/notionOS/functions/.runtimeconfig.json"}}
+[debug] [2023-06-28T06:23:08.300Z] [runtime-status] [12710] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [12710] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2023-06-28T06:23:08.301Z] [runtime-status] [12710] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [12710] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2023-06-28T06:23:08.513Z] [runtime-status] [12710] Checked functions.config() {"config":{"notion":{"token":"secret_AbmXiGrw7QSeX3SsTGB8vAELrSFB1b4eIVtii7TTkMD","database_id":"244fbd2336dc46d5a2612c7dc9609f67"},"fb":{"api_key":"AIzaSyBxFwxDaQjoc-6FJnOHmnKwzYNu6UsrrXY"}}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [12710] Checked functions.config() {\"config\":{\"notion\":{\"token\":\"secret_AbmXiGrw7QSeX3SsTGB8vAELrSFB1b4eIVtii7TTkMD\",\"database_id\":\"244fbd2336dc46d5a2612c7dc9609f67\"},\"fb\":{\"api_key\":\"AIzaSyBxFwxDaQjoc-6FJnOHmnKwzYNu6UsrrXY\"}}}"}}
+[debug] [2023-06-28T06:23:08.513Z] [runtime-status] [12710] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [12710] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js\"}}"}}
+[debug] [2023-06-28T06:23:08.514Z] [runtime-status] [12710] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [12710] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2023-06-28T06:23:08.515Z] [runtime-status] [12710] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.9.0","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [12710] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"11.9.0\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2023-06-28T06:23:08.517Z] [runtime-status] [12710] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [12710] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2023-06-28T06:23:08.517Z] [runtime-status] [12710] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"11.9.0","resolution":"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-admin/lib/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [12710] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"11.9.0\",\"resolution\":\"/Users/maxadam/Desktop/Code/notionOS/functions/node_modules/firebase-admin/lib/index.js\"}}"}}
+[info] >  Notion token: secret_AbmXiGrw7QSeX3SsTGB8vAELrSFB1b4eIVtii7TTkMD {"user":"Notion token: secret_AbmXiGrw7QSeX3SsTGB8vAELrSFB1b4eIVtii7TTkMD","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m Notion token: secret_AbmXiGrw7QSeX3SsTGB8vAELrSFB1b4eIVtii7TTkMD"}}
+[info] >  Database ID: 244fbd2336dc46d5a2612c7dc9609f67 {"user":"Database ID: 244fbd2336dc46d5a2612c7dc9609f67","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m Database ID: 244fbd2336dc46d5a2612c7dc9609f67"}}
+[info] >  parent : /Users/maxadam/Desktop/Code/notionOS/functions/lib {"user":"parent : /Users/maxadam/Desktop/Code/notionOS/functions/lib","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m parent : /Users/maxadam/Desktop/Code/notionOS/functions/lib"}}
+[info] >  Setting up firebase config {"user":"Setting up firebase config","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m Setting up firebase config"}}
+[info] >  Initialized and ready to roll {"user":"Initialized and ready to roll","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m Initialized and ready to roll"}}
+[info] >  connector initialized {"user":"connector initialized","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m connector initialized"}}
+[info] >  here in the api {"user":"here in the api","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m here in the api"}}
+[info] >  Initializing file generator {"user":"Initializing file generator","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m Initializing file generator"}}
+[debug] [2023-06-28T06:23:08.848Z] [runtime-status] [12710] Functions runtime initialized. {"cwd":"/Users/maxadam/Desktop/Code/notionOS/functions","node_version":"18.0.0"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [12710] Functions runtime initialized. {\"cwd\":\"/Users/maxadam/Desktop/Code/notionOS/functions\",\"node_version\":\"18.0.0\"}"}}
+[debug] [2023-06-28T06:23:08.848Z] [runtime-status] [12710] Listening to port: /var/folders/q_/sys0lmm9567_nr7sq_0m31jh0000gp/T/fire_emu_accf3a2d743228fb.sock {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[runtime-status] [12710] Listening to port: /var/folders/q_/sys0lmm9567_nr7sq_0m31jh0000gp/T/fire_emu_accf3a2d743228fb.sock"}}
+[debug] [2023-06-28T06:23:08.892Z] [worker-us-central1-api-f06de63a-4898-41e2-bd01-77d9591fc93c]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-f06de63a-4898-41e2-bd01-77d9591fc93c]: IDLE"}}
+[debug] [2023-06-28T06:23:08.892Z] [worker-pool] submitRequest(triggerId=us-central1-api) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-api)"}}
+[info] i  functions: Beginning execution of "us-central1-api" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Beginning execution of \"us-central1-api\""}}
+[debug] [2023-06-28T06:23:08.893Z] [worker-us-central1-api-f06de63a-4898-41e2-bd01-77d9591fc93c]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-f06de63a-4898-41e2-bd01-77d9591fc93c]: BUSY"}}
+[info] >  trying to create page {"user":"trying to create page","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m trying to create page"}}
+[debug] [2023-06-28T06:23:09.630Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-api" in 737.098487ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finished \"us-central1-api\" in 737.098487ms"}}
+[debug] [2023-06-28T06:23:09.631Z] [worker-us-central1-api-f06de63a-4898-41e2-bd01-77d9591fc93c]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-f06de63a-4898-41e2-bd01-77d9591fc93c]: IDLE"}}
+[debug] [2023-06-28T06:23:09.631Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2023-06-28T06:23:09.631Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2023-06-28T06:23:09.632Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2023-06-28T06:23:19.916Z] [work-queue] {"queuedWork":["/v3rv-notionaios/us-central1/api/notion_manager/pages-2023-06-28T06:23:19.916Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2023-06-28T06:23:19.916Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/v3rv-notionaios/us-central1/api/notion_manager/pages-2023-06-28T06:23:19.916Z"],"workRunningCount":1}
+[debug] [2023-06-28T06:23:19.916Z] Accepted request POST /v3rv-notionaios/us-central1/api/notion_manager/pages --> us-central1-api
+[debug] [2023-06-28T06:23:19.929Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2023-06-28T06:23:19.930Z] [functions] Got req.url=/v3rv-notionaios/us-central1/api/notion_manager/pages, mapping to path=/notion_manager/pages {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/v3rv-notionaios/us-central1/api/notion_manager/pages, mapping to path=/notion_manager/pages"}}
+[debug] [2023-06-28T06:23:19.930Z] [worker-pool] submitRequest(triggerId=us-central1-api) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-api)"}}
+[info] i  functions: Beginning execution of "us-central1-api" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Beginning execution of \"us-central1-api\""}}
+[debug] [2023-06-28T06:23:19.930Z] [worker-us-central1-api-f06de63a-4898-41e2-bd01-77d9591fc93c]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-f06de63a-4898-41e2-bd01-77d9591fc93c]: BUSY"}}
+[info] >  trying to create page {"user":"trying to create page","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m trying to create page"}}
+[info] >  notionParentID: 02188417-8fa3-4e47-b4dd-1c464c00baaa {"user":"notionParentID: 02188417-8fa3-4e47-b4dd-1c464c00baaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m notionParentID: 02188417-8fa3-4e47-b4dd-1c464c00baaa"}}
+[warn] ⚠  External network resource requested!
+   - URL: "https://api.notion.com/v1/pages"
+ - Be careful, this may be a production service. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"External network resource requested!\n   - URL: \"https://api.notion.com/v1/pages\"\n - Be careful, this may be a production service."}}
+[info] >  made it all the way here {"user":"made it all the way here","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"\u001b[90m> \u001b[39m made it all the way here"}}
+[debug] [2023-06-28T06:23:21.524Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-api" in 1594.374839ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finished \"us-central1-api\" in 1594.374839ms"}}
+[debug] [2023-06-28T06:23:21.524Z] [worker-us-central1-api-f06de63a-4898-41e2-bd01-77d9591fc93c]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"[worker-us-central1-api-f06de63a-4898-41e2-bd01-77d9591fc93c]: IDLE"}}
+[debug] [2023-06-28T06:23:21.525Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2023-06-28T06:23:21.525Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-api"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2023-06-28T06:23:21.525Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
