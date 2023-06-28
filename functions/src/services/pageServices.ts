@@ -1,6 +1,6 @@
 import { Client } from "@notionhq/client";
 import { PageTree, Page }from "../projecthandler/PageTree.js";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, query, where, collection, getDocs } from "firebase/firestore";
 
 const DATABASEID = "244fbd23-36dc-46d5-a261-2c7dc9609f67"
 const folderIconURL = "https://icon-library.com/images/black-and-white-folder-icon/black-and-white-folder-icon-5.jpg"
@@ -119,16 +119,17 @@ async function addToFirebase(db: any, notion: Client, parentId: string, pageName
     }
 
     // Get parent page document
+    const parentDocRef = doc(db, 'pages', parentId)
+    const parentDocSnap = await getDoc(parentDocRef)
+
     const parentDoc = db.collection('pages').doc(parentId);
     const parent = await parentDoc.get();
 
-    if (!parent.exists) {
+    if (!parentDocSnap.exists) {
         return { Error: "Parent page does not exist" };
     }
 
-    const parentData = parent.data();
-
-    if (parentData?.type !== "folder") {
+    if (parentDoc?.type !== "folder") {
         return { Error: "Could not add page, parent was not a folder or was outside the project scope" };
     }
 
@@ -168,6 +169,74 @@ async function addToFirebase(db: any, notion: Client, parentId: string, pageName
     return { "pageId": response.id, "pageParent": parentId };
 }
 
+async function testDB(db: any, notion: Client, parentId: string, pageName: string, type: string) { 
+    type = type.toLowerCase();
+    const icon = type === "folder" ? folderIconURL : fileIconUrl;
+
+    let response;
+
+    // Check if page with the same name already exists
+    const q = query(collection(db, 'pages'), where('name', '==', pageName));
+    const pageSnapshot = await getDocs(q);
+    if (!pageSnapshot.empty) {
+        return { Error: "Page name already exists, no duplicates please" };
+    }
+
+    // Get parent page document
+    const parentDocRef = doc(db, 'pages', parentId)
+    const parentDocSnap = await getDoc(parentDocRef)
+
+    if (!parentDocSnap.exists) {
+        return { Error: "Parent page does not exist" };
+    }
+
+    const parentData = parentDocSnap.data();
+
+    if (parentData?.type !== "folder") {
+        return { Error: "Could not add page, parent was not a folder or was outside the project scope" };
+    }
+
+    const notionParentId = parentData.notionID
+    
+    console.log("parentID: " + notionParentId)
+    // Create page in Notion
+    response = await notion.pages.create({
+        "icon": {
+            "type": "external",
+            "external": {
+                "url": icon
+            }
+        },
+        "parent": {
+            "type": "page_id",
+            "page_id": notionParentId
+        },
+        "properties": {
+            "title": {
+                "title": [
+                    {
+                        "text": {
+                            "content": pageName
+                        }
+                    }
+                ]
+            }
+        },
+    });
+
+    console.log("made it all the way here")
+    try { 
+        await setDoc(doc(db, "pages", "LA"), {
+            name: pageName,
+            id: response.id,
+            type: type,
+            parentId: parentId
+        })
+    } catch (e : any){ 
+        return e
+    }
+
+}   
 function IDisRoot(id: string): boolean {
     if (id.toLowerCase() === "root-node") {
         console.log("id" + id)
@@ -187,4 +256,4 @@ function getPagesTree (pages: PageTree, rootPageName: string) {
     }
 }
 
-export default { createPage, getPagesTree, addToFirebase}
+export default { createPage, getPagesTree, addToFirebase, testDB}

@@ -71,7 +71,7 @@ const createPage = async (req, res) => {
         return fourHunnid(res)
     }
     const { parentName, pageName, type } = body;
-    const messageResponse = await notionPageServices.addToFirebase(db, notion, parentName, pageName, type);
+    const messageResponse = await notionPageServices.testDB(db, notion, parentName, pageName, type);
 
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
