@@ -59,8 +59,21 @@ const getDownloadLink = async (req, res) => {
     }
 };
 
+const createProject = async (req, res) => {
+    const { body } = req
+    if (
+        !body.projectName
+
+    ) {
+        return fourHunnid(res)
+    }
+    const { projectName } = body;
+    const messageResponse = await notionPageServices.createProject(db, projectName);
+
+    res.status(201).send({ status: "OK", data: { messageResponse } });
+}
+
 const createPage = async (req, res) => {
-    console.log("trying to create page")
     const { body } = req
     if ( 
         !body.projectId ||
@@ -72,7 +85,7 @@ const createPage = async (req, res) => {
         return fourHunnid(res)
     }
     const { projectId, parentName, pageName, type } = body;
-    const messageResponse = await notionPageServices.testDB(db, notion, projectId, parentName, pageName, type);
+    const messageResponse = await notionPageServices.createPage(db, notion, projectId, parentName, pageName, type);
 
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
@@ -129,7 +142,6 @@ const blockActions = async (req, res) => {
     let messageResponse: any;
 
     if (body.command === "DELETE LINES") {
-
         const blockId = body.blockId
         const startLine = body.startLine
         const endLine = body.endLine
@@ -257,6 +269,7 @@ export default {
     blockActions,
     pageActions,
 
+    createProject,
 
     getDownloadLink
 };

@@ -6,10 +6,9 @@ interface Page {
     content?: any
 }
 
-function addPage (project: any, page: Page, parentName: string) {
+function addPage (project: Page[], page: Page, parentName: string) {
     page.type = page.type ? page.type : 'Unknown';
 
-    console.log(parentName)
     if (parentName && parentName !== 'root') {
         const parentNode = findNodeByName(project, parentName);
         if (parentNode) {
@@ -26,7 +25,7 @@ function addPage (project: any, page: Page, parentName: string) {
     return project
 }
 
-function deletePage (project: any, page: Page) {
+function deletePage (project: Page[], page: Page) {
     page.type = page.type ? page.type : 'Unknown';
     console.log('Deleted page:', page);
     const parentNode = findParentNode(project, page);
@@ -40,7 +39,7 @@ function deletePage (project: any, page: Page) {
     return project
 }
 
-function getNodeByName(project: any, name: string): Page | undefined {
+function getNodeByName(project: Page[], name: string): Page | undefined {
     return findNodeByName(project, name);
 }
 
@@ -66,7 +65,6 @@ function findNodeByName(nodes: any, name: string): Page | undefined {
                 return node;
             }
             if (node.children) {
-                console.log("found node children")
                 const foundNode = findNodeByName(node.children, name);
                 if (foundNode) {
                     return foundNode;
@@ -138,4 +136,4 @@ function getExtension(page: Page): string {
 }
 
 
-export { addPage, getNodeByName, getNodeById }
+export { addPage, getNodeByName, getNodeById, Page}
