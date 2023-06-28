@@ -1,13 +1,13 @@
 import { Client } from "@notionhq/client";
 import * as pages from "../projecthandler/PageTree.js";
-import { Page } from "../projecthandler/PageTree.js"
-import { doc, setDoc, getDoc, query, where, collection, getDocs, addDoc } from "firebase/firestore";
+import { Page } from "../projecthandler/PageTree.js"; 
+import { doc, setDoc, getDoc, collection, addDoc, Firestore} from "firebase/firestore";
 
 const DATABASEID = "244fbd23-36dc-46d5-a261-2c7dc9609f67"
 const folderIconURL = "https://icon-library.com/images/black-and-white-folder-icon/black-and-white-folder-icon-5.jpg"
 const fileIconUrl = "https://static.thenounproject.com/png/1171-200.png"
 
-async function getProjectJson(db: any, projectId: string) {
+async function getProjectJson(db: Firestore, projectId: string) {
     const projectDocRef = doc(db, 'projects', projectId)
     const projectDocSnap = await getDoc(projectDocRef)
 
@@ -15,7 +15,7 @@ async function getProjectJson(db: any, projectId: string) {
         return undefined;
     }
 
-    let data = projectDocSnap.data();
+    let data = projectDocSnap.data()
 
     if (!data.project) {
         console.log("There was no root", data)
@@ -33,8 +33,37 @@ async function getProjectJson(db: any, projectId: string) {
     return data.project;
 }
 
-async function createProject(db: any, projectName: string) {
+async function updateProject(db: Firestore, projectId: string, pageName: string, content: string ) { 
+    const projectDocRef = doc(db, 'projects', projectId)
+    const projectDocSnap = await getDoc(projectDocRef)
 
+    if (!projectDocSnap.exists()) {
+        return undefined;
+    }
+
+    let data = projectDocSnap.data()
+    let project = data.project;
+
+    if (!project) {
+        console.log("There was no root", projectId)
+        return undefined;
+    }
+
+    const page = pages.getNodeByName(project, pageName)
+
+    if (page) {
+        project = pages.addContentToPage(project, page.id, content)
+    } else {
+        return { Error: "Page not found in project" };
+    }
+
+    // Update the document with the updated JSON
+    await setDoc(projectDocRef, { project }, { merge: false })
+
+    return project;
+}
+
+async function createProject(db: Firestore, projectName: string) {
     const docRef = await addDoc(collection(db, "projects"), {
         projectName: projectName,
     });
@@ -42,7 +71,20 @@ async function createProject(db: any, projectName: string) {
     return docRef.id
 }
 
-async function createPage(db: any, notion: Client, projectId: string, parentName: string, pageName: string, type: string) {
+async function getPage(db: Firestore, projectId: string, pageName: string): Promise<Page> { 
+    const projectDocRef = doc(db, 'projects', projectId)
+    const projectDocSnap = await getDoc(projectDocRef)
+
+    if (!projectDocSnap.exists()) {
+        return undefined;
+    }
+
+    const project: Page[] = projectDocSnap.data().project
+
+    return pages.getNodeByName(project, pageName)
+}
+
+async function createPage(db: Firestore, notion: Client, projectId: string, parentName: string, pageName: string, type: string) {
     type = type.toLowerCase();
     const icon = type === "folder" ? folderIconURL : fileIconUrl
 
@@ -135,7 +177,7 @@ async function createPage(db: any, notion: Client, projectId: string, parentName
         })
     }
 
-    const project = pages.addPage(projectFiles, { name: pageName, id: response.id, type: type }, parentName)
+    const project = pages.addPage(projectFiles, { name: pageName, id: response.id, type: type, content: "" }, parentName)
 
     await setDoc(doc(db, "projects", projectId), {
         project
@@ -155,4 +197,4 @@ function getPagesTree(pages: any, rootPageName: string) {
     }
 }
 
-export default { getPagesTree, createPage, createProject }
+export default { getPage, getProjectJson, getPagesTree, createPage, createProject, updateProject }

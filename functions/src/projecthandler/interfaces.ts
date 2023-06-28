@@ -13,4 +13,12 @@ interface CodeProperties {
     fileType: string
 };
 
-export { CodeBlock, Block, CodeProperties } 
+interface Page {
+    name: string;
+    id: string;
+    type?: string;
+    children?: Page[];
+    content?: any
+}
+
+export { CodeBlock, Block, CodeProperties, Page } 

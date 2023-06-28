@@ -1,6 +1,18 @@
 import { extractCode, toArray, deleteLines, insertCodeByLine } from "./codeBlockFunctions.js"
 import { Block } from "../projecthandler/interfaces.js"
 import { getNotion } from "../notionManager/notion.js";
+import { Page } from "../projecthandler/PageTree.js";
+import * as pages from "../projecthandler/PageTree.js"
+
+const languages: string[] = [
+    "abap", "agda", "arduino", "assembly", "bash", "basic", "bnf", "c", "c#", "c++", "clojure", "coffeescript", "coq", "css", 
+    "dart", "dhall", "diff", "docker", "ebnf", "elixir", "elm", "erlang", "f#", "flow", "fortran", "gherkin", "glsl", "go", 
+    "graphql", "groovy", "haskell", "html", "idris", "java", "javascript", "json", "julia", "kotlin", "latex", "less", "lisp", 
+    "livescript", "llvm ir", "lua", "makefile", "markdown", "markup", "matlab", "mathematica", "mermaid", "nix", "objective-c", 
+    "ocaml", "pascal", "perl", "php", "plain text", "powershell", "prolog", "protobuf", "purescript", "python", "r", "racket", 
+    "reason", "ruby", "rust", "sass", "scala", "scheme", "scss", "shell", "solidity", "sql", "swift", "toml", "typescript", 
+    "vb.net", "verilog", "vhdl", "visual basic", "webassembly", "xml", "yaml"
+];
 
 //get from local instance
 const notion = getNotion()
@@ -48,6 +60,13 @@ async function getChildBlocks(blockId: string) {
     }
 }
 
+const parseLanguage = (language: string) => { 
+    if(!languages.includes(language)){
+        return "javascript"
+    }
+    return language
+}
+
 async function updateCodeBlock(blockId: string, code: string) {
     try {
         const response = await notion.blocks.update({
@@ -86,14 +105,10 @@ async function getBlock(blockId: string): Promise<Block> {
     })
 }
 
-async function addBlock(pages: any, pageName: string, code: string): Promise<{ worked: boolean, message: any }> {
-    let page: any | undefined = pages.getNodeByName(pageName)
-    if (!page) {
-        return { worked: false, message: { error: ("No page with name: " + pageName) } }
-    }
+async function addBlock(page: Page, pageName: string, code: string): Promise<{ worked: boolean, message: any }> {
 
     const id = page.id
-    const language: any = page.type
+    const language: any = parseLanguage(page.type)
 
     try {
         const messageResponse = await notion.blocks.children.append({
@@ -117,10 +132,7 @@ async function addBlock(pages: any, pageName: string, code: string): Promise<{ w
             ],
         })
 
-        pages.updatePage(page, code)
-
-        console.log(page)
-        return { worked: true, message: { blockId: messageResponse.results[0].id, content: messageResponse.results[0]["code"].rich_text[0].text.content } };
+        return { worked: true, message: messageResponse};
     } catch (e: any) {
         return { worked: false, message: { error: e } };
     }

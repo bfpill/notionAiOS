@@ -1,11 +1,13 @@
 import notionBlockServices from "../services/blockServices.js";
 import notionPageServices from "../services/pageServices.js";
+import { Page } from "../projecthandler/interfaces.js";
 import { getNotion } from "../notionManager/notion.js";
 import { initializeApp } from "firebase/app"
 
 import dotenv from "dotenv"
 import { getFunctions, connectFunctionsEmulator, httpsCallable } from "firebase/functions";
 import { getFirestore } from "firebase/firestore"
+import { projectID } from "firebase-functions/params";
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -75,7 +77,7 @@ const createProject = async (req, res) => {
 
 const createPage = async (req, res) => {
     const { body } = req
-    if ( 
+    if (
         !body.projectId ||
         !body.parentName ||
         !body.pageName ||
@@ -133,6 +135,7 @@ const getChildBlocks = async (req, res) => {
 const blockActions = async (req, res) => {
     const { body } = req
     if (
+        !body.projectId ||
         !body.command ||
         !body.blockId
     ) {
@@ -171,9 +174,9 @@ const blockActions = async (req, res) => {
 }
 
 const pageActions = async (req, res) => {
-    console.log("page actions")
     const { body } = req
     if (
+        !body.projectId ||
         !body.command ||
         !((body.pageName && body.content) || (body.blockId))
     ) {
@@ -189,23 +192,21 @@ const pageActions = async (req, res) => {
 
     else if (body.command === "ADD BLOCK") {
         const pageName = body.pageName
-        const content = body.content
-        console.log(pageName, content)
-        messageResponse = await notionBlockServices.addBlock(pages, pageName, content);
-        console.log(messageResponse)
+
+        const page: Page = await notionPageServices.getPage(db, body.projectId, pageName)
+
+        if (page && page.type !== "folder") {
+            const content = body.content
+            notionBlockServices.addBlock(page, pageName, content)
+            notionPageServices.updateProject(db, body.projectId, pageName, content)
+            console.log(messageResponse)
+        }
+        else {
+            messageResponse = { worked: false, message: { error: "page was not a file or did not exist" } }
+        }
     }
 
-    else {
-        messageResponse = { worked: false, message: { error: "Could not parse command" } }
-    }
-
-    if (messageResponse.worked) {
-        res.status(201).send({ status: "OK", data: { messageResponse } });
-    }
-
-    else {
-        res.status(201).send({ status: "Error", data: { messageResponse } });
-    }
+    res.status(201).send({ status: "OK", data: { messageResponse } });
 }
 
 const deleteBlock = async (req, res) => {

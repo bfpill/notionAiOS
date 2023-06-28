@@ -14,3 +14,4 @@ functions/lib/**/*.js
 functions/lib/projecthandler/PageTree.js.map
 *.js
 *.map
+functions/lib

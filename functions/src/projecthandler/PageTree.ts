@@ -1,10 +1,4 @@
-interface Page {
-    name: string;
-    id: string;
-    type?: string;
-    children?: Page[];
-    content?: any
-}
+import { Page } from "./interfaces";
 
 function addPage (project: Page[], page: Page, parentName: string) {
     page.type = page.type ? page.type : 'Unknown';
@@ -39,8 +33,20 @@ function deletePage (project: Page[], page: Page) {
     return project
 }
 
-function getNodeByName(project: Page[], name: string): Page | undefined {
+function getNodeByName(project: any, name: string): Page | undefined {
     return findNodeByName(project, name);
+}
+
+function addContentToPage(jsonObject: Page[], pageId: string, content: string): Page[] {
+    return jsonObject.map(node => {
+        if (node.children) {
+            node.children = addContentToPage(node.children, pageId, content);
+        }
+        if (node.id === pageId && node.type === 'file') {
+            node.content = content;
+        }
+        return node;
+    });
 }
 
 function getNodeById(nodes: any, id: string ): Page | undefined {
@@ -59,7 +65,7 @@ function getNodeById(nodes: any, id: string ): Page | undefined {
 }
 
 function findNodeByName(nodes: any, name: string): Page | undefined {
-    if (nodes.length > 0) {
+    if (nodes?.length > 0) {
         for (const node of nodes) {
             if (node.name === name) {
                 return node;
@@ -136,4 +142,4 @@ function getExtension(page: Page): string {
 }
 
 
-export { addPage, getNodeByName, getNodeById, Page}
+export { addContentToPage, addPage, getNodeByName, getNodeById, Page}
