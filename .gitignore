@@ -1,5 +1,18 @@
-node_modules
-data/pageTree.json
-.env
-data/pageTree.json
-firebase-debug.log
+# Compiled JavaScript files
+functions/lib/**/*.js
+functions/lib/**/*.js.map
+
+# TypeScript v1 declaration files
+typings/
+
+# Node.js dependency directory
+node_modules/
+
+.runtimeconfig.json
+
+functions/lib/**/*.js
+functions/lib/projecthandler/PageTree.js.map
+*.js
+*.map
+functions/lib
+functions/firebase-debug.log
