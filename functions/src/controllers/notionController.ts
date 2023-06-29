@@ -70,7 +70,7 @@ const createProject = async (req, res) => {
         return fourHunnid(res)
     }
     const { projectName } = body;
-    const messageResponse = await notionPageServices.createProject(db, projectName);
+    const messageResponse = await notionPageServices.createProject(db, notion, projectName);
 
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
@@ -209,29 +209,6 @@ const pageActions = async (req, res) => {
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
 
-const deleteBlock = async (req, res) => {
-    const { body } = req
-    if (
-        !body.blockId
-    ) {
-        res
-            .status(400)
-            .send({
-                status: "FAILED",
-                data: {
-                    error:
-                        "Error becuase you probably forgot a property"
-                },
-            });
-        return;
-    }
-    const { blockId, lineNumber, code } = body;
-    console.log(blockId, lineNumber, code)
-    const messageResponse = await notionBlockServices.deleteBlock(blockId);
-
-    res.status(201).send({ status: "OK", data: { messageResponse } });
-};
-
 const getBlockCode = async (req, res) => {
     const { body } = req
     if (
@@ -266,7 +243,6 @@ export default {
     updateProperty,
     getChildBlocks,
     getBlockCode,
-    deleteBlock,
     blockActions,
     pageActions,
 

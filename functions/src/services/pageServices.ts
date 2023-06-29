@@ -1,39 +1,30 @@
 import { Client } from "@notionhq/client";
 import * as pages from "../projecthandler/PageTree.js";
-import { Page } from "../projecthandler/PageTree.js"; 
-import { doc, setDoc, getDoc, collection, addDoc, Firestore} from "firebase/firestore";
+import { Page } from "../projecthandler/PageTree.js";
+import { doc, setDoc, getDoc, collection, addDoc, Firestore } from "firebase/firestore";
+import { projectID } from "firebase-functions/params";
 
 const DATABASEID = "244fbd23-36dc-46d5-a261-2c7dc9609f67"
 const folderIconURL = "https://icon-library.com/images/black-and-white-folder-icon/black-and-white-folder-icon-5.jpg"
 const fileIconUrl = "https://static.thenounproject.com/png/1171-200.png"
 
-async function getProjectJson(db: Firestore, projectId: string) {
+async function getProjectJson(db: Firestore, projectId: string, projectName: string) {
     const projectDocRef = doc(db, 'projects', projectId)
     const projectDocSnap = await getDoc(projectDocRef)
 
+    console.log("smnap", projectDocSnap.data())
+
     if (!projectDocSnap.exists()) {
+        console.log("project doesn't exist")
         return undefined;
     }
 
     let data = projectDocSnap.data()
 
-    if (!data.project) {
-        console.log("There was no root", data)
-        data = {
-            project: [{
-                "name": "root",
-                "id": "root-node",
-                "type": "folder",
-                "children": []
-            }]
-        };
-        await setDoc(projectDocRef, data, { merge: true });
-    }
-
     return data.project;
 }
 
-async function updateProject(db: Firestore, projectId: string, pageName: string, content: string ) { 
+async function updateProject(db: Firestore, projectId: string, pageName: string, content: string) {
     const projectDocRef = doc(db, 'projects', projectId)
     const projectDocSnap = await getDoc(projectDocRef)
 
@@ -63,15 +54,27 @@ async function updateProject(db: Firestore, projectId: string, pageName: string,
     return project;
 }
 
-async function createProject(db: Firestore, projectName: string) {
-    const docRef = await addDoc(collection(db, "projects"), {
-        projectName: projectName,
-    });
+async function createProject(db: Firestore, notion: Client, projectName: string) {
+    const docRef = await addDoc(collection(db, "projects"), {}).then((res) => {
+        setDoc(doc(db, "projects", res.id), 
+            { project: [{
+                name: projectName,
+                id: res.id,
+                type: "root",
+                children: []
+            }] }
+        );
+        return res
+    })
 
+    console.log("Id " + docRef.id)
+
+    const res = await addPageToNotion(notion, { name: projectName, type: "folder"}, docRef.id, "root")
+    console.log(res)
     return docRef.id
 }
 
-async function getPage(db: Firestore, projectId: string, pageName: string): Promise<Page> { 
+async function getPage(db: Firestore, projectId: string, pageName: string): Promise<Page> {
     const projectDocRef = doc(db, 'projects', projectId)
     const projectDocSnap = await getDoc(projectDocRef)
 
@@ -84,26 +87,13 @@ async function getPage(db: Firestore, projectId: string, pageName: string): Prom
     return pages.getNodeByName(project, pageName)
 }
 
-async function createPage(db: Firestore, notion: Client, projectId: string, parentName: string, pageName: string, type: string) {
-    type = type.toLowerCase();
-    const icon = type === "folder" ? folderIconURL : fileIconUrl
+async function addPageToNotion( notion: Client, page: { name: string, type: string }, parentId: string, parentType: string){ 
+    page.type = page.type.toLowerCase();
+    const icon = (page.type === "folder" || page.type === "root") ? folderIconURL : fileIconUrl
 
     let response;
-
-    const projectFiles: Page[] = await getProjectJson(db, projectId)
-
-    if (!projectFiles) {
-        return ("No project with id: " + projectId + " found.")
-    }
-    if (pages.getNodeByName(projectFiles, pageName)) {
-        return { Error: "Page name already exists, no duplicates please" };
-    }
-
-    let parentId = pages.getNodeByName(projectFiles, parentName)?.id
-
-    if (parentId !== 'root-node') {
+    if (parentType !== "root") {
         try {
-            const parentType = pages.getNodeByName(projectFiles, parentName)?.type
 
             if (!parentType || parentType !== "folder") {
                 return { Error: "Could not add page, parent was not a folder or was outside the project scope" }
@@ -125,7 +115,7 @@ async function createPage(db: Firestore, notion: Client, projectId: string, pare
                         "title": [
                             {
                                 "text": {
-                                    "content": pageName
+                                    "content": page.name
                                 }
                             }
                         ]
@@ -134,7 +124,7 @@ async function createPage(db: Firestore, notion: Client, projectId: string, pare
             })
         } catch (e: any) {
             if (e instanceof TypeError) {
-                return ("The provided parentID does not exist: " + e)
+                return e
             }
             return ("Error: " + e)
         }
@@ -157,7 +147,7 @@ async function createPage(db: Firestore, notion: Client, projectId: string, pare
                     "title": [
                         {
                             "text": {
-                                "content": pageName
+                                "content": page.name
                             }
                         }
                     ]
@@ -166,18 +156,44 @@ async function createPage(db: Firestore, notion: Client, projectId: string, pare
                     "rich_text": [
                         {
                             "text": {
-                                "content": type
+                                "content": page.type
                             }
                         }
                     ]
                 }
             },
-            "children": [
-            ]
+            "children": []
         })
     }
+    return response; 
+}
 
-    const project = pages.addPage(projectFiles, { name: pageName, id: response.id, type: type, content: "" }, parentName)
+async function createPage(db: Firestore, notion: Client, projectId: string, parentName: string, pageName: string, pageType: string, projectName?: string) {
+   
+    const projectFiles: Page[] = await getProjectJson(db, projectId, projectName)
+
+    if (!projectFiles) {
+        return ("No project with id: " + projectId + " found.")
+    }
+    if (pages.getNodeByName(projectFiles, pageName)) {
+        return { Error: "Page name already exists, no duplicates please" };
+    }
+
+    console.log("files", projectFiles)
+
+    const parentType = pages.getNodeByName(projectFiles, parentName)?.type
+    const parentId = pages.getNodeByName(projectFiles, parentName)?.id
+
+    const response = await addPageToNotion(notion, { name: pageName, type: pageType }, parentId, parentType)
+
+    const page: Page = { 
+        name: pageName, 
+        id: response.id,
+        type: pageType, 
+        content: ""
+    }
+
+    const project = pages.addPage(projectFiles, page , parentName)
 
     await setDoc(doc(db, "projects", projectId), {
         project
