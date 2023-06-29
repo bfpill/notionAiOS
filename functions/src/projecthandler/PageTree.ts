@@ -42,7 +42,7 @@ function addContentToPage(jsonObject: Page[], pageId: string, content: string): 
         if (node.children) {
             node.children = addContentToPage(node.children, pageId, content);
         }
-        if (node.id === pageId && node.type === 'file') {
+        if (node.id === pageId && node.type !== 'folder') {
             node.content = content;
         }
         return node;

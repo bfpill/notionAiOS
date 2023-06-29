@@ -182,14 +182,15 @@ const blockActions = async (req, res) => {
 const pageActions = async (req, res) => {
     const { body } = req
     if (
-        !body.projectId ||
+        !body.userId ||
+        !body.projectName ||
         !body.command ||
         !((body.pageName && body.content) || (body.blockId))
     ) {
         return fourHunnid(res);
     }
 
-    let messageResponse: { worked: boolean, message: {} };
+    let messageResponse: any;
 
     if (body.command === "DELETE BLOCK") {
         const blockId = body.blockId
@@ -197,18 +198,15 @@ const pageActions = async (req, res) => {
     }
 
     else if (body.command === "ADD BLOCK") {
-        const pageName = body.pageName
-
-        const page: Page = await notionPageServices.getPage(db, body.projectId, pageName)
+        const page: Page = await notionPageServices.getPage(db, body.userId, body.projectName, body.pageName)
 
         if (page && page.type !== "folder") {
             const content = body.content
-            notionBlockServices.addBlock(page, pageName, content)
-            notionPageServices.updateProject(db, body.projectId, pageName, content)
-            console.log(messageResponse)
+            await notionBlockServices.addBlock(page, body.pageName, content)
+            messageResponse = await notionPageServices.updateProject(db, body.userId, body.projectName, page.id, content)
         }
         else {
-            messageResponse = { worked: false, message: { error: "page was not a file or did not exist" } }
+            messageResponse = { worked: false, message: { error: "page was not a file or did not exist", page } }
         }
     }
 

@@ -29,51 +29,50 @@ async function getProjectJson(db: Firestore, userId: string, projectName: string
     }
 }
 
-async function updateProject(db: Firestore, projectId: string, pageName: string, content: string) {
-    const projectDocRef = doc(db, 'projects', projectId)
-    const projectDocSnap = await getDoc(projectDocRef)
-
-    if (!projectDocSnap.exists()) {
-        return undefined;
-    }
-
-    let data = projectDocSnap.data()
-    let project = data.project;
+async function updateProject(db: Firestore, userId: string, projectName: string, pageId: string, content: string) {
+    let project = await getProject(db, userId, projectName)
 
     if (!project) {
-        console.log("There was no root", projectId)
+        console.log("There was no root", projectName)
         return undefined;
     }
 
-    const page = pages.getNodeByName(project, pageName)
+    console.log(pageId)
+    project = pages.addContentToPage(project, pageId, content)
 
-    if (page) {
-        project = pages.addContentToPage(project, page.id, content)
-    } else {
-        return { Error: "Page not found in project" };
-    }
+    console.log(project[0].children[1])
 
-    await setDoc(projectDocRef, { project }, { merge: false })
+    await setDoc(doc(db, 'users', userId, "projects", projectName), {
+        project
+    });
 
     return project;
 }
 
 
-async function projectNameOk(db: Firestore, userId: string, projectName: string) : Promise<boolean>{
+async function getProject(db: Firestore, userId: string, projectName: string) : Promise<any>{
     const docRef = doc(db, 'users', userId, "projects", projectName)
     const docSnap = await getDoc(docRef)
 
-    if(docSnap.exists()){
-        return false
+    if(!docSnap.exists()){
+        return undefined
     }
 
-    console.log("project does not exist")
-    return true;
+    return docSnap.data().project;
+}
+
+async function getPage(db: Firestore, userId: string, projectName: string, pageName: string){
+    const project = await getProject(db, userId, projectName)
+
+    if(project){
+        console.log("hot the project", project)
+        return pages.getNodeByName(project, pageName)
+    }
 }
 
 async function createProject(db: Firestore, notion: Client, userId: string, projectName: string) {
     
-    if(await projectNameOk(db, userId, projectName) !== true) return "User already has a project with the name: " + projectName
+    if(await getProject(db, userId, projectName)) return "User already has a project with the name: " + projectName
 
     const res = await addPageToNotion(notion, { name: projectName, type: "folder" }, DATABASEID, "root")
 
@@ -89,19 +88,6 @@ async function createProject(db: Firestore, notion: Client, userId: string, proj
     })
 
     return "Project : " + projectName + " successfully created"
-}
-
-async function getPage(db: Firestore, projectId: string, pageName: string): Promise<Page> {
-    const projectDocRef = doc(db, 'projects', projectId)
-    const projectDocSnap = await getDoc(projectDocRef)
-
-    if (!projectDocSnap.exists()) {
-        return undefined;
-    }
-
-    const project: Page[] = projectDocSnap.data().project
-
-    return pages.getNodeByName(project, pageName)
 }
 
 async function addPageToNotion(notion: Client, page: { name: string, type: string }, parentId: string, parentType: string) {
