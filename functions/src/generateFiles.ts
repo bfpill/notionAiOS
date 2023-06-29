@@ -15,9 +15,6 @@ export const generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onC
     const filesDir = path.join(os.tmpdir(), 'notion-ai-os', 'files');
     const zipDir = path.join(os.tmpdir(), 'notion-ai-os', 'zip');
 
-    console.log(filesDir, zipDir)
-
-
     await fs.promises.mkdir(filesDir, { recursive: true });
     await fs.promises.mkdir(zipDir, { recursive: true });
 
@@ -80,9 +77,6 @@ const createFilesAndFolders = async (node: PageNode, currentPath: string) => {
             }
         }
         else {
-            console.log("Adding node: " + node.name)
-            console.log("Path: " + currentPath)
-
             const newPath = path.join(currentPath, node.name);
             console.log("found: " + node.name)
             if (node.type === 'folder') {

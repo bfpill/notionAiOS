@@ -1,0 +1,171 @@
+info:
+  title: NotionAiOS
+  description: A plugin for interacting with Notion
+  version: 'v1'
+servers:
+  - url:  https://v3rv-notionaios.web.app/api"
+paths:
+  /pageActions:
+    post: 
+      operationId: pageActions
+      summary: Use to add or delete blocks from a page
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetBlocksRequest' 
+      responses: 
+        "200":
+          description: OK
+          content:
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/GetBlocksResponse' 
+  /blockActions:
+    post:
+      operationId: codeBlock
+      summary: Update the contents of an existing code block.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCodeBlockRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCodeBlockResponse'
+  /pages:
+    post:
+      operationId: createPage
+      summary: Create a new page
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePageRequest'
+  /filetree: 
+    post:
+      operationId: getPages
+      summary: Get the filetree of the project 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetPagesRequest'
+  /downloadLink: 
+    post:
+      operationId: downloadProject
+      summary: Get a download link for a zip of the current project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetDownloadLinkRequest'
+
+components:
+  schemas:
+    GetDownloadLinkRequest: 
+      type: object
+      required: 
+        - name
+      properties: 
+        name:
+          type: string, 
+          description: The name of the folder or file ( in the project ) that you wish to download 
+    GetBlocksRequest: 
+      type: object
+      required:
+        - command
+      properties: 
+        command: 
+          type: string
+          description: Should be either "DELETE BLOCK" or "ADD BLOCK"
+        pageName:
+          type: string
+          description: the ID of the page, required for adding a block
+        blockId: 
+          type: string
+          description: the ID of the block, required for deleting a block
+        content:
+          type: string
+          description: the content you wish to add to your block ( required for adding a block )
+        language: 
+          type: string
+          description: the language of the code you are writing, IE javascript, rust, etc
+    GetBlocksResponse: 
+      type: object
+      properties: 
+        messageResponse:
+          type: string
+          description: The results of the request
+
+    UpdateCodeBlockRequest:
+      type: object
+      required:
+        - command
+        - blockId
+        - startLine
+        - endLine
+      properties:
+        command:  
+          type: string
+          description: Should be either "DELETE LINES" or "REPLACE LINES"
+        blockId:
+          type: string
+          description: The ID of the code block to be updated.
+        code:
+          type: string
+          description: The new code to replace the current lines - only use if you are using the "REPLACE LINES" command
+        startLine:
+          type: number
+          description: The first line number
+        endLine:
+          type: number
+          description: The end line number - always use, if you want to act on one line your start and end line should be the same. (inclusive)
+    UpdateCodeBlockResponse:
+      type: object
+      properties: 
+        messageResponse:
+          type: string
+          description: The results of request
+
+    GetPagesRequest: 
+      type: object
+      required: 
+        - pageName
+      properties: 
+        pageName: 
+          type: string
+          summary: the root page of the returned file tree
+    GetPagesResponse: 
+      type: object
+      properties: 
+        messageResponse:
+          type: string
+          description: The results of request
+ 
+    CreatePageRequest: 
+      type: object
+      required: 
+        - parentName
+        - pageName
+        - type
+      properties: 
+        parentName: 
+          type: string
+          description: The name of the new page's parent folder
+        pageName: 
+          type: string
+          description: The name of the new page
+        type: 
+          type: string
+          description: The filetype of the new page (ex. folder, rust, javascript... etc)
+    CreatePageResponse: 
+      type: object
+      properties: 
+        messageResponse:
+          type: string
+          description: The results of request

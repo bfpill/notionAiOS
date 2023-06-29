@@ -7,6 +7,9 @@ import { initializeApp } from "firebase/app"
 import dotenv from "dotenv"
 import { getFunctions, connectFunctionsEmulator, httpsCallable } from "firebase/functions";
 import { getFirestore } from "firebase/firestore"
+import * as fb from "firebase-functions"
+
+const fbKey = fb.config().fb.kry;
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
