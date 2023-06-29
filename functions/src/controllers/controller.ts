@@ -88,9 +88,11 @@ const createPage = async (req, res) => {
     }
     const userId = body.userId
     const projectName = body.projectName
-    const parentName = 'root' ? projectName : body.parentName
+    const parentName = body.parentName === 'root' ? projectName : body.parentName
     const pageName = body.pageName
     const type = body.type
+
+    console.log("parentName : " + parentName)
 
     const messageResponse = await notionPageServices.createPage(db, notion, userId, projectName, parentName, pageName, type);
 

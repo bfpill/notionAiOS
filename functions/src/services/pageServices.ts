@@ -173,20 +173,19 @@ async function addPageToNotion(notion: Client, page: { name: string, type: strin
 
 async function createPage(db: Firestore, notion: Client, userId: string, projectName: string, parentName: string, pageName: string, pageType: string) {
 
-    console.log("user id: ", userId)
     const projectFiles: Page[] = await getProjectJson(db, userId, projectName)
 
     if (!projectFiles) {
-
         return ("No project with name: " + projectName + " found.")
     }
     if (pages.getNodeByName(projectFiles, pageName)) {
         return { Error: "Page name already exists, no duplicates please" };
     }
 
-    console.log("files", projectFiles)
-
     const parentType = pages.getNodeByName(projectFiles, parentName)?.type
+
+    console.log("ParentType : " + parentType)
+    if(parentType !== "root" && parentType !== "folder") return "Could not create page because parent: " + parentName + " is a file"
     const parentId = pages.getNodeByName(projectFiles, parentName)?.id
 
     const response = await addPageToNotion(notion, { name: pageName, type: pageType }, parentId, parentType)
