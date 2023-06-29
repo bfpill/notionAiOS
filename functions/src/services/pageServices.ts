@@ -1,8 +1,7 @@
 import { Client } from "@notionhq/client";
 import * as pages from "../projecthandler/PageTree.js";
 import { Page } from "../projecthandler/PageTree.js";
-import { doc, setDoc, getDoc, collection, addDoc, Firestore } from "firebase/firestore";
-import { projectID } from "firebase-functions/params";
+import { doc, setDoc, getDoc, Firestore } from "firebase/firestore";
 
 const DATABASEID = "244fbd23-36dc-46d5-a261-2c7dc9609f67"
 const folderIconURL = "https://icon-library.com/images/black-and-white-folder-icon/black-and-white-folder-icon-5.jpg"
@@ -55,23 +54,20 @@ async function updateProject(db: Firestore, projectId: string, pageName: string,
 }
 
 async function createProject(db: Firestore, notion: Client, projectName: string) {
-    const docRef = await addDoc(collection(db, "projects"), {}).then((res) => {
-        setDoc(doc(db, "projects", res.id), 
-            { project: [{
+
+    const res = await addPageToNotion(notion, { name: projectName, type: "folder" }, DATABASEID, "root")
+
+    await setDoc(doc(db, "projects", res.id), {
+        project:
+            [{
                 name: projectName,
                 id: res.id,
-                type: "root",
+                type: "folder",
                 children: []
-            }] }
-        );
-        return res
+            }]
     })
 
-    console.log("Id " + docRef.id)
-
-    const res = await addPageToNotion(notion, { name: projectName, type: "folder"}, docRef.id, "root")
-    console.log(res)
-    return docRef.id
+    return res
 }
 
 async function getPage(db: Firestore, projectId: string, pageName: string): Promise<Page> {
@@ -87,7 +83,7 @@ async function getPage(db: Firestore, projectId: string, pageName: string): Prom
     return pages.getNodeByName(project, pageName)
 }
 
-async function addPageToNotion( notion: Client, page: { name: string, type: string }, parentId: string, parentType: string){ 
+async function addPageToNotion(notion: Client, page: { name: string, type: string }, parentId: string, parentType: string) {
     page.type = page.type.toLowerCase();
     const icon = (page.type === "folder" || page.type === "root") ? folderIconURL : fileIconUrl
 
@@ -95,7 +91,7 @@ async function addPageToNotion( notion: Client, page: { name: string, type: stri
     if (parentType !== "root") {
         try {
 
-            if (!parentType || parentType !== "folder") {
+            if (!parentType || (parentType !== "folder" && parentType !== "root")) {
                 return { Error: "Could not add page, parent was not a folder or was outside the project scope" }
             }
 
@@ -140,7 +136,7 @@ async function addPageToNotion( notion: Client, page: { name: string, type: stri
             },
             "parent": {
                 "type": "database_id",
-                "database_id": DATABASEID
+                "database_id": parentId
             },
             "properties": {
                 "Name": {
@@ -165,11 +161,11 @@ async function addPageToNotion( notion: Client, page: { name: string, type: stri
             "children": []
         })
     }
-    return response; 
+    return response;
 }
 
 async function createPage(db: Firestore, notion: Client, projectId: string, parentName: string, pageName: string, pageType: string, projectName?: string) {
-   
+
     const projectFiles: Page[] = await getProjectJson(db, projectId, projectName)
 
     if (!projectFiles) {
@@ -186,14 +182,14 @@ async function createPage(db: Firestore, notion: Client, projectId: string, pare
 
     const response = await addPageToNotion(notion, { name: pageName, type: pageType }, parentId, parentType)
 
-    const page: Page = { 
-        name: pageName, 
+    const page: Page = {
+        name: pageName,
         id: response.id,
-        type: pageType, 
+        type: pageType,
         content: ""
     }
 
-    const project = pages.addPage(projectFiles, page , parentName)
+    const project = pages.addPage(projectFiles, page, parentName)
 
     await setDoc(doc(db, "projects", projectId), {
         project
