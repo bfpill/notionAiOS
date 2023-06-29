@@ -40,13 +40,16 @@ async function updateProject(db: Firestore, userId: string, projectName: string,
     console.log(pageId)
     project = pages.addContentToPage(project, pageId, content)
 
-    console.log(project[0].children[1])
+    try{
+        await setDoc(doc(db, 'users', userId, "projects", projectName), {
+            project
+        });
 
-    await setDoc(doc(db, 'users', userId, "projects", projectName), {
-        project
-    });
+        return("Updated page: " + pageId + " in " + projectName + ".")
 
-    return project;
+    } catch (e: any){
+        return("Unknown error updating project: " + e) 
+    }
 }
 
 
@@ -72,7 +75,7 @@ async function getPage(db: Firestore, userId: string, projectName: string, pageN
 
 async function createProject(db: Firestore, notion: Client, userId: string, projectName: string) {
     
-    if(await getProject(db, userId, projectName)) return "User already has a project with the name: " + projectName
+    if(await getProject(db, userId, projectName)) return "User already has a project with the name: '" + projectName + "'"
 
     const res = await addPageToNotion(notion, { name: projectName, type: "folder" }, DATABASEID, "root")
 
@@ -87,7 +90,7 @@ async function createProject(db: Firestore, notion: Client, userId: string, proj
             }]
     })
 
-    return "Project : " + projectName + " successfully created"
+    return "Project : '" + projectName + "' successfully created"
 }
 
 async function addPageToNotion(notion: Client, page: { name: string, type: string }, parentId: string, parentType: string) {
@@ -175,17 +178,14 @@ async function createPage(db: Firestore, notion: Client, userId: string, project
 
     const projectFiles: Page[] = await getProjectJson(db, userId, projectName)
 
-    if (!projectFiles) {
-        return ("No project with name: " + projectName + " found.")
-    }
-    if (pages.getNodeByName(projectFiles, pageName)) {
-        return { Error: "Page name already exists, no duplicates please" };
-    }
-
     const parentType = pages.getNodeByName(projectFiles, parentName)?.type
 
-    console.log("ParentType : " + parentType)
-    if(parentType !== "root" && parentType !== "folder") return "Could not create page because parent: " + parentName + " is a file"
+    if(!parentType) return "Could not create page because parent: '" + parentName + "' does not exist"
+    if(parentType !== "root" && parentType !== "folder") return "Could not create page because parent: '" + parentName + "' is a file"
+
+    if (!projectFiles) return ("No project with name: '" + projectName + "' found.")
+    if (pages.getNodeByName(projectFiles, pageName)) return { Error: "Page name already exists, no duplicates please" }
+
     const parentId = pages.getNodeByName(projectFiles, parentName)?.id
 
     const response = await addPageToNotion(notion, { name: pageName, type: pageType }, parentId, parentType)
