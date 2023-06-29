@@ -40,17 +40,18 @@ console.log("connector initialized")
 const getDownloadLink = async (req, res) => {
     const { body } = req
     if (
-        !body.name
+        !body.userId || 
+        !body.projectName
     ) {
         return fourHunnid(res)
     }
-    const name: string = body.name;
-    let files = pages.getNodeByName(name) ?? pages.tree
 
-    console.log(files)
+    const projectName = body.projectName;
+    const project = await notionPageServices.getProjectJson(db, body.userId, projectName)
+
     const generateFiles = httpsCallable(functions, "generateFiles");
     try {
-        const result = await generateFiles({ json: files, name: name })
+        const result = await generateFiles({ json: project, name: projectName })
 
         const data = result.data;
         res.status(201).send({ status: "OK", data: { data } });
@@ -91,8 +92,6 @@ const createPage = async (req, res) => {
     const parentName = body.parentName === 'root' ? projectName : body.parentName
     const pageName = body.pageName
     const type = body.type
-
-    console.log("parentName : " + parentName)
 
     const messageResponse = await notionPageServices.createPage(db, notion, userId, projectName, parentName, pageName, type);
 

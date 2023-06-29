@@ -15,3 +15,4 @@ functions/lib/projecthandler/PageTree.js.map
 *.js
 *.map
 functions/lib
+functions/firebase-debug.log

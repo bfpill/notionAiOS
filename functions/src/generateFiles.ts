@@ -6,46 +6,40 @@ import path from 'path'
 import fs from 'fs'
 import JSZip from 'jszip'
 
-console.log("Initializing file generator")
+const app = admin.initializeApp()
 
-export const generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(async (props: {db: any, json: any, name: string}) => {
-
-    // Generate files from JSON data structure
+// Separate function from the other because scale
+export const generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(async (props: { json: any, name: string }) => {
     const json = props.json
 
-    const tmpdir = path.join(os.tmpdir(), 'notion-ai-os'); // Create a new directory within the system's temporary directory
+    const filesDir = path.join(os.tmpdir(), 'notion-ai-os', 'files');
+    const zipDir = path.join(os.tmpdir(), 'notion-ai-os', 'zip');
 
-    if (fs.existsSync(tmpdir)) {
-        fs.rmdirSync(tmpdir, {
-            recursive: true,
-        })
-        console.log("deleted old stache")
-    }
-    
-    fs.mkdirSync(tmpdir);
+    console.log(filesDir, zipDir)
 
-    createDownloadable(json, tmpdir);
+
+    await fs.promises.mkdir(filesDir, { recursive: true });
+    await fs.promises.mkdir(zipDir, { recursive: true });
+
+    await createDownloadable(json, filesDir);
 
     const zippedName = props.name + '.zip'
     const zip = new JSZip();
-    const zipPath = path.join(tmpdir, zippedName);
+    const zipPath = path.join(zipDir, zippedName);
 
-    await addDirToZip(tmpdir, zip);
-
-    const content = await zip.generateAsync({type:"nodebuffer"});
+    await addDirToZip(filesDir, zip);
+    const content = await zip.generateAsync({ type: "nodebuffer" });
 
     fs.writeFileSync(zipPath, content);
 
-
     const bucket = admin.storage().bucket();
     const [file] = await bucket.upload(zipPath, {
-        destination: `user_files/` + zippedName,
+        destination: `user_file/` + zippedName,
     });
 
-    console.log('Used admin storage')
     const url = file.metadata.mediaLink;
-    
-    return { url }; 
+
+    return { url };
 });
 
 async function addDirToZip(dir: any, zip: any) {
@@ -71,47 +65,48 @@ interface PageNode {
     content?: string;
 }
 
-function checkIsArray(variable: any) { 
-    if(variable instanceof Array){
+function checkIsArray(variable: any) {
+    if (variable instanceof Array) {
         return true
     }
     return false
 }
 
-const createFilesAndFolders = (node: PageNode, currentPath: string = '.') => {
-
+const createFilesAndFolders = async (node: PageNode, currentPath: string) => {
     if (node !== undefined) {
-        // we need this because currently front and backend are not lined up ksdbgpaksdghfldskg
-        if(node.name === undefined){
-            if(checkIsArray(node)){
-                createFilesAndFolders(node[0])
+        if (node.name === undefined) {
+            if (checkIsArray(node)) {
+                createFilesAndFolders(node[0], currentPath)
             }
         }
-        else { 
+        else {
             console.log("Adding node: " + node.name)
             console.log("Path: " + currentPath)
-    
+
             const newPath = path.join(currentPath, node.name);
             console.log("found: " + node.name)
             if (node.type === 'folder') {
                 if (!fs.existsSync(newPath)) {
-                    fs.mkdirSync(newPath);
+                    await fs.promises.mkdir(newPath);
                     console.log("added dir at: " + newPath)
                 }
-    
+
                 if (node.children) {
                     for (const child of node.children) {
                         createFilesAndFolders(child, newPath);
                     }
                 }
             } else if (node.type !== 'folder') {
-                fs.writeFileSync(newPath, node.content || 'This file is empty');
+                const data = node.content ?? 'This file is empty'
+
+                console.log("data", data)
+                fs.writeFileSync(newPath, data)
                 console.log("added file at: " + newPath)
             }
         }
     }
 };
 
-function createDownloadable(jsonTree: any, currentPath: string) {
-    createFilesAndFolders(jsonTree, currentPath)
+async function createDownloadable(jsonTree: any, currentPath: string) {
+    await createFilesAndFolders(jsonTree, currentPath)
 }
