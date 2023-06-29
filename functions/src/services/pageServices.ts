@@ -7,20 +7,26 @@ const DATABASEID = "244fbd23-36dc-46d5-a261-2c7dc9609f67"
 const folderIconURL = "https://icon-library.com/images/black-and-white-folder-icon/black-and-white-folder-icon-5.jpg"
 const fileIconUrl = "https://static.thenounproject.com/png/1171-200.png"
 
-async function getProjectJson(db: Firestore, projectId: string, projectName: string) {
-    const projectDocRef = doc(db, 'projects', projectId)
-    const projectDocSnap = await getDoc(projectDocRef)
+async function getProjectJson(db: Firestore, userId: string, projectName: string) {
 
-    console.log("smnap", projectDocSnap.data())
+    try {
+        console.log(projectName)
+        const projectRef = doc(db, 'users', userId, "projects", projectName)
+        const projectDocSnap = await getDoc(projectRef)
 
-    if (!projectDocSnap.exists()) {
-        console.log("project doesn't exist")
-        return undefined;
+        if (projectDocSnap.exists()) {
+            let data = projectDocSnap.data()
+            return data.project;
+        }
+
+        else {
+            console.log("project: " + projectName + " doesn't exist")
+            return undefined;
+        }
+
+    } catch (e: any) {
+        throw new Error("Could not get doc")
     }
-
-    let data = projectDocSnap.data()
-
-    return data.project;
 }
 
 async function updateProject(db: Firestore, projectId: string, pageName: string, content: string) {
@@ -47,17 +53,32 @@ async function updateProject(db: Firestore, projectId: string, pageName: string,
         return { Error: "Page not found in project" };
     }
 
-    // Update the document with the updated JSON
     await setDoc(projectDocRef, { project }, { merge: false })
 
     return project;
 }
 
-async function createProject(db: Firestore, notion: Client, projectName: string) {
+
+async function projectNameOk(db: Firestore, userId: string, projectName: string) : Promise<boolean>{
+    const docRef = doc(db, 'users', userId, "projects", projectName)
+    const docSnap = await getDoc(docRef)
+
+    if(docSnap.exists()){
+        return false
+    }
+
+    console.log("project does not exist")
+    return true;
+}
+
+async function createProject(db: Firestore, notion: Client, userId: string, projectName: string) {
+    
+    if(await projectNameOk(db, userId, projectName) !== true) return "User already has a project with the name: " + projectName
 
     const res = await addPageToNotion(notion, { name: projectName, type: "folder" }, DATABASEID, "root")
 
-    await setDoc(doc(db, "projects", res.id), {
+    const projectRef = doc(db, 'users', userId, "projects", projectName)
+    await setDoc(projectRef, {
         project:
             [{
                 name: projectName,
@@ -67,7 +88,7 @@ async function createProject(db: Firestore, notion: Client, projectName: string)
             }]
     })
 
-    return res
+    return "Project : " + projectName + " successfully created"
 }
 
 async function getPage(db: Firestore, projectId: string, pageName: string): Promise<Page> {
@@ -164,12 +185,14 @@ async function addPageToNotion(notion: Client, page: { name: string, type: strin
     return response;
 }
 
-async function createPage(db: Firestore, notion: Client, projectId: string, parentName: string, pageName: string, pageType: string, projectName?: string) {
+async function createPage(db: Firestore, notion: Client, userId: string, projectName: string, parentName: string, pageName: string, pageType: string) {
 
-    const projectFiles: Page[] = await getProjectJson(db, projectId, projectName)
+    console.log("user id: ", userId)
+    const projectFiles: Page[] = await getProjectJson(db, userId, projectName)
 
     if (!projectFiles) {
-        return ("No project with id: " + projectId + " found.")
+
+        return ("No project with name: " + projectName + " found.")
     }
     if (pages.getNodeByName(projectFiles, pageName)) {
         return { Error: "Page name already exists, no duplicates please" };
@@ -191,7 +214,7 @@ async function createPage(db: Firestore, notion: Client, projectId: string, pare
 
     const project = pages.addPage(projectFiles, page, parentName)
 
-    await setDoc(doc(db, "projects", projectId), {
+    await setDoc(doc(db, 'users', userId, "projects", projectName), {
         project
     });
 

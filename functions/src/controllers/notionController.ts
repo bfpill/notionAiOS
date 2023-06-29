@@ -64,21 +64,22 @@ const getDownloadLink = async (req, res) => {
 const createProject = async (req, res) => {
     const { body } = req
     if (
+        !body.userId ||
         !body.projectName
-
     ) {
         return fourHunnid(res)
     }
-    const { projectName } = body;
-    const messageResponse = await notionPageServices.createProject(db, notion, projectName);
-
+    const { userId, projectName } = body;
+    const messageResponse = await notionPageServices.createProject(db, notion, userId, projectName);
+   
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
 
 const createPage = async (req, res) => {
     const { body } = req
     if (
-        !body.projectId ||
+        !body.userId ||
+        !body.projectName ||
         !body.parentName ||
         !body.pageName ||
         !body.type
@@ -86,8 +87,13 @@ const createPage = async (req, res) => {
     ) {
         return fourHunnid(res)
     }
-    const { projectId, parentName, pageName, type } = body;
-    const messageResponse = await notionPageServices.createPage(db, notion, projectId, parentName, pageName, type);
+    const userId = body.userId
+    const projectName = body.projectName
+    const parentName = body.parentName
+    const pageName = body.pageName
+    const type = body.type
+
+    const messageResponse = await notionPageServices.createPage(db, notion, userId, projectName, parentName, pageName, type);
 
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
