@@ -7,7 +7,6 @@ import { initializeApp } from "firebase/app"
 import dotenv from "dotenv"
 import { getFunctions, connectFunctionsEmulator, httpsCallable } from "firebase/functions";
 import { getFirestore } from "firebase/firestore"
-import { projectID } from "firebase-functions/params";
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -89,7 +88,7 @@ const createPage = async (req, res) => {
     }
     const userId = body.userId
     const projectName = body.projectName
-    const parentName = body.parentName
+    const parentName = 'root' ? projectName : body.parentName
     const pageName = body.pageName
     const type = body.type
 

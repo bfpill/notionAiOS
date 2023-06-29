@@ -1,6 +1,6 @@
 import express from 'express';
 
-import notionController from "../controllers/notionController.js"
+import notionController from "../controllers/controller.js"
 
 const router = express.Router();
 
