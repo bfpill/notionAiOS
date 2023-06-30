@@ -112,8 +112,12 @@ async function addTagsToProject(db: Firestore, notion: Client, userId: string, p
         return "'tags' was not an array" + error
     }
 
-    const oldTags = project.tags
-    filteredTags.concat(oldTags)
+    const oldTags = project[0].tags
+    console.log(oldTags)
+    filteredTags = filteredTags.concat(oldTags)
+
+
+    type SelectColor = "default" | "gray" | "brown" | "orange" | "yellow" | "green" | "blue" | "purple" | "pink" | "red";
 
     const multi_select: ({
         id: string;
@@ -125,7 +129,6 @@ async function addTagsToProject(db: Firestore, notion: Client, userId: string, p
         color?: SelectColor;
     })[] = filteredTags
 
-    type SelectColor = "default" | "gray" | "brown" | "orange" | "yellow" | "green" | "blue" | "purple" | "pink" | "red";
 
     if(multi_select){ 
         await notion.pages.update({
