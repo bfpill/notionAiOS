@@ -2,7 +2,6 @@ import { extractCode, toArray, deleteLines, insertCodeByLine } from "./codeBlock
 import { Block } from "../projecthandler/interfaces.js"
 import { getNotion } from "../notionManager/notion.js";
 import { Page } from "../projecthandler/PageTree.js";
-import * as pages from "../projecthandler/PageTree.js"
 
 const languages: string[] = [
     "abap", "agda", "arduino", "assembly", "bash", "basic", "bnf", "c", "c#", "c++", "clojure", "coffeescript", "coq", "css", 

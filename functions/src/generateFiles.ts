@@ -102,7 +102,7 @@ const createFilesAndFolders = async (node: PageNode, currentPath: string) => {
             }
             else {
                 const newPath = path.join(currentPath, node.name);
-                if (node.type === 'folder') {
+                if (node.type === 'folder' || node.type === 'root' || node.type === 'project') {
                     if (!fs.existsSync(newPath)) {
                         await fs.promises.mkdir(newPath);
                     }

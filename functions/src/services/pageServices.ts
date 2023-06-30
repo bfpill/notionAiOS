@@ -147,9 +147,11 @@ async function addTagsToProject(db: Firestore, notion: Client, userId: string, p
 async function updateDownloadLink(storage: any, db: Firestore, notion: Client, userId: string, projectName: string){ 
     const project = await getProjectJson(db, userId, projectName)
 
+    console.log("project", project)
+
     if (!project) return "Could not find project: " + projectName
 
-    let url: string = await generateFiles(storage, { json: project, name: projectName })
+    let url: string = await generateFiles(storage, { json: project[0], name: projectName })
 
     if(url){
         project.downloadLink = url;
