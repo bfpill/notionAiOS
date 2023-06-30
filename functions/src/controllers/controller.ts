@@ -53,9 +53,7 @@ const getDownloadLink = async (req, res) => {
 
     try {
         const url = await generateFiles(storage, { json: project, name: projectName })
-
         res.status(201).send({ status: "OK", data: { url } });
-
     } catch (e: any) {
         res.status(201).send({ status: "ERROR", error: { e } });
     }
@@ -70,7 +68,7 @@ const createProject = async (req, res) => {
         return fourHunnid(res)
     }
     const { userId, projectName } = body;
-    const messageResponse = await notionPageServices.createProject(db, notion, userId, projectName);
+    const messageResponse = await notionPageServices.createProject(storage, db, notion, userId, projectName);
    
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
@@ -109,7 +107,7 @@ const createPage = async (req, res) => {
     const pageName = body.pageName
     const type = body.type
 
-    const messageResponse = await notionPageServices.createPage(db, notion, userId, projectName, parentName, pageName, type);
+    const messageResponse = await notionPageServices.createPage(storage, db, notion, userId, projectName, parentName, pageName, type);
 
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
