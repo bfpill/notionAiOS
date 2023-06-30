@@ -15,7 +15,7 @@ const app = express();
 
 // Set up middleware
 export const corsHeaders: cors.CorsOptions = {
-  origin: "https://chat.openai.com",
+  origin: "*",
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   credentials: true,
   allowedHeaders: "*",

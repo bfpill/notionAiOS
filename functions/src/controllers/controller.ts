@@ -9,10 +9,10 @@ import { getFunctions, connectFunctionsEmulator, httpsCallable } from "firebase/
 import { getFirestore } from "firebase/firestore"
 import * as fb from "firebase-functions"
 
-const fbKey = fb.config().fb.kry;
+const fbKey = fb.config().fb.api_key;
 
 const firebaseConfig = {
-    apiKey: process.env.FIREBASE_API_KEY,
+    apiKey: fbKey,
     authDomain: "v3rv-notionaios.firebaseapp.com",
     projectId: "v3rv-notionaios",
     storageBucket: "v3rv-notionaios.appspot.com",

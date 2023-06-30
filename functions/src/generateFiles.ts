@@ -1,12 +1,34 @@
 import functions from 'firebase-functions'
-import admin from 'firebase-admin'
+
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { getApps, initializeApp } from 'firebase/app';
 
 import os from 'os'
 import path from 'path'
 import fs from 'fs'
 import JSZip from 'jszip'
+import * as fb from "firebase-functions"
 
-const app = admin.initializeApp()
+const fbKey = fb.config().fb.key;
+
+const firebaseConfig = {
+    apiKey: fbKey,
+    authDomain: "v3rv-notionaios.firebaseapp.com",
+    projectId: "v3rv-notionaios",
+    storageBucket: "v3rv-notionaios.appspot.com",
+    messagingSenderId: "169546801011",
+    appId: "1:169546801011:web:7b62ff0c11c583f934ef06",
+    measurementId: "G-TLW05P28TT"
+};
+
+let app;
+if (!getApps().length) {
+    app = initializeApp(firebaseConfig);
+} else {
+    app = getApps()[0];
+}
+
+const storage = getStorage(app)
 
 // Separate function from the other because scale
 export const generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(async (props: { json: any, name: string }) => {
@@ -29,14 +51,25 @@ export const generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onC
 
     fs.writeFileSync(zipPath, content);
 
-    const bucket = admin.storage().bucket();
-    const [file] = await bucket.upload(zipPath, {
-        destination: `user_file/` + zippedName,
+    const storageRef = ref(storage, `user_file/${zippedName}`)
+
+    const uploadTask = uploadBytesResumable(storageRef, content);
+
+    return new Promise((resolve, reject) => {
+        uploadTask.on('state_changed', 
+            (error) => {
+                console.log(error);
+                reject(error);
+            }, 
+            () => {
+                // resolves and the URL gets returned
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('File available at', downloadURL);
+                    resolve({ url: downloadURL });
+                });
+            }
+        );
     });
-
-    const url = file.metadata.mediaLink;
-
-    return { url };
 });
 
 async function addDirToZip(dir: any, zip: any) {
