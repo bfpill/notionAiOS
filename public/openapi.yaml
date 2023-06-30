@@ -66,6 +66,17 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/GetPagesRequest'
+  /tags: 
+    post: 
+      operationId: updateTags
+      summary: Update a projects tags
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTagsRequest'
+
   /downloadLink: 
     post:
       operationId: downloadProject
@@ -86,6 +97,25 @@ paths:
 
 components:
   schemas:
+    UpdateTagsRequest: 
+      type: object
+      required: 
+        - userId
+        - projectName
+        - tags
+      properties: 
+        userId: 
+          type: string
+          description: The userId 
+        projectName:
+          type: string
+          description: The name of the project you are trying to create 
+        tags:
+          type: array
+          items:
+            type: string
+          description: An array of the tags to add to the project
+
     CreateProjectRequest: 
       type: object
       required: 
