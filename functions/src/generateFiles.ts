@@ -5,7 +5,7 @@ import path from 'path'
 import fs from 'fs'
 import JSZip from 'jszip'
 
-export const generateFiles = async (storage: FirebaseStorage, props: { json: any, name: string }) => {
+export const generateFiles = async (storage: FirebaseStorage, props: { json: any, name: string }): Promise<string> => {
     try {
         const json = props.json
         const filesDir = path.join(os.tmpdir(), 'notion-ai-os', 'files');
@@ -36,7 +36,7 @@ export const generateFiles = async (storage: FirebaseStorage, props: { json: any
 
         const uploadTask = uploadBytesResumable(storageRef, content);
 
-        return new Promise((resolve, reject) => {
+        const url: {url : string} = await new Promise((resolve, reject) => {
             uploadTask.on('state_changed',
                 () => {
                     // resolves and the URL gets returned
@@ -46,6 +46,12 @@ export const generateFiles = async (storage: FirebaseStorage, props: { json: any
                 }
             );
         });
+        try{ 
+            return url.url
+        } catch (error){
+            return error
+        }
+       
     } catch (error) {
         return 'An error occurred while generating files' + error;
     }
