@@ -27,6 +27,7 @@ const storage = getStorage(app)
 const db = getFirestore()
 
 dotenv.config()
+
 const functions = getFunctions()
 
 // Point to the Functions emulator
@@ -52,6 +53,7 @@ const getDownloadLink = async (req, res) => {
 
     try {
         const url = await generateFiles(storage, { json: project, name: projectName })
+
         res.status(201).send({ status: "OK", data: { url } });
 
     } catch (e: any) {
@@ -69,6 +71,22 @@ const createProject = async (req, res) => {
     }
     const { userId, projectName } = body;
     const messageResponse = await notionPageServices.createProject(db, notion, userId, projectName);
+   
+    res.status(201).send({ status: "OK", data: { messageResponse } });
+}
+
+const addProjectTags = async (req, res) => {
+    const { body } = req
+    if (
+        !body.userId ||
+        !body.projectName || 
+        !body.tags
+    ) {
+        return fourHunnid(res)
+    }
+    const { userId, projectName, tags } = body;
+
+    const messageResponse = await notionPageServices.addTagsToProject(db, notion, userId, projectName, tags);
    
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
@@ -201,7 +219,7 @@ const pageActions = async (req, res) => {
         if (page && page.type !== "folder") {
             const content = body.content
             await notionBlockServices.addBlock(page, body.pageName, content)
-            messageResponse = await notionPageServices.updateProject(db, body.userId, body.projectName, page.id, content)
+            messageResponse = await notionPageServices.updateProjectPageContent(db, body.userId, body.projectName, page.id, content)
         }
         else {
             messageResponse = { worked: false, message: { error: "page was not a file or did not exist", page } }
@@ -240,6 +258,7 @@ export default {
     //page functions
     createPage,
     getPages,
+    addProjectTags,
 
     //block function
     updateProperty,

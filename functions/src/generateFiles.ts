@@ -116,7 +116,6 @@ const createFilesAndFolders = async (node: PageNode, currentPath: string) => {
         console.error('Error occurred:' + error);
         return 'An error occurred while creatingFilesAndFolders';
     }
-
 };
 
 async function createDownloadable(jsonTree: any, currentPath: string) {
