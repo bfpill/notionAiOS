@@ -1,8 +1,5 @@
 import { Client } from "@notionhq/client"
-import * as dotenv from 'dotenv';
 import * as functions from "firebase-functions"
-// Get environment variables
-dotenv.config()
 
 const notionKey = functions.config().notion.token;
 const databaseId = functions.config().notion.database_id;

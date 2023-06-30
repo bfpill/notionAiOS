@@ -1,60 +1,74 @@
-import functions from 'firebase-functions'
-import admin from 'firebase-admin'
+import { FirebaseStorage, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 import os from 'os'
 import path from 'path'
 import fs from 'fs'
 import JSZip from 'jszip'
 
-const app = admin.initializeApp()
+export const generateFiles = async (storage: FirebaseStorage, props: { json: any, name: string }) => {
+    try {
+        const json = props.json
+        const filesDir = path.join(os.tmpdir(), 'notion-ai-os', 'files');
+        const zipDir = path.join(os.tmpdir(), 'notion-ai-os', 'zip');
 
-// Separate function from the other because scale
-export const generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(async (props: { json: any, name: string }) => {
-    const json = props.json
+        if(fs.existsSync(filesDir)){
+            await fs.promises.rm(filesDir, { recursive: true, force: true})
+        }
+        if(fs.existsSync(zipDir)){
+            await fs.promises.rm(zipDir, { recursive: true, force: true})
+        }
 
-    const filesDir = path.join(os.tmpdir(), 'notion-ai-os', 'files');
-    const zipDir = path.join(os.tmpdir(), 'notion-ai-os', 'zip');
+        await fs.promises.mkdir(filesDir, { recursive: true });
+        await fs.promises.mkdir(zipDir, { recursive: true });
 
-    console.log(filesDir, zipDir)
+        await createDownloadable(json, filesDir);
 
+        const zippedName = props.name + '.zip'
+        const zip = new JSZip();
+        const zipPath = path.join(zipDir, zippedName);
 
-    await fs.promises.mkdir(filesDir, { recursive: true });
-    await fs.promises.mkdir(zipDir, { recursive: true });
+        await addDirToZip(filesDir, zip);
+        const content = await zip.generateAsync({ type: "nodebuffer" });
 
-    await createDownloadable(json, filesDir);
+        fs.writeFileSync(zipPath, content);
 
-    const zippedName = props.name + '.zip'
-    const zip = new JSZip();
-    const zipPath = path.join(zipDir, zippedName);
+        const storageRef = ref(storage, `user_file/${zippedName}`)
 
-    await addDirToZip(filesDir, zip);
-    const content = await zip.generateAsync({ type: "nodebuffer" });
+        const uploadTask = uploadBytesResumable(storageRef, content);
 
-    fs.writeFileSync(zipPath, content);
-
-    const bucket = admin.storage().bucket();
-    const [file] = await bucket.upload(zipPath, {
-        destination: `user_file/` + zippedName,
-    });
-
-    const url = file.metadata.mediaLink;
-
-    return { url };
-});
+        return new Promise((resolve, reject) => {
+            uploadTask.on('state_changed',
+                () => {
+                    // resolves and the URL gets returned
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        resolve({ url: downloadURL });
+                    });
+                }
+            );
+        });
+    } catch (error) {
+        return 'An error occurred while generating files' + error;
+    }
+};
 
 async function addDirToZip(dir: any, zip: any) {
-    const files = fs.readdirSync(dir);
-    for (const file of files) {
-        const fullPath = path.join(dir, file);
-        const stat = fs.statSync(fullPath);
-        if (stat.isFile()) {
-            const data = fs.readFileSync(fullPath);
-            zip.file(file, data);
-        } else if (stat.isDirectory()) {
-            const subdir = zip.folder(file);
-            await addDirToZip(fullPath, subdir);
+    try {
+        const files = fs.readdirSync(dir);
+        for (const file of files) {
+            const fullPath = path.join(dir, file);
+            const stat = fs.statSync(fullPath);
+            if (stat.isFile()) {
+                const data = fs.readFileSync(fullPath);
+                zip.file(file, data);
+            } else if (stat.isDirectory()) {
+                const subdir = zip.folder(file);
+                await addDirToZip(fullPath, subdir);
+            }
         }
+    } catch (error) {
+        return 'An error occurred while addDirZip' + error;
     }
+
 }
 
 interface PageNode {
@@ -73,37 +87,34 @@ function checkIsArray(variable: any) {
 }
 
 const createFilesAndFolders = async (node: PageNode, currentPath: string) => {
-    if (node !== undefined) {
-        if (node.name === undefined) {
-            if (checkIsArray(node)) {
-                createFilesAndFolders(node[0], currentPath)
-            }
-        }
-        else {
-            console.log("Adding node: " + node.name)
-            console.log("Path: " + currentPath)
-
-            const newPath = path.join(currentPath, node.name);
-            console.log("found: " + node.name)
-            if (node.type === 'folder') {
-                if (!fs.existsSync(newPath)) {
-                    await fs.promises.mkdir(newPath);
-                    console.log("added dir at: " + newPath)
+    try {
+        if (node !== undefined) {
+            if (node.name === undefined) {
+                if (checkIsArray(node)) {
+                    await createFilesAndFolders(node[0], currentPath)
                 }
-
-                if (node.children) {
-                    for (const child of node.children) {
-                        createFilesAndFolders(child, newPath);
+            }
+            else {
+                const newPath = path.join(currentPath, node.name);
+                if (node.type === 'folder') {
+                    if (!fs.existsSync(newPath)) {
+                        await fs.promises.mkdir(newPath);
                     }
-                }
-            } else if (node.type !== 'folder') {
-                const data = node.content ?? 'This file is empty'
 
-                console.log("data", data)
-                fs.writeFileSync(newPath, data)
-                console.log("added file at: " + newPath)
+                    if (node.children) {
+                        for (const child of node.children) {
+                            await createFilesAndFolders(child, newPath);
+                        }
+                    }
+                } else if (node.type !== 'folder') {
+                    const data = node.content ?? 'This file is empty'
+                    fs.writeFileSync(newPath, data)
+                }
             }
         }
+    } catch (error) {
+        console.error('Error occurred:' + error);
+        return 'An error occurred while creatingFilesAndFolders';
     }
 };
 

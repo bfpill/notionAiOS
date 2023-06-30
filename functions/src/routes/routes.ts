@@ -10,7 +10,7 @@ router.post("/blockActions", notionController.blockActions);
 router.get("/blockActions", notionController.getBlockCode);
 
 router.post("/pages", notionController.createPage)
-
+router.post("/tags", notionController.addProjectTags)
 router.post("/filetree", notionController.getPages)
 router.post("/project", notionController.createProject)
 router.post("/downloadLink", notionController.getDownloadLink)

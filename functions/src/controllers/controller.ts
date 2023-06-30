@@ -3,13 +3,17 @@ import notionPageServices from "../services/pageServices.js";
 import { Page } from "../projecthandler/interfaces.js";
 import { getNotion } from "../notionManager/notion.js";
 import { initializeApp } from "firebase/app"
-
+import { generateFiles } from "../generateFiles.js";
 import dotenv from "dotenv"
-import { getFunctions, connectFunctionsEmulator, httpsCallable } from "firebase/functions";
+import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 import { getFirestore } from "firebase/firestore"
+import * as fb from "firebase-functions"
+import { getStorage } from "firebase/storage";
+
+const fbKey = fb.config().fb.api_key;
 
 const firebaseConfig = {
-    apiKey: process.env.FIREBASE_API_KEY,
+    apiKey: fbKey,
     authDomain: "v3rv-notionaios.firebaseapp.com",
     projectId: "v3rv-notionaios",
     storageBucket: "v3rv-notionaios.appspot.com",
@@ -19,10 +23,10 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig)
+const storage = getStorage(app)
 const db = getFirestore()
 
 dotenv.config()
-console.log("Setting up firebase config")
 
 const functions = getFunctions()
 
@@ -32,11 +36,9 @@ connectFunctionsEmulator(functions, "127.0.0.1", 5001);
 //get from local instance
 const notion = getNotion()
 
-
 //@todo change later as shit starts to work
 let pages;
 
-console.log("connector initialized")
 const getDownloadLink = async (req, res) => {
     const { body } = req
     if (
@@ -49,12 +51,10 @@ const getDownloadLink = async (req, res) => {
     const projectName = body.projectName;
     const project = await notionPageServices.getProjectJson(db, body.userId, projectName)
 
-    const generateFiles = httpsCallable(functions, "generateFiles");
     try {
-        const result = await generateFiles({ json: project, name: projectName })
+        const url = await generateFiles(storage, { json: project, name: projectName })
 
-        const data = result.data;
-        res.status(201).send({ status: "OK", data: { data } });
+        res.status(201).send({ status: "OK", data: { url } });
 
     } catch (e: any) {
         res.status(201).send({ status: "ERROR", error: { e } });
@@ -71,6 +71,22 @@ const createProject = async (req, res) => {
     }
     const { userId, projectName } = body;
     const messageResponse = await notionPageServices.createProject(db, notion, userId, projectName);
+   
+    res.status(201).send({ status: "OK", data: { messageResponse } });
+}
+
+const addProjectTags = async (req, res) => {
+    const { body } = req
+    if (
+        !body.userId ||
+        !body.projectName || 
+        !body.tags
+    ) {
+        return fourHunnid(res)
+    }
+    const { userId, projectName, tags } = body;
+
+    const messageResponse = await notionPageServices.addTagsToProject(db, notion, userId, projectName, tags);
    
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
@@ -203,7 +219,7 @@ const pageActions = async (req, res) => {
         if (page && page.type !== "folder") {
             const content = body.content
             await notionBlockServices.addBlock(page, body.pageName, content)
-            messageResponse = await notionPageServices.updateProject(db, body.userId, body.projectName, page.id, content)
+            messageResponse = await notionPageServices.updateProjectPageContent(db, body.userId, body.projectName, page.id, content)
         }
         else {
             messageResponse = { worked: false, message: { error: "page was not a file or did not exist", page } }
@@ -242,6 +258,7 @@ export default {
     //page functions
     createPage,
     getPages,
+    addProjectTags,
 
     //block function
     updateProperty,
