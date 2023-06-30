@@ -1,90 +1,74 @@
-import functions from 'firebase-functions'
-
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import { getApps, initializeApp } from 'firebase/app';
+import { FirebaseStorage, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 import os from 'os'
 import path from 'path'
 import fs from 'fs'
 import JSZip from 'jszip'
-import * as fb from "firebase-functions"
 
-const fbKey = fb.config().fb.key;
+export const generateFiles = async (storage: FirebaseStorage, props: { json: any, name: string }) => {
+    try {
+        const json = props.json
+        const filesDir = path.join(os.tmpdir(), 'notion-ai-os', 'files');
+        const zipDir = path.join(os.tmpdir(), 'notion-ai-os', 'zip');
 
-const firebaseConfig = {
-    apiKey: fbKey,
-    authDomain: "v3rv-notionaios.firebaseapp.com",
-    projectId: "v3rv-notionaios",
-    storageBucket: "v3rv-notionaios.appspot.com",
-    messagingSenderId: "169546801011",
-    appId: "1:169546801011:web:7b62ff0c11c583f934ef06",
-    measurementId: "G-TLW05P28TT"
+        if(fs.existsSync(filesDir)){
+            await fs.promises.rm(filesDir, { recursive: true, force: true})
+        }
+        if(fs.existsSync(zipDir)){
+            await fs.promises.rm(zipDir, { recursive: true, force: true})
+        }
+
+        await fs.promises.mkdir(filesDir, { recursive: true });
+        await fs.promises.mkdir(zipDir, { recursive: true });
+
+        await createDownloadable(json, filesDir);
+
+        const zippedName = props.name + '.zip'
+        const zip = new JSZip();
+        const zipPath = path.join(zipDir, zippedName);
+
+        await addDirToZip(filesDir, zip);
+        const content = await zip.generateAsync({ type: "nodebuffer" });
+
+        fs.writeFileSync(zipPath, content);
+
+        const storageRef = ref(storage, `user_file/${zippedName}`)
+
+        const uploadTask = uploadBytesResumable(storageRef, content);
+
+        return new Promise((resolve, reject) => {
+            uploadTask.on('state_changed',
+                () => {
+                    // resolves and the URL gets returned
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        resolve({ url: downloadURL });
+                    });
+                }
+            );
+        });
+    } catch (error) {
+        return 'An error occurred while generating files' + error;
+    }
 };
 
-let app;
-if (!getApps().length) {
-    app = initializeApp(firebaseConfig);
-} else {
-    app = getApps()[0];
-}
-
-const storage = getStorage(app)
-
-// Separate function from the other because scale
-export const generateFiles = functions.runWith({ timeoutSeconds: 20 }).https.onCall(async (props: { json: any, name: string }) => {
-    const json = props.json
-
-    const filesDir = path.join(os.tmpdir(), 'notion-ai-os', 'files');
-    const zipDir = path.join(os.tmpdir(), 'notion-ai-os', 'zip');
-
-    await fs.promises.mkdir(filesDir, { recursive: true });
-    await fs.promises.mkdir(zipDir, { recursive: true });
-
-    await createDownloadable(json, filesDir);
-
-    const zippedName = props.name + '.zip'
-    const zip = new JSZip();
-    const zipPath = path.join(zipDir, zippedName);
-
-    await addDirToZip(filesDir, zip);
-    const content = await zip.generateAsync({ type: "nodebuffer" });
-
-    fs.writeFileSync(zipPath, content);
-
-    const storageRef = ref(storage, `user_file/${zippedName}`)
-
-    const uploadTask = uploadBytesResumable(storageRef, content);
-
-    return new Promise((resolve, reject) => {
-        uploadTask.on('state_changed', 
-            (error) => {
-                console.log(error);
-                reject(error);
-            }, 
-            () => {
-                // resolves and the URL gets returned
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log('File available at', downloadURL);
-                    resolve({ url: downloadURL });
-                });
-            }
-        );
-    });
-});
-
 async function addDirToZip(dir: any, zip: any) {
-    const files = fs.readdirSync(dir);
-    for (const file of files) {
-        const fullPath = path.join(dir, file);
-        const stat = fs.statSync(fullPath);
-        if (stat.isFile()) {
-            const data = fs.readFileSync(fullPath);
-            zip.file(file, data);
-        } else if (stat.isDirectory()) {
-            const subdir = zip.folder(file);
-            await addDirToZip(fullPath, subdir);
+    try {
+        const files = fs.readdirSync(dir);
+        for (const file of files) {
+            const fullPath = path.join(dir, file);
+            const stat = fs.statSync(fullPath);
+            if (stat.isFile()) {
+                const data = fs.readFileSync(fullPath);
+                zip.file(file, data);
+            } else if (stat.isDirectory()) {
+                const subdir = zip.folder(file);
+                await addDirToZip(fullPath, subdir);
+            }
         }
+    } catch (error) {
+        return 'An error occurred while addDirZip' + error;
     }
+
 }
 
 interface PageNode {
@@ -103,35 +87,36 @@ function checkIsArray(variable: any) {
 }
 
 const createFilesAndFolders = async (node: PageNode, currentPath: string) => {
-    if (node !== undefined) {
-        if (node.name === undefined) {
-            if (checkIsArray(node)) {
-                createFilesAndFolders(node[0], currentPath)
-            }
-        }
-        else {
-            const newPath = path.join(currentPath, node.name);
-            console.log("found: " + node.name)
-            if (node.type === 'folder') {
-                if (!fs.existsSync(newPath)) {
-                    await fs.promises.mkdir(newPath);
-                    console.log("added dir at: " + newPath)
+    try {
+        if (node !== undefined) {
+            if (node.name === undefined) {
+                if (checkIsArray(node)) {
+                    await createFilesAndFolders(node[0], currentPath)
                 }
-
-                if (node.children) {
-                    for (const child of node.children) {
-                        createFilesAndFolders(child, newPath);
+            }
+            else {
+                const newPath = path.join(currentPath, node.name);
+                if (node.type === 'folder') {
+                    if (!fs.existsSync(newPath)) {
+                        await fs.promises.mkdir(newPath);
                     }
-                }
-            } else if (node.type !== 'folder') {
-                const data = node.content ?? 'This file is empty'
 
-                console.log("data", data)
-                fs.writeFileSync(newPath, data)
-                console.log("added file at: " + newPath)
+                    if (node.children) {
+                        for (const child of node.children) {
+                            await createFilesAndFolders(child, newPath);
+                        }
+                    }
+                } else if (node.type !== 'folder') {
+                    const data = node.content ?? 'This file is empty'
+                    fs.writeFileSync(newPath, data)
+                }
             }
         }
+    } catch (error) {
+        console.error('Error occurred:' + error);
+        return 'An error occurred while creatingFilesAndFolders';
     }
+
 };
 
 async function createDownloadable(jsonTree: any, currentPath: string) {

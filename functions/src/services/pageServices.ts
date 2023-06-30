@@ -10,7 +10,6 @@ const fileIconUrl = "https://static.thenounproject.com/png/1171-200.png"
 async function getProjectJson(db: Firestore, userId: string, projectName: string) {
 
     try {
-        console.log(projectName)
         const projectRef = doc(db, 'users', userId, "projects", projectName)
         const projectDocSnap = await getDoc(projectRef)
 
