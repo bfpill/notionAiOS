@@ -19,3 +19,4 @@ functions/firebase-debug.log
 .firebase/hosting.cHVibGlj.cache
 .firebase/hosting.ZnVuY3Rpb25zL3B1YmxpYw.cache
 .DS_Store
+functions/package-lock.json
