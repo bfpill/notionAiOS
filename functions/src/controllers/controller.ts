@@ -68,7 +68,7 @@ const createProject = async (req, res) => {
         return fourHunnid(res)
     }
     const { userId, projectName } = body;
-    const messageResponse = await notionPageServices.createProject(db, notion, userId, projectName);
+    const messageResponse = await notionPageServices.createProject(storage, db, notion, userId, projectName);
    
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }

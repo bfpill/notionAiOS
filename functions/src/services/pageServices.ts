@@ -70,11 +70,10 @@ async function getPage(db: Firestore, userId: string, projectName: string, pageN
     }
 }
 
-async function createProject(db: Firestore, notion: Client, userId: string, projectName: string) {
-
+async function createProject(storage: FirebaseStorage, db: Firestore, notion: Client, userId: string, projectName: string) {
     if (await getProject(db, userId, projectName)) return "User already has a project with the name: '" + projectName + "'"
 
-    const res = await addPageToNotion(notion, { name: projectName, type: "folder" }, DATABASEID, "root")
+    const res = await addPageToNotion(notion, { name: projectName, type: "folder" }, DATABASEID, "root", userId)
 
     const projectRef = doc(db, 'users', userId, "projects", projectName)
     await setDoc(projectRef, {
@@ -149,6 +148,7 @@ async function updateDownloadLink(storage: any, db: Firestore, notion: Client, u
     const project = await getProjectJson(db, userId, projectName)
 
     if (!project) return "Could not find project: " + projectName
+
     let url: string = await generateFiles(storage, { json: project, name: projectName })
 
     if(url){
@@ -158,7 +158,8 @@ async function updateDownloadLink(storage: any, db: Firestore, notion: Client, u
             properties: {
                 download: {
                     rich_text: [
-                        {
+                        {   
+                            // fancy emoji here - watch out it's invisible
                             text: {
                                 content: "❇️ ( click me )", 
                                 link: { url : url}
@@ -178,7 +179,7 @@ async function updateDownloadLink(storage: any, db: Firestore, notion: Client, u
     }
 }
 
-async function addPageToNotion(notion: Client, page: { name: string, type: string }, parentId: string, parentType: string) {
+async function addPageToNotion(notion: Client, page: { name: string, type: string }, parentId: string, parentType: string, creatorId: string) {
     const icon = await getIcon(page.type)
 
     let response;
@@ -209,7 +210,7 @@ async function addPageToNotion(notion: Client, page: { name: string, type: strin
                                 }
                             }
                         ]
-                    }
+                    }, 
                 },
             })
         } catch (e: any) {
@@ -250,6 +251,30 @@ async function addPageToNotion(notion: Client, page: { name: string, type: strin
                             }
                         }
                     ]
+                }, 
+                "creator":{ 
+                    "rich_text": [
+                        {   
+                            "text": {
+                                "content": creatorId
+                            },
+                            "annotations": {
+                                "italic": true
+                            }
+                        }
+                    ]
+                }, 
+                download: {
+                    rich_text: [
+                        {   
+                            text: {
+                                content: "nothing here yet!"
+                            },
+                            annotations: {
+                                underline: true
+                            }
+                        }
+                    ]
                 }
             },
             "children": []
@@ -271,7 +296,7 @@ async function createPage(storage: FirebaseStorage, db: Firestore, notion: Clien
 
     const parentId = pages.getNodeByName(projectFiles, parentName)?.id
 
-    const response = await addPageToNotion(notion, { name: pageName, type: pageType }, parentId, parentType)
+    const response = await addPageToNotion(notion, { name: pageName, type: pageType }, parentId, parentType, userId)
 
     const page: Page = {
         name: pageName,
