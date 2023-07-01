@@ -105,7 +105,7 @@ async function addTagsToProject(db: Firestore, notion: Client, userId: string, p
                 if (!(tag || tag.name)) return;
                 if (tag.length > 20) return;
                 else {
-                    filteredTags.push({"name" : tag})
+                    filteredTags.push({ "name": tag })
                 }
             } catch (error) {
                 console.log("There was an error attempting to add a tag" + error)
@@ -114,9 +114,9 @@ async function addTagsToProject(db: Firestore, notion: Client, userId: string, p
     } catch (error) {
         return "'tags' was not an array" + error
     }
-    
+
     const oldTags = project[0].tags
-    if(oldTags.length > 0){ 
+    if (oldTags.length > 0) {
         filteredTags = filteredTags.concat(oldTags)
     }
 
@@ -134,7 +134,7 @@ async function addTagsToProject(db: Firestore, notion: Client, userId: string, p
 
     console.log(filteredTags)
 
-    if(multi_select){ 
+    if (multi_select) {
         await notion.pages.update({
             page_id: project[0].id,
             properties: {
@@ -151,7 +151,7 @@ async function addTagsToProject(db: Firestore, notion: Client, userId: string, p
     }
 }
 
-async function updateDownloadLink(storage: any, db: Firestore, notion: Client, userId: string, projectName: string){ 
+async function updateDownloadLink(storage: any, db: Firestore, notion: Client, userId: string, projectName: string) {
     const project = await getProjectJson(db, userId, projectName)
 
     console.log("project", project)
@@ -160,18 +160,18 @@ async function updateDownloadLink(storage: any, db: Firestore, notion: Client, u
 
     let url: string = await generateFiles(storage, { json: project[0], name: projectName })
 
-    if(url){
+    if (url) {
         project.downloadLink = url;
         await notion.pages.update({
             page_id: project[0].id,
             properties: {
                 download: {
                     rich_text: [
-                        {   
+                        {
                             // fancy emoji here - watch out it's invisible
                             text: {
-                                content: "❇️ ( click me )", 
-                                link: { url : url}
+                                content: "❇️ ( click me )",
+                                link: { url: url }
                             },
                             annotations: {
                                 underline: true
@@ -180,8 +180,8 @@ async function updateDownloadLink(storage: any, db: Firestore, notion: Client, u
                     ]
                 }
             },
-        }); 
-    
+        });
+
         await setDoc(doc(db, 'users', userId, "projects", projectName), {
             project
         });
@@ -192,9 +192,9 @@ async function addPageToNotion(notion: Client, page: { name: string, type: strin
     const icon = await getIcon(page.type)
 
     let response;
-    if (parentType !== "root") {
-        try {
 
+    try {
+        if (parentType !== "root") {
             if (!parentType || (parentType !== "folder" && parentType !== "root" && parentType !== "project")) {
                 return { Error: "Could not add page, parent was not a folder or was outside the project scope" }
             }
@@ -219,77 +219,75 @@ async function addPageToNotion(notion: Client, page: { name: string, type: strin
                                 }
                             }
                         ]
-                    }, 
+                    },
                 },
             })
-        } catch (e: any) {
-            if (e instanceof TypeError) {
-                return e
-            }
-            return ("Error: " + e)
         }
-    }
-    else {
-        console.log("adding to root")
-        response = await notion.pages.create({
-            "icon": {
-                "type": "external",
-                "external": {
-                    "url": icon
-                }
-            },
-            "parent": {
-                "type": "database_id",
-                "database_id": parentId
-            },
-            "properties": {
-                "Name": {
-                    "title": [
-                        {
-                            "text": {
-                                "content": page.name
-                            }
-                        }
-                    ]
+        else {
+            console.log("adding to root")
+            response = await notion.pages.create({
+                "icon": {
+                    "type": "external",
+                    "external": {
+                        "url": icon
+                    }
                 },
-                "Type": {
-                    "rich_text": [
-                        {
-                            "text": {
-                                "content": page.type
+                "parent": {
+                    "type": "database_id",
+                    "database_id": parentId
+                },
+                "properties": {
+                    "Name": {
+                        "title": [
+                            {
+                                "text": {
+                                    "content": page.name
+                                }
                             }
-                        }
-                    ]
-                }, 
-                "creator":{ 
-                    "rich_text": [
-                        {   
-                            "text": {
-                                "content": creatorId, 
-                            },
-                            "annotations": {
-                                "italic": true,
-                                "code" : true
+                        ]
+                    },
+                    "Type": {
+                        "rich_text": [
+                            {
+                                "text": {
+                                    "content": page.type
+                                }
                             }
-                        }
-                    ]
-                }, 
-                "download": {
-                    "rich_text": [
-                        {   
-                            "text": {
-                                "content": "nothing here yet!"
-                            },
-                            "annotations": {
-                                "underline": true
+                        ]
+                    },
+                    "creator": {
+                        "rich_text": [
+                            {
+                                "text": {
+                                    "content": creatorId,
+                                },
+                                "annotations": {
+                                    "italic": true,
+                                    "code": true
+                                }
                             }
-                        }
-                    ]
-                }
-            },
-            "children": []
-        })
+                        ]
+                    },
+                    "download": {
+                        "rich_text": [
+                            {
+                                "text": {
+                                    "content": "nothing here yet!"
+                                },
+                                "annotations": {
+                                    "underline": true
+                                }
+                            }
+                        ]
+                    }
+                },
+                "children": []
+            })
+        }
+    } catch (error) {
+        return undefined
     }
+
     return response;
 }
 
@@ -308,6 +306,7 @@ async function createPage(storage: FirebaseStorage, db: Firestore, notion: Clien
 
     const response = await addPageToNotion(notion, { name: pageName, type: pageType }, parentId, parentType, userId)
 
+    if(!response) return "Could not add page to notion. Check with the user that the parent page still exists!"
     const page: Page = {
         name: pageName,
         id: response.id,
@@ -321,12 +320,12 @@ async function createPage(storage: FirebaseStorage, db: Firestore, notion: Clien
         project
     });
 
-    try { 
+    try {
         await updateDownloadLink(storage, db, notion, userId, projectName)
-    } catch (error) { 
+    } catch (error) {
         console.log("could not update download link : " + error)
     }
-   
+
     return { "pageName": pageName, "pageParent": parentName };
 }
 
