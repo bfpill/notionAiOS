@@ -37,9 +37,17 @@ export const generateFiles = async (storage: FirebaseStorage, props: { json: any
         const uploadTask = uploadBytesResumable(storageRef, content);
 
         const url: {url : string} = await new Promise((resolve, reject) => {
+            // callback function order is important!!
             uploadTask.on('state_changed',
-                () => {
-                    // resolves and the URL gets returned
+                (snapshot) => {
+                   // do nothing
+                }, 
+                (error) => {
+                    console.log(error);
+                    reject(error);
+                }, 
+                async () => {
+                    // Handle successful uploads
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         resolve({ url: downloadURL });
                     });
@@ -49,7 +57,7 @@ export const generateFiles = async (storage: FirebaseStorage, props: { json: any
         try{ 
             return url.url
         } catch (error){
-            return error
+            return undefined
         }
        
     } catch (error) {
