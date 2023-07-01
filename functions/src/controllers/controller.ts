@@ -82,7 +82,9 @@ const addProjectTags = async (req, res) => {
     ) {
         return fourHunnid(res)
     }
-    const { userId, projectName, tags } = body;
+    const userId = body.userId
+    const projectName = body.projectName
+    const tags = body.tags
 
     const messageResponse = await notionPageServices.addTagsToProject(db, notion, userId, projectName, tags);
    

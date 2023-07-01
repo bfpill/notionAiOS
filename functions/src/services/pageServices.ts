@@ -83,7 +83,7 @@ async function createProject(storage: FirebaseStorage, db: Firestore, notion: Cl
                 id: res.id,
                 creatorId: userId,
                 type: "project",
-                tags: "",
+                tags: [],
                 children: []
             }]
     })
@@ -95,12 +95,15 @@ async function addTagsToProject(db: Firestore, notion: Client, userId: string, p
     const project = await getProject(db, userId, projectName)
 
     if (!project) return "Could not find project: " + projectName
+    console.log("Existing tags: ", project[0].tags)
+
     let filteredTags: any[] = []
 
     try {
         tags.forEach((tag) => {
             try {
-                if (tag.length > 10) return "tag " + tag + " is too long. Please keep less than 15 chars";
+                if (!(tag || tag.name)) return;
+                if (tag.length > 20) return;
                 else {
                     filteredTags.push({"name" : tag})
                 }
@@ -111,11 +114,11 @@ async function addTagsToProject(db: Firestore, notion: Client, userId: string, p
     } catch (error) {
         return "'tags' was not an array" + error
     }
-
+    
     const oldTags = project[0].tags
-    console.log(oldTags)
-    filteredTags = filteredTags.concat(oldTags)
-
+    if(oldTags.length > 0){ 
+        filteredTags = filteredTags.concat(oldTags)
+    }
 
     type SelectColor = "default" | "gray" | "brown" | "orange" | "yellow" | "green" | "blue" | "purple" | "pink" | "red";
 
@@ -129,6 +132,7 @@ async function addTagsToProject(db: Firestore, notion: Client, userId: string, p
         color?: SelectColor;
     })[] = filteredTags
 
+    console.log(filteredTags)
 
     if(multi_select){ 
         await notion.pages.update({
@@ -261,22 +265,23 @@ async function addPageToNotion(notion: Client, page: { name: string, type: strin
                     "rich_text": [
                         {   
                             "text": {
-                                "content": creatorId
+                                "content": creatorId, 
                             },
                             "annotations": {
-                                "italic": true
+                                "italic": true,
+                                "code" : true
                             }
                         }
                     ]
                 }, 
-                download: {
-                    rich_text: [
+                "download": {
+                    "rich_text": [
                         {   
-                            text: {
-                                content: "nothing here yet!"
+                            "text": {
+                                "content": "nothing here yet!"
                             },
-                            annotations: {
-                                underline: true
+                            "annotations": {
+                                "underline": true
                             }
                         }
                     ]
