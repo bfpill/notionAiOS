@@ -89,15 +89,13 @@ async function getBlock(blockId: string): Promise<Block> {
 
 async function addBlock(page: Page, pageName: string, code: string): Promise<{ worked: boolean, message: any }> {
 
-    const id = page.id
+    const id = page.codeId
     const language: any = parseLanguage(page.type)
 
     try {
         const messageResponse = await notion.blocks.update({
             block_id: id,
-            //...other keys excluded
             type: "code",
-            //...other keys excluded
             code: {
                 "caption": [],
                 "rich_text": [{
