@@ -202,33 +202,34 @@ const pageActions = async (req, res) => {
         !body.userId ||
         !body.projectName ||
         !body.command ||
-        !((body.pageName && body.content) || (body.blockId))
+        !(body.pageName && body.content) 
     ) {
         return fourHunnid(res);
     }
 
     let messageResponse: any;
 
-    if (body.command === "DELETE BLOCK") {
-        const blockId = body.blockId
-        messageResponse = await notionBlockServices.deleteBlock(blockId);
-    }
+    if (body.command === "UPDATE CODE") {
 
-    else if (body.command === "UPDATE BLOCK") {
-        const page: Page = await notionPageServices.getPage(db, body.userId, body.projectName, body.pageName)
+        const { userId, projectName, pageName } = body
+
+        const page: Page = await notionPageServices.getPage(db, userId, projectName, pageName)
 
         if (page && (page.type !== "folder" && page.type !== 'root' && page.type !== "project")) {
             const content = body.content
-            await notionBlockServices.addBlock(page, body.pageName, content)
-            
+
+            await notionBlockServices.addBlock(page, pageName, content)
             messageResponse = await notionPageServices.updateProjectPageContent(db, body.userId, body.projectName, page.id, content)
         }
         else {
             messageResponse = { worked: false, message: { error: "page was not a file or did not exist", page } }
         }
-    }
 
-    res.status(201).send({ status: "OK", data: { messageResponse } });
+        res.status(201).send({ status: "OK", data: { messageResponse } });
+    }
+    else { 
+        res.status(201).send({ status: "ERROR", err: "Could not parse command '" + body.command + "'"});
+    }
 }
 
 const getBlockCode = async (req, res) => {
