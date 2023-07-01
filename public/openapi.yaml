@@ -14,14 +14,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PageActionsRequest' 
-      responses: 
-        "200":
-          description: OK
-          content:
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/PageActionsResponse' 
+              $ref: '#/components/schemas/PageActionsRequest'
+  /blockActions:
+    post:
+      operationId: blockActions
+      summary: Use to delete or replace lines. If you're unsure what the block looks like, use getBlock to check it out first!
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlockActionsRequest'
   /project:
     post: 
       operationId: createProject
@@ -32,13 +35,6 @@ paths:
           application/json:
             schema: 
               $ref: '#/components/schemas/CreateProjectRequest'
-      responses: 
-        "200":
-          description: OK
-          content:
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/CreateProjectResponse'
   /pages:
     post:
       operationId: createPage
@@ -49,13 +45,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreatePageRequest'
-      responses: 
-        "200":
-          description: OK
-          content:
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/CreatePageResponse'
   /filetree: 
     post:
       operationId: getPages
@@ -87,13 +76,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/GetDownloadLinkRequest'
-      responses: 
-        "200":
-          description: OK
-          content:
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/GetDownloadLinkResponse'
 
 components:
   schemas:
@@ -128,12 +110,6 @@ components:
         projectName:
           type: string
           description: The name of the project you are trying to create
-    CreateProjectResponse: 
-      type: object
-      properties: 
-        messageResponse:
-          type: string
-          description: The response to the request
 
     GetDownloadLinkRequest: 
       type: object
@@ -146,12 +122,6 @@ components:
         projectName:
           type: string
           description: The name of the project you wish to download
-    GetDownloadLinkResponse: 
-      type: object
-      properties: 
-        messageResponse:
-          type: string
-          description: The download link for the project   
 
     PageActionsRequest: 
       type: object
@@ -181,12 +151,36 @@ components:
         language: 
           type: string
           description: the language of the code you wish to add, ie javascript, rust, kotlin
-    PageActionsResponse: 
+
+     BlockActionsRequest: 
       type: object
+      required:
+        - userId
+        - projectName
+        - command
+        - blockId
       properties: 
-        messageResponse:
+        userId: 
           type: string
-          description: The results of the request
+          description: The userId 
+        projectName:
+          type: string
+          description: The name of the project you are trying to create
+        command: 
+          type: string
+          description: Should be either "DELETE BLOCK" or "ADD BLOCK"
+        pageName:
+          type: string
+          description: the ID of the page, required for adding a block
+        blockId: 
+          type: string
+          description: the ID of the block, required for deleting a block
+        content:
+          type: string
+          description: the content you wish to add to your block ( required for adding a block )
+        language: 
+          type: string
+          description: the language of the code you wish to add, ie javascript, rust, kotlin
 
     GetPagesRequest: 
       type: object
@@ -196,12 +190,6 @@ components:
         pageName: 
           type: string
           summary: the root page of the returned file tree
-    GetPagesResponse: 
-      type: object
-      properties: 
-        messageResponse:
-          type: string
-          description: The results of request
 
     CreatePageRequest: 
       type: object
@@ -227,9 +215,3 @@ components:
         type: 
           type: string
           description: The filetype of the new page (ex. folder, rust, javascript... etc)
-    CreatePageResponse: 
-      type: object
-      properties: 
-        messageResponse:
-          type: string
-          description: The results of request

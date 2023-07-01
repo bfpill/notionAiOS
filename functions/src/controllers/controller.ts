@@ -157,6 +157,7 @@ const getChildBlocks = async (req, res) => {
 const blockActions = async (req, res) => {
     const { body } = req
     if (
+        !body.userId ||
         !body.projectId ||
         !body.command ||
         !body.blockId
@@ -213,12 +214,13 @@ const pageActions = async (req, res) => {
         messageResponse = await notionBlockServices.deleteBlock(blockId);
     }
 
-    else if (body.command === "ADD BLOCK") {
+    else if (body.command === "UPDATE BLOCK") {
         const page: Page = await notionPageServices.getPage(db, body.userId, body.projectName, body.pageName)
 
-        if (page && page.type !== "folder") {
+        if (page && (page.type !== "folder" && page.type !== 'root' && page.type !== "project")) {
             const content = body.content
             await notionBlockServices.addBlock(page, body.pageName, content)
+            
             messageResponse = await notionPageServices.updateProjectPageContent(db, body.userId, body.projectName, page.id, content)
         }
         else {

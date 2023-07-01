@@ -17,6 +17,7 @@ interface Page {
     name: string;
     id: string;
     type?: string;
+    codeId?: string;
     children?: Page[];
     content?: any
 }

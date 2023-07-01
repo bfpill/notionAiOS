@@ -2,17 +2,7 @@ import { extractCode, toArray, deleteLines, insertCodeByLine } from "./codeBlock
 import { Block } from "../projecthandler/interfaces.js"
 import { getNotion } from "../notionManager/notion.js";
 import { Page } from "../projecthandler/PageTree.js";
-
-const languages: string[] = [
-    "abap", "agda", "arduino", "assembly", "bash", "basic", "bnf", "c", "c#", "c++", "clojure", "coffeescript", "coq", "css", 
-    "dart", "dhall", "diff", "docker", "ebnf", "elixir", "elm", "erlang", "f#", "flow", "fortran", "gherkin", "glsl", "go", 
-    "graphql", "groovy", "haskell", "html", "idris", "java", "javascript", "json", "julia", "kotlin", "latex", "less", "lisp", 
-    "livescript", "llvm ir", "lua", "makefile", "markdown", "markup", "matlab", "mathematica", "mermaid", "nix", "objective-c", 
-    "ocaml", "pascal", "perl", "php", "plain text", "powershell", "prolog", "protobuf", "purescript", "python", "r", "racket", 
-    "reason", "ruby", "rust", "sass", "scala", "scheme", "scss", "shell", "solidity", "sql", "swift", "toml", "typescript", 
-    "vb.net", "verilog", "vhdl", "visual basic", "webassembly", "xml", "yaml"
-];
-
+import { parseLanguage } from "./notion_helpers/languageManager.js";
 //get from local instance
 const notion = getNotion()
 
@@ -59,13 +49,6 @@ async function getChildBlocks(blockId: string) {
     }
 }
 
-const parseLanguage = (language: string) => { 
-    if(!languages.includes(language)){
-        return "javascript"
-    }
-    return language
-}
-
 async function updateCodeBlock(blockId: string, code: string) {
     try {
         const response = await notion.blocks.update({
@@ -110,28 +93,24 @@ async function addBlock(page: Page, pageName: string, code: string): Promise<{ w
     const language: any = parseLanguage(page.type)
 
     try {
-        const messageResponse = await notion.blocks.children.append({
+        const messageResponse = await notion.blocks.update({
             block_id: id,
-            children: [
-                {
-                    //...other keys excluded
-                    type: "code",
-                    //...other keys excluded
-                    code: {
-                        "caption": [],
-                        "rich_text": [{
-                            "type": "text",
-                            "text": {
-                                "content": code
-                            }
-                        }],
-                        language: language
+            //...other keys excluded
+            type: "code",
+            //...other keys excluded
+            code: {
+                "caption": [],
+                "rich_text": [{
+                    "type": "text",
+                    "text": {
+                        "content": code
                     }
-                }
-            ],
+                }],
+                language: language
+            }
         })
 
-        return { worked: true, message: messageResponse};
+        return { worked: true, message: messageResponse };
     } catch (e: any) {
         return { worked: false, message: { error: e } };
     }
