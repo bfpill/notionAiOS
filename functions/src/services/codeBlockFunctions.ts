@@ -70,4 +70,4 @@ function testLineExists(lineNumber : number, length: number) {
     return true;
 }
 
-export {getCodeBlock, getCodeBlockProperties, extractCode, insertCodeByLine, toArray, testLineExists as testLineValid, deleteLines}
+export {getCodeBlock, getCodeBlockProperties, extractCode, insertCodeByLine, toArray, testLineExists, deleteLines}

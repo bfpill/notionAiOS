@@ -1,30 +1,11 @@
-import notionBlockServices from "../services/blockServices.js";
-import notionPageServices from "../services/pageServices.js";
+import services from "../services/services.js";
 import { CreatePageRequest, Page } from "../projecthandler/interfaces.js";
-import { getNotion } from "../notionManager/notion.js";
-import { initializeApp } from "firebase/app"
 import { generateFiles } from "../generateFiles.js";
-import dotenv from "dotenv"
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
-import { getFirestore } from "firebase/firestore"
-import * as fb from "firebase-functions"
-import { getStorage } from "firebase/storage";
+import dotenv from "dotenv"
 
-const fbKey = fb.config().fb.api_key;
-
-const firebaseConfig = {
-    apiKey: fbKey,
-    authDomain: "v3rv-notionaios.firebaseapp.com",
-    projectId: "v3rv-notionaios",
-    storageBucket: "v3rv-notionaios.appspot.com",
-    messagingSenderId: "169546801011",
-    appId: "1:169546801011:web:7b62ff0c11c583f934ef06",
-    measurementId: "G-TLW05P28TT"
-};
-
-const app = initializeApp(firebaseConfig)
-const storage = getStorage(app)
-const db = getFirestore()
+import firebase_manager from "../services/firebase_manager/firebase_manager.js"
+import notion_manager from "../services/notion_manager/notion_manager.js"
 
 dotenv.config()
 
@@ -32,12 +13,6 @@ const functions = getFunctions()
 
 // Point to the Functions emulator
 connectFunctionsEmulator(functions, "127.0.0.1", 5001);
-
-//get from local instance
-const notion = getNotion()
-
-//@todo change later as shit starts to work
-let pages;
 
 const getDownloadLink = async (req, res) => {
     const { body } = req
@@ -49,14 +24,14 @@ const getDownloadLink = async (req, res) => {
     }
 
     const projectName = body.projectName;
-    const project = await notionPageServices.getProjectJson(db, body.userId, projectName)
+    const project = await firebase_manager.getProject(body.userId, projectName)
 
-    try {
-        const url = await generateFiles(storage, { json: project, name: projectName })
-        res.status(201).send({ status: "OK", data: { url } });
-    } catch (e: any) {
-        res.status(201).send({ status: "ERROR", error: { e } });
-    }
+    const url = await generateFiles({ json: project, name: projectName })
+
+    if(url instanceof Error){ 
+        res.status(201).send({err: url.message});
+    }  
+    else res.status(201).send({ url : url });
 };
 
 const createProject = async (req, res) => {
@@ -68,9 +43,9 @@ const createProject = async (req, res) => {
         return fourHunnid(res)
     }
     const { userId, projectName } = body;
-    const messageResponse = await notionPageServices.createProject(storage, db, notion, userId, projectName);
+    const messageResponse = await services.createProject(userId, projectName);
 
-    res.status(201).send({ status: "OK", data: { messageResponse } });
+    res.status(201).send({ ok: messageResponse });
 }
 
 const addProjectTags = async (req, res) => {
@@ -86,9 +61,14 @@ const addProjectTags = async (req, res) => {
     const projectName = body.projectName
     const tags = body.tags
 
-    const messageResponse = await notionPageServices.addTagsToProject(db, notion, userId, projectName, tags);
+    const messageResponse = await services.addTagsToProject(userId, projectName, tags);
 
-    res.status(201).send({ status: "OK", data: { messageResponse } });
+    if(!(messageResponse instanceof Error)){
+        res.status(201).send({ ok: "Successfully added tags" });
+    }
+    else { 
+        res.status(401).send({err: messageResponse.message });
+    }
 }
 
 const createPage = async (req, res) => {
@@ -117,21 +97,14 @@ const createPage = async (req, res) => {
     }
 
     console.log(body.code)
-    const messageResponse = await notionPageServices.createPage(storage, db, notion, userId, projectName, parentName, page);
-
-    res.status(201).send({ status: "OK", data: { messageResponse } });
-}
-
-const getPages = async (req, res) => {
-    const { body } = req
-    if (
-        !body.pageName
-    ) {
-        return fourHunnid(res)
+    const messageResponse = await services.createPage(userId, projectName, parentName, page);
+    
+    if(messageResponse instanceof Error){
+        res.status(500).send(messageResponse.message);
     }
-    const { pageName } = body
-    const messageResponse = notionPageServices.getPagesTree(pages, pageName);
-    res.status(201).send({ status: "OK", data: { messageResponse } });
+    else {
+        res.status(201).send({ ok: "Successfully created page" });
+    }
 }
 
 const pageActions = async (req, res) => {
@@ -141,62 +114,48 @@ const pageActions = async (req, res) => {
         !body.projectName ||
         !body.command ||
         !body.pageName ||
-        !body.content
+        !body.code
     ) {
         return fourHunnid(res);
     }
 
-    let messageResponse: any;
-    const { userId, projectName, command, pageName, content } = body
+    const { userId, projectName, command, pageName, code } = body
 
-    const page: Page = await notionPageServices.getPage(db, userId, projectName, pageName)
+    const page: Page = await firebase_manager.getPage(userId, projectName, pageName)
 
     if(!page){ 
-        res.status(401).send({ status: "ERR", err: "Could not find page '" + pageName + "'" });
+        res.status(401).send({ err: "Could not find page '" + pageName + "'" });
     }
     else if ((page.type !== "folder" && page.type !== 'root' && page.type !== "project")) {
 
-        let updatedContent;
-        if (command === "REPLACE LINES") {
+        let updatedContent: string;
+        if (command === "REPLACE CODE") {
             const { startLine, endLine } = body
-            updatedContent = notionBlockServices.replaceLines(page, content, startLine, endLine)
+            updatedContent = services.replaceLines(page, code, startLine, endLine)
         }
-        else if (command === "UPDATE CODE") {
+        else if (command === "ADD CODE") {
             // add to what the page already has 
-            updatedContent = content + "\n" + page.content
+            updatedContent = code + "\n" + page.content
         }
         else {
-            res.status(401).send({ status: "ERR", err: "Could not parse command '" + body.command + "'" });
+            res.status(401).send({ err: "Could not parse command '" + body.command + "'" });
             return;
         }
 
-        const updatedInNotion = await notionBlockServices.updateCodeInNotion(page, updatedContent)
+        const updatedInNotion = await notion_manager.updateCodeInNotion(page, updatedContent)
 
         if(!(updatedInNotion instanceof Error)){ 
-            const updatedInFirebase = await notionPageServices.updateProjectPageContent(db, body.userId, body.projectName, page.id, updatedContent)
+            const updatedInFirebase = await firebase_manager.updateProjectPageContent(body.userId, body.projectName, page.id, updatedContent)
             if(!(updatedInFirebase instanceof Error)){ 
-                res.status(201).send({ status: "OK", data: "Successfully updated page :'" + pageName + "'." });
+                res.status(201).send({ ok: "Successfully updated page :'" + pageName + "'." });
             } else { 
-                res.status(500).send({ status: "ERR", data: "Could not update in Firebase: " + updatedInFirebase });
+                res.status(500).send({ err: "Could not update in Firebase: " + updatedInFirebase.message });
             }
         } else { 
-            res.status(401).send({ status: "ERR", err: "Could not update in notion: " + updatedInNotion });
+            res.status(401).send({ err: "Could not update in notion: " + updatedInNotion.message });
         }
     }   
 }
-
-const getBlockCode = async (req, res) => {
-    const { body } = req
-    if (
-        !body.blockId
-    ) {
-        return fourHunnid(res);
-    }
-    const { blockId } = body;
-    const messageResponse = await notionBlockServices.getBlockAsArray(blockId);
-
-    res.status(201).send({ status: "OK", data: { messageResponse } });
-};
 
 const fourHunnid = (res: any) => {
     res
@@ -213,9 +172,7 @@ const fourHunnid = (res: any) => {
 export default {
     //page functions
     createPage,
-    getPages,
     addProjectTags,
-    getBlockCode,
     pageActions,
     createProject,
     getDownloadLink
