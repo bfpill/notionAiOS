@@ -1,11 +1,13 @@
 import { FirebaseStorage, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { getFbStorage } from "./initialize.js"
 
 import os from 'os'
 import path from 'path'
 import fs from 'fs'
 import JSZip from 'jszip'
 
-export const generateFiles = async (storage: FirebaseStorage, props: { json: any, name: string }): Promise<string> => {
+export const generateFiles = async (props: { json: any, name: string }): Promise<string | Error> => {
+    const storage: FirebaseStorage = getFbStorage()
     try {
         const json = props.json
         const filesDir = path.join(os.tmpdir(), 'notion-ai-os', 'files');
@@ -37,9 +39,17 @@ export const generateFiles = async (storage: FirebaseStorage, props: { json: any
         const uploadTask = uploadBytesResumable(storageRef, content);
 
         const url: {url : string} = await new Promise((resolve, reject) => {
+            // callback function order is important!!
             uploadTask.on('state_changed',
-                () => {
-                    // resolves and the URL gets returned
+                (snapshot) => {
+                   // do nothing
+                }, 
+                (error) => {
+                    console.log(error);
+                    reject(error);
+                }, 
+                async () => {
+                    // Handle successful uploads
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         resolve({ url: downloadURL });
                     });
@@ -49,11 +59,11 @@ export const generateFiles = async (storage: FirebaseStorage, props: { json: any
         try{ 
             return url.url
         } catch (error){
-            return error
+            return new Error(error)
         }
        
     } catch (error) {
-        return 'An error occurred while generating files' + error;
+        return new Error('An error occurred while generating files' + error)
     }
 };
 

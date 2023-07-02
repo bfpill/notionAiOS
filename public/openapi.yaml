@@ -8,20 +8,13 @@ paths:
   /pageActions:
     post:
       operationId: pageActions
-      summary: Use to add or delete blocks from a page
+      summary: Use to update the code on a page
       requestBody: 
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PageActionsRequest' 
-      responses: 
-        "200":
-          description: OK
-          content:
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/PageActionsResponse' 
+              $ref: '#/components/schemas/PageActionsRequest'
   /project:
     post: 
       operationId: createProject
@@ -32,13 +25,6 @@ paths:
           application/json:
             schema: 
               $ref: '#/components/schemas/CreateProjectRequest'
-      responses: 
-        "200":
-          description: OK
-          content:
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/CreateProjectResponse'
   /pages:
     post:
       operationId: createPage
@@ -49,23 +35,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreatePageRequest'
-      responses: 
-        "200":
-          description: OK
-          content:
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/CreatePageResponse'
-  /filetree: 
-    post:
-      operationId: getPages
-      summary: Get the filetree of the project 
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GetPagesRequest'
   /tags: 
     post: 
       operationId: updateTags
@@ -87,13 +56,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/GetDownloadLinkRequest'
-      responses: 
-        "200":
-          description: OK
-          content:
-            application/json: 
-              schema: 
-                $ref: '#/components/schemas/GetDownloadLinkResponse'
 
 components:
   schemas:
@@ -128,12 +90,6 @@ components:
         projectName:
           type: string
           description: The name of the project you are trying to create
-    CreateProjectResponse: 
-      type: object
-      properties: 
-        messageResponse:
-          type: string
-          description: The response to the request
 
     GetDownloadLinkRequest: 
       type: object
@@ -146,12 +102,6 @@ components:
         projectName:
           type: string
           description: The name of the project you wish to download
-    GetDownloadLinkResponse: 
-      type: object
-      properties: 
-        messageResponse:
-          type: string
-          description: The download link for the project   
 
     PageActionsRequest: 
       type: object
@@ -165,45 +115,24 @@ components:
           description: The userId 
         projectName:
           type: string
-          description: The name of the project you are trying to create
+          description: The name of the project the page belongs to
         command: 
           type: string
-          description: Should be either "DELETE BLOCK" or "ADD BLOCK"
+          description: Should be either "REPLACE CODE" or "ADD CODE"
         pageName:
           type: string
-          description: the ID of the page, required for adding a block
-        blockId: 
+          description: the name of the page, required for adding a block
+        code:
           type: string
-          description: the ID of the block, required for deleting a block
-        content:
+          description: the code you wish to add to the page
+        startLine: 
           type: string
-          description: the content you wish to add to your block ( required for adding a block )
-        language: 
+          description: the startline of the code you want to replace ( for replacing code only ), inclusive
+        endLine: 
           type: string
-          description: the language of the code you wish to add, ie javascript, rust, kotlin
-    PageActionsResponse: 
-      type: object
-      properties: 
-        messageResponse:
-          type: string
-          description: The results of the request
+          description: the endLine of the code you want to replace ( for replacing code only ), inclusive
 
-    GetPagesRequest: 
-      type: object
-      required: 
-        - pageName
-      properties: 
-        pageName: 
-          type: string
-          summary: the root page of the returned file tree
-    GetPagesResponse: 
-      type: object
-      properties: 
-        messageResponse:
-          type: string
-          description: The results of request
-
-    CreatePageRequest: 
+    CreatePageRequest:
       type: object
       required: 
         - userId
@@ -227,9 +156,3 @@ components:
         type: 
           type: string
           description: The filetype of the new page (ex. folder, rust, javascript... etc)
-    CreatePageResponse: 
-      type: object
-      properties: 
-        messageResponse:
-          type: string
-          description: The results of request

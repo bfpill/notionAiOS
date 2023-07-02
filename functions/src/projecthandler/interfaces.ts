@@ -15,10 +15,17 @@ interface CodeProperties {
 
 interface Page {
     name: string;
-    id: string;
+    id?: string;
     type?: string;
+    codeId?: string;
     children?: Page[];
     content?: any
 }
 
-export { CodeBlock, Block, CodeProperties, Page } 
+interface CreatePageRequest { 
+    name: string;
+    type: string;
+    content?: string;
+}
+
+export { CodeBlock, Block, CodeProperties, Page, CreatePageRequest } 

@@ -1,7 +1,7 @@
 import { Page } from "./interfaces";
 
 function addPage (project: Page[], page: Page, parentName: string) {
-    page.type = page.type ? page.type : 'Unknown';
+    page.type = page.type ?? 'Unknown';
 
     if (parentName && parentName !== 'root') {
         const parentNode = findNodeByName(project, parentName);
