@@ -54,12 +54,12 @@ async function updateDownloadLink(userId: string, projectName: string) {
 
     if (!project) return "Could not find project: " + projectName
 
-    let url: string | Error = await generateFiles({ json: project[0], name: projectName })
+    let url: string | Error = await generateFiles({ json: project, name: projectName })
     if (url instanceof Error) return url;
 
-    notion_manager.updateProjectDownloadLink(url, project.id)
+    notion_manager.updateProjectDownloadLink(url, project[0].id)
 
-    project.downloadLink = url;
+    project[0].downloadLink = url;
     firebase_manager.setUserProject(userId, projectName, project)
 }
 

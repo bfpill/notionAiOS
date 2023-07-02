@@ -71,7 +71,7 @@ components:
           description: The userId 
         projectName:
           type: string
-          description: The name of the project you are trying to create 
+          description: The name of the project
         tags:
           type: array
           items:
@@ -121,7 +121,7 @@ components:
           description: Should be either "REPLACE CODE" or "ADD CODE"
         pageName:
           type: string
-          description: the name of the page, required for adding a block
+          description: the name of the page, including the extension (.ts, js, .java, etc)
         code:
           type: string
           description: the code you wish to add to the page

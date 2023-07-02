@@ -162,6 +162,8 @@ export async function updateCodeInNotion(page: Page, code: string): Promise<any>
 async function updateProjectDownloadLink(url: string, projectId: string) {
     const notion = getNotion()
 
+    console.log("ProjectID: ", projectId)
+
     await notion.pages.update({
         page_id: projectId,
         properties: {
