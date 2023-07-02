@@ -6,6 +6,7 @@ import { getIcon } from "./notion_helpers/iconManager.js";
 import { generateFiles } from "../generateFiles.js";
 import { FirebaseStorage } from "firebase/storage";
 import { parseLanguage } from "./notion_helpers/languageManager.js";
+import { CreatePageRequest } from "../projecthandler/interfaces.js";
 
 const DATABASEID = "244fbd23-36dc-46d5-a261-2c7dc9609f67"
 
@@ -33,12 +34,9 @@ async function getProjectJson(db: Firestore, userId: string, projectName: string
 async function updateProjectPageContent(db: Firestore, userId: string, projectName: string, pageId: string, content: string) {
     let project = await getProject(db, userId, projectName)
 
-    if (!project) {
-        console.log("There was no root", projectName)
-        return undefined;
-    }
+    if (!project) return new Error ("There was no root" + projectName);
+    
 
-    console.log(pageId)
     project = pages.addContentToPage(project, pageId, content)
 
     try {
@@ -49,7 +47,7 @@ async function updateProjectPageContent(db: Firestore, userId: string, projectNa
         return ("Updated page: " + pageId + " in " + projectName + ".")
 
     } catch (e: any) {
-        return ("Unknown error updating project: " + e)
+        return new Error ("Unknown error updating project: " + e)
     }
 }
 
@@ -190,17 +188,14 @@ async function updateDownloadLink(storage: any, db: Firestore, notion: Client, u
     }
 }
 
-async function updatePageCode() {
-
-}
-
-async function addPageToNotion(notion: Client, page: { name: string, type: string }, parentId: string, parentType: string, creatorId: string) {
+async function addPageToNotion(notion: Client, page: { name: string, type: string }, parentId: string, parentType: string, creatorId: string, code?: string) {
     const icon = await getIcon(page.type)
 
     let response;
 
     const language: any = parseLanguage(page.type)
 
+    code = code ?? ""
     try {
         if (parentType !== "root") {
             if (!parentType || (parentType !== "folder" && parentType !== "root" && parentType !== "project")) {
@@ -240,7 +235,7 @@ async function addPageToNotion(notion: Client, page: { name: string, type: strin
                         "rich_text": [{
                             "type": "text",
                             "text": {
-                                "content": ""
+                                "content": code
                             }
                         }],
                         language: language
@@ -318,28 +313,29 @@ async function addPageToNotion(notion: Client, page: { name: string, type: strin
     return response;
 }
 
-async function createPage(storage: FirebaseStorage, db: Firestore, notion: Client, userId: string, projectName: string, parentName: string, pageName: string, pageType: string) {
+async function createPage(storage: FirebaseStorage, db: Firestore, notion: Client, userId: string, projectName: string, parentName: string, page: CreatePageRequest) {
     const projectFiles: Page[] = await getProjectJson(db, userId, projectName)
     const parentType = pages.getNodeByName(projectFiles, parentName)?.type
 
     if (!parentType) return "Could not create page because parent: '" + parentName + "' does not exist"
     if (parentType !== "root" && parentType !== "folder" && parentType !== "project") return "Could not create page because parent: '" + parentName + "' is a file"
 
-    if (pageType.toLowerCase() === "project") return "Please make a new project with the createProject request"
+    if (page.type.toLowerCase() === "project") return "Please make a new project with the createProject request"
     if (!projectFiles) return ("No project with name: '" + projectName + "' found.")
-    if (pages.getNodeByName(projectFiles, pageName)) return { Error: "Page name already exists, no duplicates please" }
+    if (pages.getNodeByName(projectFiles, page.name)) return { Error: "Page name already exists, no duplicates please" }
 
     const parentId = pages.getNodeByName(projectFiles, parentName)?.id
-    
-    const response = await addPageToNotion(notion, { name: pageName, type: pageType }, parentId, parentType, userId)
+
+    console.log("code: ", page.content)
+    const response = await addPageToNotion(notion, { name: page.name, type: page.type }, parentId, parentType, userId, page.content)
 
     console.log("this is the rezuaaalt: ", response)
 
     if (!response) return "Could not add page to notion. Check with the user that the parent page still exists!"
-    const page: Page = {
-        name: pageName,
+    const newPage: Page = {
+        name: page.name,
         id: response.id,
-        type: pageType,
+        type: page.type,
         codeId : response.codeId,
         content: ""
     }
@@ -356,7 +352,7 @@ async function createPage(storage: FirebaseStorage, db: Firestore, notion: Clien
         console.log("could not update download link : " + error)
     }
 
-    return { "pageName": pageName, "pageParent": parentName };
+    return { "pageName": newPage.name, "pageParent": parentName };
 }
 
 function getPagesTree(pages: any, rootPageName: string) {

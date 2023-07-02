@@ -6,9 +6,7 @@ const router = express.Router();
 
 router.post("/pageActions", notionController.pageActions);
 
-router.post("/blockActions", notionController.blockActions);
 router.get("/blockActions", notionController.getBlockCode);
-
 router.post("/pages", notionController.createPage)
 router.post("/tags", notionController.addProjectTags)
 router.post("/filetree", notionController.getPages)

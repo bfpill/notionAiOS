@@ -1,6 +1,6 @@
 import notionBlockServices from "../services/blockServices.js";
 import notionPageServices from "../services/pageServices.js";
-import { Page } from "../projecthandler/interfaces.js";
+import { CreatePageRequest, Page } from "../projecthandler/interfaces.js";
 import { getNotion } from "../notionManager/notion.js";
 import { initializeApp } from "firebase/app"
 import { generateFiles } from "../generateFiles.js";
@@ -42,7 +42,7 @@ let pages;
 const getDownloadLink = async (req, res) => {
     const { body } = req
     if (
-        !body.userId || 
+        !body.userId ||
         !body.projectName
     ) {
         return fourHunnid(res)
@@ -69,7 +69,7 @@ const createProject = async (req, res) => {
     }
     const { userId, projectName } = body;
     const messageResponse = await notionPageServices.createProject(storage, db, notion, userId, projectName);
-   
+
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
 
@@ -77,7 +77,7 @@ const addProjectTags = async (req, res) => {
     const { body } = req
     if (
         !body.userId ||
-        !body.projectName || 
+        !body.projectName ||
         !body.tags
     ) {
         return fourHunnid(res)
@@ -87,7 +87,7 @@ const addProjectTags = async (req, res) => {
     const tags = body.tags
 
     const messageResponse = await notionPageServices.addTagsToProject(db, notion, userId, projectName, tags);
-   
+
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
 
@@ -108,8 +108,16 @@ const createPage = async (req, res) => {
     const parentName = body.parentName === 'root' ? projectName : body.parentName
     const pageName = body.pageName
     const type = body.type
+    const code = body.code
 
-    const messageResponse = await notionPageServices.createPage(storage, db, notion, userId, projectName, parentName, pageName, type);
+    const page: CreatePageRequest = { 
+        name: pageName, 
+        content: code, 
+        type: type, 
+    }
+
+    console.log(body.code)
+    const messageResponse = await notionPageServices.createPage(storage, db, notion, userId, projectName, parentName, page);
 
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
@@ -126,110 +134,55 @@ const getPages = async (req, res) => {
     res.status(201).send({ status: "OK", data: { messageResponse } });
 }
 
-const updateProperty = async (req, res) => {
-    const { body } = req
-    if (
-        !body.pageId ||
-        !body.propertyName ||
-        !body.content
-    ) {
-        return fourHunnid(res)
-    }
-    const { pageId, propertyName, content } = body;
-    const messageResponse = await notionBlockServices.updateProperty(pageId, propertyName, content);
-
-    res.status(201).send({ status: "OK", data: { messageResponse } });
-};
-
-const getChildBlocks = async (req, res) => {
-    const { body } = req
-    if (
-        !body.pageId
-    ) {
-        return fourHunnid(res);
-    }
-    const { pageId } = body;
-    const messageResponse = await notionBlockServices.getChildBlocks(pageId);
-
-    res.status(201).send({ status: "OK", data: { messageResponse } });
-};
-
-const blockActions = async (req, res) => {
-    const { body } = req
-    if (
-        !body.userId ||
-        !body.projectId ||
-        !body.command ||
-        !body.blockId
-    ) {
-        return fourHunnid(res);
-    }
-
-    let messageResponse: any;
-
-    if (body.command === "DELETE LINES") {
-        const blockId = body.blockId
-        const startLine = body.startLine
-        const endLine = body.endLine
-        messageResponse = await notionBlockServices.deleteCodeBlockLines(blockId, startLine, endLine);
-    }
-
-    else if (body.command === "REPLACE LINES") {
-        const blockId = body.blockId
-        const codeToInsert = body.code
-        const startLine = body.startLine
-        const endLine = body.endLine
-        messageResponse = await notionBlockServices.replaceCodeBlockLines(blockId, codeToInsert, startLine, endLine);
-    }
-
-    else {
-        messageResponse = { completed: false, result: "Could not parse command" }
-    }
-
-    if (messageResponse[0]) {
-        res.status(201).send({ status: "OK", data: { messageResponse } });
-    }
-
-    else if (!messageResponse[0]) {
-        res.status(201).send({ status: "Error", data: { messageResponse } });
-    }
-
-}
-
 const pageActions = async (req, res) => {
     const { body } = req
     if (
         !body.userId ||
         !body.projectName ||
         !body.command ||
-        !(body.pageName && body.content) 
+        !body.pageName ||
+        !body.content
     ) {
         return fourHunnid(res);
     }
 
     let messageResponse: any;
+    const { userId, projectName, command, pageName, content } = body
 
-    if (body.command === "UPDATE CODE") {
+    const page: Page = await notionPageServices.getPage(db, userId, projectName, pageName)
 
-        const { userId, projectName, pageName } = body
+    if(!page){ 
+        res.status(401).send({ status: "ERR", err: "Could not find page '" + pageName + "'" });
+    }
+    else if ((page.type !== "folder" && page.type !== 'root' && page.type !== "project")) {
 
-        const page: Page = await notionPageServices.getPage(db, userId, projectName, pageName)
-
-        if (page && (page.type !== "folder" && page.type !== 'root' && page.type !== "project")) {
-            const content = body.content
-
-            await notionBlockServices.addBlock(page, pageName, content)
-            messageResponse = await notionPageServices.updateProjectPageContent(db, body.userId, body.projectName, page.id, content)
+        let updatedContent;
+        if (command === "REPLACE LINES") {
+            const { startLine, endLine } = body
+            updatedContent = notionBlockServices.replaceLines(page, content, startLine, endLine)
+        }
+        else if (command === "UPDATE CODE") {
+            // add to what the page already has 
+            updatedContent = content + "\n" + page.content
         }
         else {
-            messageResponse = { worked: false, message: { error: "page was not a file or did not exist", page } }
+            res.status(401).send({ status: "ERR", err: "Could not parse command '" + body.command + "'" });
+            return;
         }
 
-        res.status(201).send({ status: "OK", data: { messageResponse } });
-    }
-    else { 
-        res.status(201).send({ status: "ERROR", err: "Could not parse command '" + body.command + "'"});
-    }
+        const updatedInNotion = await notionBlockServices.updateCodeInNotion(page, updatedContent)
+
+        if(!(updatedInNotion instanceof Error)){ 
+            const updatedInFirebase = await notionPageServices.updateProjectPageContent(db, body.userId, body.projectName, page.id, updatedContent)
+            if(!(updatedInFirebase instanceof Error)){ 
+                res.status(201).send({ status: "OK", data: "Successfully updated page :'" + pageName + "'." });
+            } else { 
+                res.status(500).send({ status: "ERR", data: "Could not update in Firebase: " + updatedInFirebase });
+            }
+        } else { 
+            res.status(401).send({ status: "ERR", err: "Could not update in notion: " + updatedInNotion });
+        }
+    }   
 }
 
 const getBlockCode = async (req, res) => {
@@ -262,15 +215,8 @@ export default {
     createPage,
     getPages,
     addProjectTags,
-
-    //block function
-    updateProperty,
-    getChildBlocks,
     getBlockCode,
-    blockActions,
     pageActions,
-
     createProject,
-
     getDownloadLink
 };

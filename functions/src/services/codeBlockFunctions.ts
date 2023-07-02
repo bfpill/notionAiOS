@@ -23,20 +23,22 @@ function extractCode(block: Block) : string{
     return code;
 }
 
-function deleteLines(previousCode: Array<string>, startLine: number, endLine: number): [worked: boolean, res: string[]] {
+function deleteLines(previousCode: Array<string>, startLine: number, endLine: number): any {
     const previousCodeLength: number = previousCode.length;
 
     console.log(previousCode, startLine, endLine)
     if(testLineExists(startLine, previousCodeLength ) && testLineExists(endLine, previousCodeLength)){
         const before: Array<string> = previousCode.slice(0, startLine - 1)
         console.log("Before: " + before)
+
         const after: Array<string> = previousCode.slice(endLine)
         console.log("After: " + after)
+
         const updatedCode = before.concat(after)
-        return [true, updatedCode];
+        return updatedCode;
     }
 
-    return [false, previousCode];
+    return undefined;
 }
 
 function toArray(code: string, delimiter: string): Array<string> {
